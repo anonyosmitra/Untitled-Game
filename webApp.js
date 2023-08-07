@@ -28,7 +28,9 @@ async function  startUp(){
 startUp();
 app.get("/game", (req, res) => {
     //let a=makeMap().grid;
-    res.send("Ok");
+    console.log("Got it!")
+    //res.send("Ok");
+    res.json({"response":"OK"});
 });
 
 app.get("/", (req, res) => {
