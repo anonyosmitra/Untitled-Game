@@ -5,12 +5,12 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const app = express();
 const service=new WebS();
+const https = require('https');
+const fs = require('fs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/static', express.static('static'));
 app.use(cookieParser());
-const https = require('https');
-const fs = require('fs');
 const options = {
     key: fs.readFileSync('/home/ubuntu/keys/privkey.pem', 'utf8'),
     cert: fs.readFileSync('/home/ubuntu/keys/cert.pem', 'utf8'),
