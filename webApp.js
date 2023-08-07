@@ -19,13 +19,10 @@ app.set('view engine', 'ejs');
 async function  startUp(){
     console.log("starting up");
     await service.load();
-    const server = https.createServer(options, app);
-
-    server.listen(8000, () => {
-        console.log("Application started and Listening on port 8000");
+    const server = https.createServer(options, app).listen(8000, function(){
+        console.log("Express server listening on port " + 8000);
     });
 }
-startUp();
 app.get("/game", (req, res) => {
     //let a=makeMap().grid;
     console.log("Got it!")
@@ -84,3 +81,4 @@ process.on('SIGINT', async function () {
     await service.stop();
     process.exit(0);
 });
+startUp();
