@@ -28,7 +28,7 @@ class WebService {
         var usr=null
         if(cookie==undefined || User.users.findById(cookie)==null){
             usr=await this.newUser(WebService.con);
-            res.cookie("uid",usr.id);
+            res.cookie("untitled_uid",usr.id);
         }
         else
             usr=User.users.findById(cookie);

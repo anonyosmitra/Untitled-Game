@@ -11,17 +11,17 @@ app.use('/static', express.static('static'));
 app.use(cookieParser());
 const https = require('https');
 const fs = require('fs');
-/*const options = {
+const options = {
     key: fs.readFileSync('/home/ubuntu/keys/privkey.pem'),
     cert: fs.readFileSync('/home/ubuntu/keys/cert.pem'),
-};*/
+};
 app.set('view engine', 'ejs');
 async function  startUp(){
     console.log("stating up");
     await service.load();
-    //const server = https.createServer(options, app);
+    const server = https.createServer(options, app);
 
-    app.listen(8000, () => {
+    server.listen(8000, () => {
         console.log("Application started and Listening on port 8000");
     });
 }
@@ -34,7 +34,7 @@ app.get("/game", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    service.checkCookie(req.cookies.uid,res).then(usr=>res.render('Home',{games:usr.getPlayerTags()}));
+    service.checkCookie(req.cookies.untitled_uid,res).then(usr=>res.render('Home',{games:usr.getPlayerTags()}));
 });
 var i=0;
 app.get("/writeCookie",(req,res)=> {
@@ -52,7 +52,7 @@ app.get("/NewGame",(req,res)=>{
 });
 app.get("/game/:gid",(req,res)=>{
     let gid = req.params.gid;
-   service.joinGame(req.cookies.uid,gid,res).then(p=>{
+   service.joinGame(req.cookies.untitled_uid,gid,res).then(p=>{
       if(p==null)
           res.render("Join",{gid:gid,error:""})
        else
@@ -62,7 +62,7 @@ app.get("/game/:gid",(req,res)=>{
 app.post("/game/:gid",(req,res)=> {
     let gid = req.params.gid;
     var form=req.body;
-    service.addPlayer(req.cookies.uid,gid,form["countryName"],req).then(p=>{
+    service.addPlayer(req.cookies.untitled_uid,gid,form["countryName"],req).then(p=>{
         if(p.constructor.name=="String")
             res.render("Join",{gid:gid,error:p});
         else
