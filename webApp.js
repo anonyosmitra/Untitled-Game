@@ -11,17 +11,17 @@ app.use('/static', express.static('static'));
 app.use(cookieParser());
 const https = require('https');
 const fs = require('fs');
-/*const options = {
+const options = {
     key: fs.readFileSync('/home/ubuntu/keys/privkey.pem'),
     cert: fs.readFileSync('/home/ubuntu/keys/cert.pem'),
-};*/
+};
 app.set('view engine', 'ejs');
 async function  startUp(){
     console.log("stating up");
     await service.load();
-    //const server = https.createServer(options, app);
+    const server = https.createServer(options, app);
 
-    app.listen(8000, () => {
+    server.listen(8000, () => {
         console.log("Application started and Listening on port 8000");
     });
 }
