@@ -20,6 +20,7 @@ async function  startUp(){
     console.log("stating up");
     await service.load();
     const server = https.createServer(options, app);
+
     server.listen(8000, () => {
         console.log("Application started and Listening on port 8000");
     });
