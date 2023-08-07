@@ -12,12 +12,12 @@ app.use(cookieParser());
 const https = require('https');
 const fs = require('fs');
 const options = {
-    key: fs.readFileSync('/home/ubuntu/keys/privkey.pem'),
-    cert: fs.readFileSync('/home/ubuntu/keys/cert.pem'),
+    key: fs.readFileSync('/home/ubuntu/keys/privkey.pem', 'utf8'),
+    cert: fs.readFileSync('/home/ubuntu/keys/cert.pem', 'utf8'),
 };
 app.set('view engine', 'ejs');
 async function  startUp(){
-    console.log("stating up");
+    console.log("starting up");
     await service.load();
     const server = https.createServer(options, app);
 
