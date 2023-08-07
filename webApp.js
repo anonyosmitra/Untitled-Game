@@ -13,7 +13,7 @@ app.use('/static', express.static('static'));
 app.use(cookieParser());
 const options = {
     key: fs.readFileSync('/home/ubuntu/keys/privkey.pem', 'utf8'),
-    cert: fs.readFileSync('/home/ubuntu/keys/cert.pem', 'utf8'),
+    cert: fs.readFileSync('/home/ubuntu/keys/fullchain.pem', 'utf8'),
 };
 app.set('view engine', 'ejs');
 async function  startUp(){
