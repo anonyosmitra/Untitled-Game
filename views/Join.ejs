@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Game <%=gid%></title>
+</head>
+<body>
+<form action="/game/<%=gid%>" method="post">
+    <input name="countryName"/><br>
+    <Input type="submit" value="Join"/>
+    <p style="color:red;"><%=error%>%></p>
+</form>
+</body>
+</html>

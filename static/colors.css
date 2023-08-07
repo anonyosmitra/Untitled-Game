@@ -1,0 +1,49 @@
+.tile.yellow{
+    background-color: #fff187;
+}
+.map-piece.yellow{
+    fill: #bbc200;
+}
+.tile.green{
+    background-color: #76e667;
+}
+.map-piece.green{
+    fill: green;
+}
+.tile.purple{
+    background-color: #a263ff;
+}
+.map-piece.purple{
+    fill: #872bab;
+}
+.tile.aqua{
+    background-color: #80eaff;
+}
+.map-piece.aqua{
+    fill: #407f82;
+}
+.tile.red{
+    background-color: #ff8480;
+}
+.map-piece.red{
+    fill: red;
+}
+.tile.pink{
+    background-color: #f588f7;
+}
+.map-piece.pink{
+    fill: #f707dc;
+}
+.tile.orange{
+    background-color: #ebb867;
+}
+.map-piece.orange{
+    fill: #ff7700;
+}
+
+.map-piece.gray{
+    fill: gray;
+}
+.tile.water{
+    background-color: #4c6fed;
+}

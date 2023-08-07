@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/static/colors.css">
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <script>
+        function newGame(){
+            window.location.href='/NewGame/';
+        }
+    </script>
+</head>
+<body>
+
+<button onclick="newGame()">New Game</button>
+<ul>
+    <% for (const pl of games) { %>
+    <li class="tile <%=pl.color%>"><a href="/game/<%=pl.game.id%>">#<%=pl.game.id%> <%=pl.name%></a></li>
+    <% } %>
+</ul>
+</body>
+</html>
