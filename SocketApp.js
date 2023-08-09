@@ -5,7 +5,7 @@ const https = require('https');
 const webSock=null;
 const options = {
     key: fs.readFileSync('/home/ubuntu/keys/privkey.pem', 'utf8'),
-    cert: fs.readFileSync('/home/ubuntu/keys/fullchain.pem', 'utf8'),
+    cert: fs.readFileSync('/home/ubuntu/keys/cert.pem', 'utf8'),
 };
 //const server = new WebSocket.Server({port:8001});
 const server = https.createServer(serverOptions, (req, res) => {

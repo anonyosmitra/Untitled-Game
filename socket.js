@@ -3,8 +3,8 @@ const WebSocket = require('ws');
 class Sock {
     static async sendSock(pay) {
         return new Promise((resolve) => {
-            //const socket = new WebSocket("ws://fluidos.anonyo.net:8001");
-            const socket = new WebSocket("ws://localhost:8001");
+            const socket = new WebSocket("wss://fluidos.anonyo.net:8001");
+            //const socket = new WebSocket("ws://localhost:8001");
             //socket.binaryType = "arraybuffer";
             socket.onopen = function () {
                 socket.send(JSON.stringify(pay));
@@ -20,7 +20,7 @@ class Sock {
                 resolve(data)
             }
             socket.on('error', (error) => {
-                reject(error);
+                console.log(error);
                 socket.close();
             });
         });
@@ -38,5 +38,5 @@ class Sock {
         console.log(data.resp);
     }
 }
-//Sock.sendSock({"message":"Hello World"}).then(p=>console.log(p));
+Sock.sendSock({"message":"Hello World"}).then(p=>console.log(p));
 module.exports=Sock;
