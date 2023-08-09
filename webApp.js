@@ -86,7 +86,7 @@ app.get("/readCookie",(req,res)=>{
 });
 
 app.get("/wsOutTest",(req,res)=>{
-    Sock.se
+    Sock.sendSock({"message":"Test"})
 });
 
 app.on('close', async () => {
