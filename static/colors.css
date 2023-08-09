@@ -47,3 +47,9 @@
 .tile.water{
     background-color: #4c6fed;
 }
+.tile.white{
+    background-color: #ffffff;
+}
+.map-piece.white{
+    fill: #9ea9ba;
+}

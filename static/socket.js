@@ -1,6 +1,6 @@
 var socket;
 function connectSocket() {
-    socket = new WebSocket("ws://localhost:5000");
+    socket = new WebSocket("ws://fluidos.anonyo.net:8001");
     socket.binaryType = "arraybuffer";
     socket.onopen = function() {
         var pay={"message":"Hello World!"};

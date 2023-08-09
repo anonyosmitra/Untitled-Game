@@ -1,4 +1,5 @@
 //import makeMap from './game.mjs';
+const Sock=require("./socket");
 const WebS=require("./WebService");
 const express = require("express");
 const cookieParser = require('cookie-parser');
@@ -11,21 +12,29 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/static', express.static('static'));
 app.use(cookieParser());
-const options = {
-    key: fs.readFileSync('/home/ubuntu/keys/privkey.pem', 'utf8'),
-    cert: fs.readFileSync('/home/ubuntu/keys/fullchain.pem', 'utf8'),
-};
+
 app.set('view engine', 'ejs');
 async function  startUp(){
     console.log("starting up");
     await service.load();
-    const server = https.createServer(options, app).listen(8000, function(){
-        console.log("Express server listening on port " + 8000);
-    });
+    try {
+        const options = {
+            key: fs.readFileSync('/home/ubuntu/keys/privkey.pem', 'utf8'),
+            cert: fs.readFileSync('/home/ubuntu/keys/fullchain.pem', 'utf8'),
+        };
+        const server = https.createServer(options, app).listen(8000, function () {
+            console.log("HTTPS server listening on port " + 8000);
+        });
+    }
+    catch (e){
+        console.log("Error Loading SSL: "+e.message);
+        app.listen(8000, () => {
+            console.log("HTTP server listening on port " + 8000);
+        });
+    }
 }
 app.get("/game", (req, res) => {
     //let a=makeMap().grid;
-    console.log("Got it!")
     //res.send("Ok");
     res.json({"response":"OK"});
 });
@@ -42,6 +51,10 @@ app.get("/writeCookie",(req,res)=> {
   res.cookie("test",i,cookieOptions);
     console.log('Cookie set: '+i);
     res.send('Cookie set: '+i++);
+});
+app.post("/updateGame",(req,res)=>{
+   console.log(req.ip);
+   console.log(req.port);
 });
 
 app.get("/NewGame",(req,res)=>{
@@ -71,6 +84,11 @@ app.get("/readCookie",(req,res)=>{
     console.log('Cookie read: '+(c==undefined));
     res.send('Cookie read: '+c);
 });
+
+app.get("/wsOutTest",(req,res)=>{
+    Sock.se
+});
+
 app.on('close', async () => {
     // Perform cleanup or any necessary logic before the server is closed
 

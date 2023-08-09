@@ -1,7 +1,8 @@
 const WebSocket = require('ws');
+
 async function sendSock(pay) {
     return new Promise((resolve) => {
-    socket = new WebSocket("ws://localhost:5000");
+    socket = new WebSocket("ws://localhost:8001");
     socket.binaryType = "arraybuffer";
     socket.onopen = function() {
         socket.send(JSON.stringify(pay));
@@ -31,6 +32,3 @@ async function GameExists(id){
     data=await sendSock({"action":"game exists","id":id})
     console.log(data.resp);
 }
-//newGame();
-GameExists(5);
-//GameExists(1);

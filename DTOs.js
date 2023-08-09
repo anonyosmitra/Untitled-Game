@@ -36,7 +36,7 @@ class Game{
                 Game.counter = x.id + 1;
             if(x.players.length>0)
                 x.players.forEach(i => {
-                    var usr = User.users.findById(i.id);
+                    var usr = DTOs.users.findById(i.id);
                     usr.games.add(gm);
                     gm.players.add(new Player(usr.id, i.name, null, gm, i.color));
                     gm.AvailColors.delete(i.color);
@@ -75,23 +75,23 @@ class Game{
     }
 }
 //TODO: Create user with cookies and attach multiple games to the user
-class User{
+class DTOs {
     static users=new UserList();
     static counter=1;
     static async loadUsers(con){
         var co=0;
         await con.find("untitled","Players",{},(x)=>{
             x.forEach((i)=>{
-                User.users.add(new User(i["id"]));
+                DTOs.users.add(new DTOs(i["id"]));
                 co+=1;
-                if(i["id"]>=User.counter)
-                    User.counter=i["id"]+1;
+                if(i["id"]>=DTOs.counter)
+                    DTOs.counter=i["id"]+1;
             }) ;
         });
     }
     static async newUser(con,ret=null){
-        var usr=new User(User.counter++);
-        User.users.add(usr);
+        var usr=new DTOs(DTOs.counter++);
+        DTOs.users.add(usr);
         await con.insert("untitled","Players",usr);
         if(ret==null)
             return usr;
@@ -110,7 +110,7 @@ class User{
         return lst;
     }
 }
-class Player extends User{
+class Player extends DTOs{
     constructor(id,name,ws,game,color=null){
         super(id);
         this.name=name;
@@ -123,4 +123,4 @@ class Player extends User{
         return lst.map(x=>{return {"id":x.id, "name":x.name, "color":x.color}});
     }
 }
-module.exports = {User,Game,UserList};
+module.exports = {User: DTOs,Game,UserList};

@@ -1,5 +1,5 @@
 const SetList = require('./SetList.js')
-const {User,Game,UserList} = require('./User.js')
+const {User,Game,UserList} = require('./DTOs.js')
 const Connection = require('./MongoConnection')
 class WebService {
     static cookieOptions = {
@@ -43,6 +43,9 @@ class WebService {
         if(gm==null) {
             return "Invalid Game";
         }
+        if(gm.AvailColors.length()==0)
+            return "Lobby Full";
+        //TODO: Check with map and available countries
         if(name=="Test")
             return "Invalid Name";
         var player=await gm.addPlayer(WebService.con,usr,name)
