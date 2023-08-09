@@ -3,7 +3,7 @@ const WebSocket = require('ws');
 class Sock {
     static async sendSock(pay) {
         return new Promise((resolve) => {
-            const socket = new WebSocket("ws://localhost:8001");
+            const socket = new WebSocket("ws://fluidos.anonyo.net:8001");
             //socket.binaryType = "arraybuffer";
             socket.onopen = function () {
                 socket.send(JSON.stringify(pay));
