@@ -85,8 +85,8 @@ app.get("/readCookie",(req,res)=>{
     res.send('Cookie read: '+c);
 });
 
-app.get("/wsOutTest",(req,res)=>{
-    Sock.sendSock({"message":"Test"})
+app.get("/wstTest",(req,res)=>{
+    Sock.sendSock({"message":"Test"}).then(p=>res.send(p));
 });
 
 app.on('close', async () => {
