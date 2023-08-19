@@ -76,7 +76,6 @@ class Game{
     }
     setGameData(data){
         this.data=data;
-        console.log(this.data.constructor.name)
         this.avail=this.data.getAvailable();
     }
     async save(){
@@ -178,6 +177,8 @@ class Player{
     }
     async connected(sock){
         this.sock=sock;
+        sock.player=this;
+        sock.game=this.game;
         console.log(this.game.data)
         if(this.game.data==null) {
             console.log("loading game "+this.game.id)

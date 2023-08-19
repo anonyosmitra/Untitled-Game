@@ -33,6 +33,10 @@ class GameData{
             var left=countries.filter((c=>c.player==null));//unassigned countries
             var occu=countries.filter(c=>c.player!=null);//assigned countries
             occu.forEach(c=>plrs.delete(c.player));//plrs=unassigned players
+            console.log("all players:")
+            console.log(plrs);
+            console.log("---------------------------------------")
+            console.log(plrs)
             while(plrs.length()!=0){
                 var pl=plrs.pickRandom(true);
                 var cou=left.pickRandom(true);
