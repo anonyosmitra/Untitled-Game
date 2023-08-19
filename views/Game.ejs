@@ -25,7 +25,7 @@
         }
         var  sock=null;
         function load (){
-            user=getCookie("untitled_uid");
+            user=parseInt(getCookie("untitled_uid"))
             sock=connectSocket(<%=gid%>,user,<%=isSecure%>);
         }
     </script>
