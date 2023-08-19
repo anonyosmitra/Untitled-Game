@@ -12,9 +12,9 @@ function connectSocket(gid,user,s=true) {
     }
 
     socket.onmessage = function(e) {
-        var enc = new TextDecoder("utf-8");
-        var arr = new Uint8Array(e.data);
-        data=enc.decode(arr);
+        //var enc = new TextDecoder("utf-8");
+        //var arr = new Uint8Array(e.data);
+        data=e.data;
         data=JSON.parse(data);
         console.log(data);
     }
