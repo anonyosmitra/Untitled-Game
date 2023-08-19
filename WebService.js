@@ -55,7 +55,6 @@ class WebService {
             var a = game.players.filter(p => p.user.id == playerExists);
             res.exists=(a.length()==1)
         }
-        console.log(res);
         sock.send(res);
     }
     async joinGame(sock,game,user,name){
@@ -81,7 +80,6 @@ class WebService {
             sock.send({error:"Invalid GameId"})
             return;
         }
-        console.log(game.players.constructor.name)
         user=game.players.findById(user);
         if(user==null){
             sock.send({error:"Invalid UserId"})

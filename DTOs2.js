@@ -14,7 +14,7 @@ class UserList extends SetList{
         return s.get(0);
     }
     findById(id){
-        if(id.constructor.name==String)
+        if(id.constructor.name=="String")
             id=parseInt(id);
         var s=this.filter(x=>x.id==id);
         if(s.length()==0)
