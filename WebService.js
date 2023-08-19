@@ -80,7 +80,7 @@ class WebService {
             sock.send({error:"Invalid GameId"})
             return;
         }
-        console.log(game.players)
+        console.log(game.players.constructor.name)
         user=game.players.findById(user);
         if(user==null){
             sock.send({error:"Invalid UserId"})
