@@ -29,7 +29,7 @@ async function  startUp() {
     wss.on('connection', (sock,req) => {
         console.log('Client connected at: '+req.connection.remoteAddress);
         var con;
-        if(req.connection.remoteAddress==="::ffff:127.0.0.1")
+        if(req.connection.remoteAddress==="::ffff:13.232.160.45")
             con=new SockServ(sock);
         else
             con=new SockClient(sock);
