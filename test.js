@@ -1,81 +1,25 @@
-const map = document.getElementById('map');
-let isDragging = false;
-let startX, startY;
-let translateX = 0;
-let translateY = 0;
-let scale = 2;
-let moved=false;
-updateTransform();
+const SetList = require('./SetList.js')
+const fs = require("fs");
+a=new SetList()
+const filePath = 'Maps/neighbour.data';
 
-map.addEventListener('mousedown', handleMouseDown);
-map.addEventListener('mouseup', handleMouseUp);
-map.addEventListener('mouseleave', handleMouseUp);
-map.addEventListener('mousemove', handleMouseMove);
-map.addEventListener('wheel', handleMouseWheel);
-
-function handleMouseDown(event) {
-    console.log("isDragging=true")
-    isDragging = true;
-    moved=false;
-    startX = event.clientX;
-    startY = event.clientY;
-    console.log("startX="+startX);
-    console.log("startY="+startY);
-    map.classList.add('grabbing');
-}
-
-function handleMouseUp() {
-    console.log("isDragging=false")
-    isDragging = false;
-    map.classList.remove('grabbing');
-}
-
-function handleMouseMove(event) {
-    if (!isDragging) return;
-    moved=true;
-    const deltaX = event.clientX - startX;
-    const deltaY = event.clientY - startY;
-    console.log("clientX="+event.clientX);
-    console.log("clientY="+event.clientY);
-    startX = event.clientX;
-    startY = event.clientY;
-
-    translateX += deltaX;
-    translateY += deltaY;
-
-    updateTransform();
-}
-
-function handleMouseWheel(event) {
-    event.preventDefault();
-
-    const delta = Math.sign(event.deltaY);
-    const zoomSpeed = 0.5;
-
-    const prevScale = scale;
-
-    if (delta > 0) {
-        // Zoom out
-        scale -= zoomSpeed;
-    } else {
-        // Zoom in
-        scale += zoomSpeed;
+fs.readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+        console.error('Error reading file:', err);
+        return;
     }
-
-    scale = Math.max(1, scale); // Limit minimum scale
-    scale = Math.min(8, scale);   // Limit maximum scale
-
-    // Adjust translation to maintain the center of the map
-    const rect = map.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
-
-    //translateX += (mouseX / prevScale - mouseX / scale);
-    //translateY += (mouseY / prevScale - mouseY / scale);
-
-    updateTransform();
-}
-
-function updateTransform() {
-    map.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
-}
+    data=data.split("\n");
+    var info={}
+    data.forEach(x=>{
+        x=x.slice(1,x.length-1);
+        x=x.split(", ");
+        x=x.map(i=>parseInt(i));
+        console.log(x)
+        info[x[0]]={"West":x[1],"East":x[2],"North West":x[3],"North East":x[4],"South West":x[5],"South East":x[6]}
+    })
+    fs.writeFile(filePath, JSON.stringify(info,null,2), 'utf8', (err) => {
+        if (err) {
+            console.error('Error writing file:', err);
+            return;
+        }});
+});

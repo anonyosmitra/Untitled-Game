@@ -1,11 +1,8 @@
-//import makeMap from './game.mjs';
 const Sock=require("./socket");
-const WebS=require("./WebService");
 const express = require("express");
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const app = express();
-const service=new WebS();
 const https = require('https');
 const fs = require('fs');
 app.use(bodyParser.json());
@@ -16,7 +13,6 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 async function  startUp(){
     console.log("starting up");
-    await service.load();
     try {
         const options = {
             key: fs.readFileSync('/home/ubuntu/keys/privkey.pem', 'utf8'),
@@ -25,6 +21,7 @@ async function  startUp(){
         const server = https.createServer(options, app).listen(8000, function () {
             console.log("HTTPS server listening on port " + 8000);
         });
+        Sock.s="s"
     }
     catch (e){
         console.log("Error Loading SSL: "+e.message);
@@ -34,50 +31,35 @@ async function  startUp(){
     }
 }
 app.get("/game", (req, res) => {
-    //let a=makeMap().grid;
-    //res.send("Ok");
     res.json({"response":"OK"});
 });
 
 app.get("/", (req, res) => {
-    service.checkCookie(req.cookies.untitled_uid,res).then(usr=>res.render('Home',{games:usr.getPlayerTags()}));
+    Sock.home(req,res);
 });
-var i=0;
-app.get("/writeCookie",(req,res)=> {
-    const cookieOptions = {
-        maxAge: 3600000, // Cookie will expire in 1 hour (specified in milliseconds)
-        httpOnly: false, // Cookie is accessible only by the server (not by JavaScript on the client side)
-    };
-  res.cookie("test",i,cookieOptions);
-    console.log('Cookie set: '+i);
-    res.send('Cookie set: '+i++);
+app.get("/logout",(req,res)=>{
+   Sock.logout(req,res);
 });
-app.post("/updateGame",(req,res)=>{
-   console.log(req.ip);
-   console.log(req.port);
+app.post("/login",(req,res)=>{
+   Sock.login(req,res);
+});
+app.get("/signup",(req,res)=>{
+    Sock.signup(req,res)
+});
+app.post("/signup",(req,res)=>{
+   Sock.signup(req,res);
 });
 
 app.get("/NewGame",(req,res)=>{
-    service.newGame().then(gm=>res.redirect("/game/"+gm.id));
+    Sock.newGame(req,res);
 });
 app.get("/game/:gid",(req,res)=>{
     let gid = req.params.gid;
-   service.joinGame(req.cookies.untitled_uid,gid,res).then(p=>{
-      if(p==null)
-          res.render("Join",{gid:gid,error:""})
-       else
-           res.render("Game",{gid:gid,p:p});
-   });
+    Sock.game(req,res,gid);
 });
 app.post("/game/:gid",(req,res)=> {
     let gid = req.params.gid;
-    var form=req.body;
-    service.addPlayer(req.cookies.untitled_uid,gid,form["countryName"],req).then(p=>{
-        if(p.constructor.name=="String")
-            res.render("Join",{gid:gid,error:p});
-        else
-            res.render("Game",{gid:gid,p:p});
-    });
+    Sock.joinGame(req,res,gid);
 });
 app.get("/readCookie",(req,res)=>{
    var c=req.cookies.test;
@@ -86,7 +68,7 @@ app.get("/readCookie",(req,res)=>{
 });
 
 app.get("/wstTest",(req,res)=>{
-    Sock.sendSock({"message":"Test"}).then(p=>res.send(p));
+    Sock.sendSock({action:"test"}).then(p=>res.send(p));
 });
 
 app.on('close', async () => {
@@ -96,7 +78,7 @@ app.on('close', async () => {
 });
 process.on('SIGINT', async function () {
     console.log('Server is closing. Performing cleanup...');
-    await service.stop();
+    //await service.stop();
     process.exit(0);
 });
 startUp();

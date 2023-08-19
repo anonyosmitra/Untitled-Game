@@ -2,36 +2,55 @@ const WebSocket = require('ws');
 const http = require('http');
 const fs = require('fs');
 const https = require('https');
-const webSock=null;
-const options = {
-    key: fs.readFileSync('/home/ubuntu/keys/privkey.pem', 'utf8'),
-    cert: fs.readFileSync('/home/ubuntu/keys/fullchain.pem', 'utf8'),
-};
-//const server = new WebSocket.Server({port:8001});
-const server = https.createServer(options, (req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('WebSocket server is running');
+const WebS=require("./WebService");
+const service=new WebS();
+var wss;
+async function  startUp() {
+    console.log("Loading Data...");
+    await service.load();
+    try {
+        const options = {
+            key: fs.readFileSync('/home/ubuntu/keys/privkey.pem', 'utf8'),
+            cert: fs.readFileSync('/home/ubuntu/keys/fullchain.pem', 'utf8'),
+        };
+        const server = https.createServer(options, (req, res) => {
+            res.writeHead(200, {'Content-Type': 'text/plain'});
+            res.end('WebSocket server is running');
+        });
+        wss = new WebSocket.Server({server});
+        server.listen(8001, () => {
+            console.log("WSS server listening on port " + 8001);
+        });
+    } catch (e) {
+        console.log("Error Loading SSL: " + e.message);
+        wss = new WebSocket.Server({port: 8001});
+        console.log("WS server listening on port " + 8001);
+    }
+    wss.on('connection', (sock,req) => {
+        console.log('Client connected at: '+req.connection.remoteAddress);
+        var con;
+        if(req.connection.remoteAddress==="::ffff:127.0.0.1")
+            con=new SockServ(sock);
+        else
+            con=new SockClient(sock);
+        sock.on('message', (message) => {
+            data=JSON.parse(message.toString());
+            con.onMessage(data);
+        });
+
+        sock.on('close', () => {
+            console.log('Client disconnected');
+            con.onClose();
+        });
+    });
+}
+startUp();
+process.on('SIGINT', async function () {
+    console.log('Server is closing. Performing cleanup...');
+    await service.stop();
+    process.exit(0);
 });
 
-// Create a WebSocket server using the HTTPS server
-const wss = new WebSocket.Server({ server });
-wss.on('connection', (sock,req) => {
-    console.log('Client connected at: '+req.connection.remoteAddress);
-    if(req.connection.remoteAddress==="::ffff:127.0.0.1")
-        console.log("Internal");
-    var con=new SockClient(sock);
-    sock.on('message', (message) => {
-        data=JSON.parse(message.toString());
-        con.onMessage(data);
-    });
-
-    sock.on('close', () => {
-        console.log('Client disconnected');
-    });
-});
-server.listen(8001, () => {
-    console.log('WebSocket server is listening on port 8001');
-});
 
 //app.listen(8001, () => {
   //  console.log('WebSocket server is listening on port 8001');
@@ -47,9 +66,48 @@ class SockClient{
         this.sock.send(data);
     }
     onMessage(data){
-        this.send({"resp":"Message Received"});
+        if(data.action=="test")
+            this.send({"resp":"Ok","type":"client"})
     }
 
+    onClose(){
+        if(this.player!=null)
+            this.player.disconnected();
+    }
+}
+class SockServ{
+    constructor(sock) {
+        this.sock=sock;
+    }
+    send(data){
+        data=JSON.stringify(data)
+        this.sock.send(data);
+    }
+    onMessage(data){
+        if(data.action=="test")
+            this.send({"resp":"Ok","type":"server"});
+        else if(data.action=="newUser"){
+            service.newUser(data.name,data.pass,this);
+        }
+        else if(data.action=="login"){
+            service.login(data.name,data.pass,this);
+        }
+        else if(data.action=="getUser"){
+            service.getUser(data.cookie,this);
+        }
+        else if(data.action=="new game"){
+            service.newGame(this);
+        }
+        else if(data.action=="getGameInfo"){
+            if(data.hasOwnProperty("playerExists"))
+                service.getGameInfo(this,data.game,data.playerExists);
+            else
+                service.getGameInfo(this,data.game);
+        }
+        else if(data.action=="joinGame") {
+                service.joinGame(this,data.game,data.user,data.name)
+        }
+    }
     onClose(){
 
     }

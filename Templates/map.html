@@ -1,0 +1,74 @@
+<link rel="stylesheet" href="static/colors.css">
+
+<script>
+  let isDragging = false;
+  let moved = false;
+  let startX = 0;
+  let startY = 0;
+  let mapUpdated=true;
+  let translateX = 0;
+  let translateY = 0;
+  let scale = 3;
+  const map = document.getElementById('map');
+
+  map.addEventListener('mousedown', handleMouseDown);
+  map.addEventListener('mouseup', handleMouseUp);
+  map.addEventListener('mouseleave', handleMouseUp);
+  map.addEventListener('mousemove', handleMouseMove);
+  map.addEventListener('wheel', handleMouseWheel);
+  updateTransform();
+  function transformationLoop(){
+    if(mapUpdated){
+      updateTransform();
+      mapUpdated=false;
+    }
+    setTimeout(transformationLoop,150);
+  }
+  transformationLoop();
+
+  function handleMouseDown(event) {
+    isDragging = true;
+    moved = false;
+    startX = event.clientX;
+    startY = event.clientY;
+    map.classList.add('grabbing');
+  }
+
+  function handleMouseUp() {
+    isDragging = false;
+    map.classList.remove('grabbing');
+  }
+
+  function handleMouseMove(event) {
+    if (!isDragging) return;
+    moved = true;
+    const dx = event.clientX - startX;
+    const dy = event.clientY - startY;
+    translateX += dx;
+    translateY += dy;
+    startX = event.clientX;
+    startY = event.clientY;
+    mapUpdated=true;
+    //updateTransform();
+  }
+
+  function handleMouseWheel(event) {
+    const zoomSpeed = 0.1;
+    const delta = -event.deltaY || event.detail || event.wheelDelta;
+    const zoomOut = delta ? delta < 0 : event.originalEvent.deltaY > 0;
+    scale += zoomOut ? -zoomSpeed : zoomSpeed;
+    scale = Math.max(0.1, Math.min(scale, 3));
+    event.preventDefault();
+    mapUpdated=true;
+    //updateTransform();
+  }
+
+  function updateTransform() {
+    map.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+  }
+
+  function place(id,color,plot,direction="left"){
+    document.getElementById("tile-"+plot).innerHTML+=makePiece(id,"tank",color,direction).outerHTML;
+  }
+
+</script>

@@ -1,0 +1,11 @@
+<form action="/login" method="post">
+    <input placeholder="Username" name="username" value="<%=usr%>"/><br>
+    <input placeholder="Password" name="password" type="password" /><br>
+    <input name="gameId" value="<%=gameId%>" hidden="true"/>
+    <p style="color: red" id="errorMessage"><%=err%></p>
+    <input type="submit" value="Login">
+</form>
+<form action="/signup" method="post">
+    <input name="gameId" value="<%=gameId%>" hidden="true"/>
+    <input type="submit" value="Sign Up"/>
+</form>

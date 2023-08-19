@@ -1,0 +1,19 @@
+<form id="signupForm" action="/signup" method="post">
+    <input placeholder="Username" name="username" value="<%=usr%>"/><br>
+    <input placeholder="Password" name="password" type="password" value="<%=pass%>"/><br>
+    <input placeholder="Password" name="password2" type="password" value="<%=pass%>"/><br>
+    <input name="gameId" value="<%=gameId%>" hidden="true"/>
+    <input type="button" value="Sign Up" onclick="submit()"><br>
+    <p style="color: red" id="errorMessage"><%=err%></p>
+</form>
+<script>
+    function submit(){
+        err=document.getElementById("errorMessage")
+        err.innerText="";
+        if(document.getElementsByName("password")[0].value==document.getElementsByName("password2")[0].value)
+            document.getElementById("signupForm").submit();
+        else
+            err.innerText="Passwords don't match"
+
+    }
+</script>

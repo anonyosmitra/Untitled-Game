@@ -6,9 +6,9 @@ for(let i=1;i<81;i++){
     if(i%2==0)
         l=80;
     for(let j=0;j<l;j++){
-        str+="\t<abbr id='abbr-"+id+"' title='Country: null&#10;Province: null&#10;Water: No&#10;Contains: null'><div onclick=\"clc(this)\" id=\"tile-"+id+"\" class=\"tile\">"+id+"</div></abbr>";
+        str+="\t<abbr id='abbr-"+id+"' title='Province: null'><div onclick=\"clc(this)\" id=\"tile-"+id+"\" class=\"tile\"></div></abbr>";
         id++;
     }
     str+="</div>\n";
 }
-//console.log(str);
+console.log(str);
