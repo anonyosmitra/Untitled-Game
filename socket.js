@@ -8,8 +8,10 @@ class Sock {
     static s=""
     static async sendSock(pay,callback=null) {
         return new Promise((resolve) => {
-            const socket = new WebSocket("ws"+Sock.s+"://localhost:8001");
-            //const socket = new WebSocket("ws://localhost:8001");
+            if(s=="s")
+                const socket = new WebSocket("wss://fluidos.anonyo.net:8001");
+            else
+                const socket = new WebSocket("ws://localhost:8001");
             //socket.binaryType = "arraybuffer";
             socket.onopen = function () {
                 socket.send(JSON.stringify(pay));
