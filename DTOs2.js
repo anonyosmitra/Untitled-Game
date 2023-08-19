@@ -94,7 +94,7 @@ class Game{
         Game.con=con;
         var data=await con.find("untitled","Games",{});
         data.forEach(x=>{
-           var gm=new Game(x.id,new UserList(),null,x.avail);
+           var gm=new Game(x.id,new SetList(),null,x.avail);
            Game.games.add(gm);
            x.players=new SetList(x.players)
            if(x.players.length()!=0) {
@@ -178,6 +178,7 @@ class Player{
     }
     async connected(sock){
         this.sock=sock;
+        console.log(this.game.data)
         if(this.game.data==null) {
             console.log("loading game "+this.game.id)
             await this.game.load()

@@ -80,11 +80,13 @@ class WebService {
             sock.send({error:"Invalid GameId"})
             return;
         }
-        user=game.players.findById(user);
-        if(user==null){
+
+        user=game.players.filter(p=>p.id==user);
+        if(user.length()==0){
             sock.send({error:"Invalid UserId"})
             return;
         }
+        user=user.get(0)
         await user.connected(sock);
 
     }
