@@ -9,7 +9,7 @@ class Sock {
     static async sendSock(pay,callback=null) {
         return new Promise((resolve) => {
             var socket=null
-            if(s=="s")
+            if(Sock.s=="s")
                 socket = new WebSocket("wss://fluidos.anonyo.net:8001");
             else
                 socket = new WebSocket("ws://localhost:8001");
@@ -67,7 +67,7 @@ class Sock {
         var info=await Sock.sendSock({action:"getGameInfo", game:gameId,playerExists:req.cookies.untitled_uid});
         console.log(info)
         if(info.exists)
-            res.render("Game",{gid:gameId,isSecure:(s=="s")});
+            res.render("Game",{gid:gameId,isSecure:(Sock.s=="s")});
         else if(info.hasOwnProperty("error")){
             res.status(404).send(info.error);
         }
@@ -78,14 +78,14 @@ class Sock {
     static async joinGame(req,res,gameId){
         var info=await Sock.sendSock({action:"getGameInfo",game:gameId,playerExists:req.cookies.untitled_uid});
         if(info.exists)
-            res.render("Game",{gid:gameId,isSecure:(s=="s")});
+            res.render("Game",{gid:gameId,isSecure:(Sock.s=="s")});
         else
             Sock.sendSock({action:"joinGame",user:req.cookies.untitled_uid,game:gameId,name:req.body.countryName}).then(async r => {
                 if (r.hasOwnProperty("error")) {
                     res.render("Join",{gid:gameId,error:r.error,info:info})
                 }
                 else
-                    res.render("Game",{gid:gameId,isSecure:(s=="s")});
+                    res.render("Game",{gid:gameId,isSecure:(Sock.s=="s")});
             });
 
     }
