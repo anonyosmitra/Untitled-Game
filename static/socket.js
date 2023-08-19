@@ -6,8 +6,7 @@ function connectSocket(gid,user,s=true) {
         socket = new WebSocket("ws://127.0.0.1:8001");
     socket.binaryType = "arraybuffer";
     socket.onopen = function() {
-        //var pay={action:"init",game:gid,player:user};
-        var pay={action:"test"}
+        var pay={action:"init",game:gid,player:user};
         socket.send(JSON.stringify(pay));
     }
 

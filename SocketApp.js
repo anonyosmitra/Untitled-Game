@@ -69,6 +69,8 @@ class SockClient{
         console.log(data)
         if(data.action=="test")
             this.send({"resp":"Ok","type":"client"})
+        else if(data.action=="init")
+            service.connectPlayer(this,data.game,data.user);
     }
 
     onClose(){

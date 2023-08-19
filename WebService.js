@@ -74,5 +74,19 @@ class WebService {
         else
             sock.send({success:true})
     }
+    async connectPlayer(sock,game,user){
+        game=Game.findById(game);
+        if(game==null){
+            sock.send({error:"Invalid GameId"})
+            return;
+        }
+        user=game.players.findById(user);
+        if(user==null){
+            sock.send({error:"Invalid UserId"})
+            return;
+        }
+        await user.connected(sock);
+
+    }
 }
 module.exports=WebService;

@@ -88,6 +88,7 @@ class Game{
     async load(){
         if(this.data==null)
             this.setGameData(await GameData.retrieveGame(Game.con,this));
+        return this.data;
     }
     static async loadGames(con){
         Game.con=con;
@@ -175,16 +176,21 @@ class Player{
     getTag(){
         return {user:this.user.id, name: this.name, color:this.color,game:this.game.id,alive:this.alive}
     }
-    connected(sock){
+    async connected(sock){
         this.sock=sock;
-        if(this.game.data==null)
-            this.game.load()
+        if(this.game.data==null) {
+            console.log("loading game "+this.game.id)
+            await this.game.load()
+        }
+        //send gamedata
         //update and notify lobby
     }
     disconnected(){
         this.sock=null;
-        if((this.game.players.filter(p=>p.sock!=null)).length()==0)
+        if((this.game.players.filter(p=>p.sock!=null)).length()==0) {
             this.game.save()
+            console.log("game "+this.game.id+" saved to db");
+        }
         //update and notify lobby
     }
 }

@@ -65,7 +65,6 @@ class Sock {
             res.render('login',{usr:"",gameId:gameId,err:""});
         }
         var info=await Sock.sendSock({action:"getGameInfo", game:gameId,playerExists:req.cookies.untitled_uid});
-        console.log(info)
         if(info.exists)
             res.render("Game",{gid:gameId,isSecure:(Sock.s=="s")});
         else if(info.hasOwnProperty("error")){
