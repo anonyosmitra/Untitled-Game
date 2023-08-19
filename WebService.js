@@ -81,7 +81,7 @@ class WebService {
             return;
         }
 
-        user=game.players.filter(p=>p.id==user);
+        user=game.players.filter(p=>p.user.id==user);
         console.log(user)
         if(user.length()==0){
             sock.send({error:"Invalid UserId"})
