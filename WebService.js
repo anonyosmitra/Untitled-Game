@@ -55,6 +55,7 @@ class WebService {
             var a = game.players.filter(p => p.user.id == playerExists);
             res.exists=(a.length()==1)
         }
+        console.log(res);
         sock.send(res);
     }
     async joinGame(sock,game,user,name){

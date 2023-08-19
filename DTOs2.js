@@ -94,9 +94,9 @@ class Game{
         Game.con=con;
         var data=await con.find("untitled","Games",{});
         data.forEach(x=>{
-           var gm=new Game(x.id,new SetList(),null,x.avail);
+           var gm=new Game(x.id,new UserList(),null,x.avail);
            Game.games.add(gm);
-           x.players=new UserList(x.players)
+           x.players=new SetList(x.players)
            if(x.players.length()!=0) {
                x.players.forEach(p => {
                    var usr = User.users.findById(p.user);
@@ -120,7 +120,7 @@ class Game{
         var gm=new Game(Game.counter++,new SetList(),null);
         var data=await GameData.loadGame(gm);
         gm.setGameData(data);
-        await con.insert("untitled","Games",{id:gm.id,players:(new UserList()).toList(),avail:gm.avail});
+        await con.insert("untitled","Games",{id:gm.id,players:(new SetList()).toList(),avail:gm.avail});
         Game.games.add(gm);
         await gm.save(con)
         return gm;
