@@ -13,6 +13,7 @@ class GameData{
     }
     static async retrieveGame(con,ctrl){
         var a=await con.find("untitled","Gamedata",{id:this.id});
+        console.log(a)
         a=await GameData.loadGame(ctrl, a[0])
         return a;
     }
