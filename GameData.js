@@ -33,10 +33,6 @@ class GameData{
             var left=countries.filter((c=>c.player==null));//unassigned countries
             var occu=countries.filter(c=>c.player!=null);//assigned countries
             occu.forEach(c=>plrs.delete(c.player));//plrs=unassigned players
-            console.log("all players:")
-            console.log(plrs);
-            console.log("---------------------------------------")
-            console.log(plrs)
             while(plrs.length()!=0){
                 var pl=plrs.pickRandom(true);
                 var cou=left.pickRandom(true);
@@ -49,8 +45,8 @@ class GameData{
     async makeMeta(){
         var prov=new SetList();
         Object.keys(this.provinces).forEach(p=>prov.add(this.provinces[p].toJSON()));
-        console.log(this.map)
         var meta={countries:this.countries.map(c => c.toJSON()),id:this.id,mapId:this.map.id,provinces:prov.toList()};
+        console.log(meta)
         return meta;
     }
     async eliminate(country){
