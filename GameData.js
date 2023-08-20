@@ -46,9 +46,10 @@ class GameData{
         }
         return new GameData(ctrl.id,map,provinces,countries,ctrl,pieces);
     }
-    makeMeta(){
+    async makeMeta(){
         var prov=new SetList();
         Object.keys(this.provinces).forEach(p=>prov.add(this.provinces[p].toJSON()));
+        console.log(this.map)
         var meta={countries:this.countries.map(c => c.toJSON()),id:this.id,mapId:this.map.id,provinces:prov.toList()};
         return meta;
     }
