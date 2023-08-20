@@ -175,7 +175,7 @@ class Country{
         return res
     }
     static load(meta,ctrl){
-        var c=new Country(meta.id,SetList(meta.provinces))
+        var c=new Country(meta.id,new SetList(meta.provinces))
         if(meta.player!=null)
             c.player=ctrl.players.findById(meta.player);
         return c;
