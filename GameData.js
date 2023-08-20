@@ -7,9 +7,9 @@ class GameData{
     async saveGame(con){
         var a=await con.find("untitled","Gamedata",{id:this.id});
         if(a.length==0)
-            await con.insert("untitled","Gamedata",this.makeMeta());
+            await con.insert("untitled","Gamedata",await this.makeMeta());
         else
-            await con.update("untitled","Gamedata",{id:this.id},this.makeMeta());
+            await con.update("untitled","Gamedata",{id:this.id},await this.makeMeta());
     }
     static async retrieveGame(con,ctrl){
         var a=await con.find("untitled","Gamedata",{id:ctrl.id});
