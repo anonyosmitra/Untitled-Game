@@ -21,6 +21,7 @@ class GameData{
         var provinces={};
         var countries=new SetList();
         var pieces=new SetList();
+        var plrs=new SetList();
         if(meta==null) {
             map=Map.maps["1"]//TODO: use random
             map.countries.forEach(c=>countries.add(new Country(c.id,new SetList(c.provinces))));
@@ -30,17 +31,22 @@ class GameData{
             meta.countries.forEach(c=>countries.add(Country.load(c,ctrl)));
             meta.provinces.forEach(p=>provinces[p.id]=Province.load(p,countries,map));
             var plrs=ctrl.players.filter(p=>p.alive)//alive players
-            var left=countries.filter((c=>c.player==null));//unassigned countries
             var occu=countries.filter(c=>c.player!=null);//assigned countries
             occu.forEach(c=>plrs.delete(c.player));//plrs=unassigned players
-            while(plrs.length()!=0){
-                var pl=plrs.pickRandom(true);
-                var cou=left.pickRandom(true);
-                cou.player=pl;
-                console.log("Assigning player "+pl.user.name+" to Country "+cou.id);
-            }
         }
-        return new GameData(ctrl.id,map,provinces,countries,ctrl,pieces);
+        var gm= new GameData(ctrl.id,map,provinces,countries,ctrl,pieces);
+        if(plrs.length()!=0)
+            gm.assignCountries(plrs);
+        return gm;
+    }
+    async assignCountries(players){
+        var left=this.countries.filter((c=>c.player==null));//unassigned countries
+        while(players.length()!=0){
+            var pl=players.pickRandom(true);
+            var cou=left.pickRandom(true);
+            await this.activateCountry(cou, pl);
+            console.log("Assigning player "+pl.user.name+" to Country "+cou.id);
+        }
     }
     async makeMeta(){
         var prov=new SetList();
