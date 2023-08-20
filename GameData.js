@@ -26,8 +26,7 @@ class GameData{
             map.countries.forEach(c=>countries.add(new Country(c.id,new SetList(c.provinces))));
         }
         else{
-            console.log({mapId:meta.map})
-            map=Map.maps[meta.map];
+            map=Map.maps[meta.mapId];
             meta.countries.forEach(c=>countries.add(Country.load(c,ctrl)));
             meta.provinces.forEach(p=>provinces[p.id]=Province.load(p,countries,map));
             var plrs=ctrl.players.filter(p=>p.alive)//alive players
