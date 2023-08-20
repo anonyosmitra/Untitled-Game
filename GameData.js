@@ -12,8 +12,7 @@ class GameData{
             await con.update("untitled","Gamedata",{id:this.id},this.makeMeta());
     }
     static async retrieveGame(con,ctrl){
-        var a=await con.find("untitled","Gamedata",{id:this.id});
-        console.log(a)
+        var a=await con.find("untitled","Gamedata",{id:ctrl.id});
         a=await GameData.loadGame(ctrl, a[0])
         return a;
     }
