@@ -157,9 +157,9 @@ class Game{
         await con.update("untitled","Games",{id:this.id},{players:this.getPlayerTags().toList(),avail:this.avail})
         return player;
     }
-    getPlayerTags(){
+    async getPlayerTags(){
         var tags=new SetList();
-        this.players.forEach(x=>{tags.add(x.getTag())})
+        await this.players.forEach(x=>{tags.add(x.getTag())})
         return tags;
     }
 }
