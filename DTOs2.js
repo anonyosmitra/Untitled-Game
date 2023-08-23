@@ -177,6 +177,7 @@ class Player{
         var ret={user:this.user.id, name: this.name, color:this.color,game:this.game.id,alive:this.alive}
         if(includeStatus)
             ret.isOnline=!(this.sock==null);
+        return ret;
     }
     async connected(sock){
         this.sock=sock;
