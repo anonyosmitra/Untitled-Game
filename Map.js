@@ -12,7 +12,9 @@ class Map{
         Map.maps[this.id]=this;
     }
     async getMapData(){
-        return await Tile.makeJson(this.tiles);
+        var a=await Tile.makeJson(this.tiles);
+        console.log(a)
+        return a;
     }
     static async loadFile(name){
         fs.readFile("Maps/"+name+".map", 'utf8', (err, data) => {
