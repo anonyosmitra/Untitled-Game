@@ -99,7 +99,8 @@ class Tile{
             var prov=null;
             if(tileDict[i].province!=null)
                 prov=tileDict[i].province.id;
-            list.push([tileDict[i].id,tileDict[i].province.id,tileDict[i].isWater,tileDict[i].contains]);
+            console.log(tileDict[i].province==null)
+            list.push([tileDict[i].id,prov,tileDict[i].isWater,tileDict[i].contains]);
         })
         return list;
     }
