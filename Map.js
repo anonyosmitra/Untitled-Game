@@ -93,9 +93,9 @@ class Tile{
     }
     static makeJson(tileDict){
         var list=[]
-        for(var i in Object.keys(tileDict)){
+        Object.keys(tileDict).forEach(i=>{
             list.push([tileDict[i].id,tileDict[i].province.id,tileDict[i].isWater,tileDict[i].contains]);
-        }
+        })
         return list;
     }
 }
