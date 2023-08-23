@@ -68,4 +68,8 @@ class SetList extends Set{
             this.delete(v);
         return v;
     }
+    deleteWhere(f){
+        this.filter(f).forEach(x=>this.delete(x));
+        return this;
+    }
 }

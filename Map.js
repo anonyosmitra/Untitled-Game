@@ -13,7 +13,6 @@ class Map{
     }
     async getMapData(){
         var a=await Tile.makeJson(this.tiles);
-        console.log(a)
         return a;
     }
     static async loadFile(name){
@@ -99,7 +98,6 @@ class Tile{
             var prov=null;
             if(tileDict[i].province!=null)
                 prov=tileDict[i].province.id;
-            console.log(tileDict[i].province==null)
             list.push([tileDict[i].id,prov,tileDict[i].isWater,tileDict[i].contains]);
         })
         return list;

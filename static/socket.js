@@ -16,6 +16,7 @@ function connectSocket(gid,user,s=true) {
         data=e.data;
         data=JSON.parse(data);
         console.log(data);
+        methods[data.action](data);
     }
 
     socket.onclose = function(e) {
@@ -23,3 +24,25 @@ function connectSocket(gid,user,s=true) {
     }
     return socket;
 }
+function initResp(data){
+    if(init){
+        console.log("Received unrequested init Response")
+        return;
+    }
+    init=true;
+    data.map.forEach(t=>{
+        if(t[2]){
+            setTileColor(t[0],"water")
+            setAbbr(t[0],"Water")
+        }
+        else if(t[1]!=null) {
+            if (Province.provinces[t[1]] == undefined)
+                new Province(t[1]);
+            Province.provinces[t[1]].tiles.addTile(t[0])
+            if(t[3]!=null)
+                new Building(t[0],t[3],Province.provinces[t[1]])
+        }
+
+    })
+}
+methods={"initResp":initResp()}

@@ -51,6 +51,7 @@ class GameData{
             var cou=left.pickRandom(true);
             await this.activateCountry(cou, pl);
             console.log("Assigning player "+pl.user.name+" to Country "+cou.id);
+            //TODO: notify active players
         }
     }
     async makeMeta(){

@@ -125,7 +125,4 @@ function makePiece(id,obj,color="gray",direction="right"){
     }
     return svg;
 }
-function clc(obj){
-    console.log(obj.id);
-}
 //<img class="map-icons" src="city.png">
