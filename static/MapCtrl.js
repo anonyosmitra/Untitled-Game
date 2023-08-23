@@ -6,7 +6,7 @@ function placeOnMap(tileId,obj){
     if(obj.constructor.name=="Building"){
         img = document.createElement("img");
         img.classList.add("map-icons");
-        img.setAttribute("src","static/img/"+obj.name+".png");
+        img.setAttribute("src",document.location.host+"/static/img/"+obj.name+".png");
 
     }
     else{
