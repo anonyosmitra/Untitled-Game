@@ -7,7 +7,7 @@ function placeOnMap(tileId,obj){
         img = document.createElement("img");
         img.classList.add("map-icons");
         img.setAttribute("src",document.location.protocol+"//"+document.location.host+"/static/img/"+obj.name+".png");
-
+        document.getElementById("tile-"+tileId).innerHTML=img.outerHTML;
     }
     else{
         document.getElementById("tile-"+tileId).innerHTML+=makePiece(obj.id,obj.name,obj.country.player.color,obj.direction).outerHTML;
@@ -26,4 +26,7 @@ function setAbbr(tileIds,text){
         var t=document.getElementById("abbr-"+x)
         t.title=text;
     });
+}
+function clc(tile){
+    console.log(tile.id);
 }
