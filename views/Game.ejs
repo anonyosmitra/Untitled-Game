@@ -23,7 +23,8 @@
             }
             return "";
         }
-        var  sock=null;
+        var sock=null,init=false;
+
         function load (){
             user=parseInt(getCookie("untitled_uid"))
             sock=connectSocket(<%=gid%>,user,<%=isSecure%>);

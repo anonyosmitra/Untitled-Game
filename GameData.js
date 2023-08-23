@@ -4,6 +4,11 @@ class GameData{
     static async load(){
         await Map.load()
     }
+    async getCountries(){
+        var cous=[]
+        await this.countries.forEach(c=>cous.push(c.toJSON()));
+        return cous;
+    }
     async saveGame(con){
         var a=await con.find("untitled","Gamedata",{id:this.id});
         if(a.length==0)

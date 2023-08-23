@@ -89,7 +89,7 @@ class WebService {
         }
         user=user.get(0)
         await user.connected(sock);
-        await sock.send({map:await game.data.map.getMapData()});
+        await sock.send({action: "initResp",map:await game.data.map.getMapData(),players:await game.getPlayerTags(),countries:await game.data.getCountries()});
         //TODO: Send Map and players
         //TODO: notify other players
     }
