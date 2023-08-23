@@ -1,10 +1,17 @@
 class Player{
     static players={}
-    constructor(id,name,color) {
+    constructor(id,name,color,isOnline) {
         this.id=id;
         this.name=name;
         this.color=color;
         this.country=null;
+        this.isOnline=isOnline;
+        Player.players[this.id]=this;
+    }
+    getColor(){
+        if(this.isOnline)
+            return this.color
+        return "white"
     }
 }
 class Country{
@@ -16,7 +23,7 @@ class Country{
     addProvince(prov){
         this.provinces.add(prov)
         prov.country=this;
-        setTileColor(prov.tiles,this.player.color);
+        setTileColor(prov.tiles,this.player.getColor());
         setAbbr(prov.tiles,'Country: '+this.name+'\nProvince: '+prov.id);
     }
 }

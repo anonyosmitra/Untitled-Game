@@ -42,11 +42,15 @@ function initResp(data){
             if (Province.provinces[t[1]] == undefined)
                 new Province(t[1]);
             Province.provinces[t[1]].addTile(t[0])
-            console.log(t[3]);
             if(t[3]!=null)
                 new Building(t[0],t[3],Province.provinces[t[1]])
         }
 
+    });
+    data.players.forEach(p=>new Player(p.user,p.name,p.color,p.isOnline));
+    (data.countries.filter(c=>c.player!=null)).forEach(c=>{
+        var cou=new Country(c.id,Player.players[c.player])
+        c.provinces.forEach(p=>cou.addProvince(Province.provinces[p]));
     });
 }
 function serverClosed(data){

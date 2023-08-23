@@ -158,9 +158,9 @@ class Game{
         await con.update("untitled","Games",{id:this.id},{players:this.getPlayerTags().toList(),avail:this.avail})
         return player;
     }
-    async getPlayerTags(){
+    async getPlayerTags(getStatus=false){
         var tags=new SetList();
-        await this.players.forEach(x=>{tags.add(x.getTag())})
+        await this.players.forEach(x=>{tags.add(x.getTag(getStatus))})
         return tags;
     }
 }
@@ -173,8 +173,10 @@ class Player{
         this.sock=null;
         this.alive=true;
     }
-    getTag(){
-        return {user:this.user.id, name: this.name, color:this.color,game:this.game.id,alive:this.alive}
+    getTag(includeStatus=false){
+        var ret={user:this.user.id, name: this.name, color:this.color,game:this.game.id,alive:this.alive}
+        if(includeStatus)
+            ret.isOnline=!(this.sock==null);
     }
     async connected(sock){
         this.sock=sock;
