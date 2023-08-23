@@ -79,6 +79,7 @@ class Game{
         this.avail=this.data.getAvailable();
     }
     async save(){
+        await (this.players.filter(p=>p.sock!=null)).forEach(p=>p.sock.send({action:"Closing Server"}))
         this.data.saveGame(Game.con).then(x=>{
             delete this.data;
             this.data=null;

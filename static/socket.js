@@ -1,6 +1,6 @@
 var socket;
 var init=false;
-const methods={"initResp":initResp};
+var methods={};
 
 function connectSocket(gid, user, s=true) {
     if(s)
@@ -46,5 +46,9 @@ function initResp(data){
                 new Building(t[0],t[3],Province.provinces[t[1]])
         }
 
-    })
+    });
 }
+function serverClosed(data){
+    alert("Server is offline");
+}
+methods=Object.assign(methods, {"initResp":initResp,"Closing Server":serverClosed});

@@ -13,6 +13,7 @@ class WebService {
         });
     }
     async stop(){
+        await (Game.games.filter(g=>g.data!=null)).forEach(g=>g.save());
         if (WebService.con != null)
             await WebService.con.close();
     }
