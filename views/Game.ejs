@@ -10,6 +10,7 @@
     <script src="/static/MapCtrl.js" ></script>
     <script src="/static/GameData.js" ></script>
     <script>
+        var sock=null;
             function getCookie(cname) {
             var name = cname + "=";
             var decodedCookie = decodeURIComponent(document.cookie);
@@ -25,7 +26,6 @@
             }
             return "";
         }
-        var sock=null,init=false;
 
         function load (){
             user=parseInt(getCookie("untitled_uid"))

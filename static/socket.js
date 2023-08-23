@@ -1,5 +1,8 @@
 var socket;
-function connectSocket(gid,user,s=true) {
+var init=false;
+const methods={"initResp":initResp};
+
+function connectSocket(gid, user, s=true) {
     if(s)
         socket = new WebSocket("wss://fluidos.anonyo.net:8001");
     else
@@ -45,4 +48,3 @@ function initResp(data){
 
     })
 }
-methods={"initResp":initResp()}
