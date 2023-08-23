@@ -91,9 +91,9 @@ class Tile{
             tile=tile.id;
         return Map.grid[tile][direction];
     }
-    static makeJson(tileDict){
+    static async makeJson(tileDict){
         var list=[]
-        Object.keys(tileDict).forEach(i=>{
+        await Object.keys(tileDict).forEach(i=>{
             list.push([tileDict[i].id,tileDict[i].province.id,tileDict[i].isWater,tileDict[i].contains]);
         })
         return list;
