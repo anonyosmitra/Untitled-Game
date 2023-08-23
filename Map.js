@@ -96,6 +96,7 @@ class Tile{
     static async makeJson(tileDict){
         var list=[]
         await Object.keys(tileDict).forEach(i=>{
+            console.log(tileDict[i].province);
             list.push([tileDict[i].id,tileDict[i].province.id,tileDict[i].isWater,tileDict[i].contains]);
         })
         return list;
