@@ -24,7 +24,7 @@ class Country{
         this.provinces.add(prov)
         prov.country=this;
         setTileColor(prov.tiles,this.player.getColor());
-        setAbbr(prov.tiles,'Country: '+this.name+'\nProvince: '+prov.id);
+        setAbbr(prov.tiles,'Country: '+this.player.name+'\nProvince: '+prov.id);
     }
 }
 class Province{
