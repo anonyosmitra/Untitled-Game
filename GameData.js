@@ -52,7 +52,6 @@ class GameData{
         var prov=new SetList();
         Object.keys(this.provinces).forEach(p=>prov.add(this.provinces[p].toJSON()));
         var meta={countries:this.countries.map(c => c.toJSON()),id:this.id,mapId:this.map.id,provinces:prov.toList()};
-        console.log(meta)
         return meta;
     }
     async eliminate(country){

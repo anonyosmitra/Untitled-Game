@@ -11,6 +11,9 @@ class Map{
         this.countries=countries;//setList<Countries>
         Map.maps[this.id]=this;
     }
+    async getMapData(){
+        return Tile.makeJson(this.tiles);
+    }
     static async loadFile(name){
         fs.readFile("Maps/"+name+".map", 'utf8', (err, data) => {
             if (err) {
@@ -87,6 +90,13 @@ class Tile{
         if(tile.constructor.name=="Tile")
             tile=tile.id;
         return Map.grid[tile][direction];
+    }
+    static makeJson(tileDict){
+        var list=[]
+        for(var i in Object.keys(tileDict)){
+            list.push([tileDict[i].id,tileDict[i].province.id,tileDict[i].isWater,tileDict[i].contains]);
+        }
+        return list;
     }
 }
 class Province{

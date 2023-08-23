@@ -89,7 +89,9 @@ class WebService {
         }
         user=user.get(0)
         await user.connected(sock);
-
+        await sock.send({map:game.data.map.getMapData()});
+        //TODO: Send Map and players
+        //TODO: notify other players
     }
 }
 module.exports=WebService;
