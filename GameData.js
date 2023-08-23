@@ -179,7 +179,7 @@ class Country{
     static load(meta,ctrl){
         var c=new Country(meta.id,new SetList(meta.provinces))
         if(meta.player!=null)
-            c.player=ctrl.players.findById(meta.player);
+            c.player=(ctrl.players.filter(p=>p.user.id==meta.player)).get(0);
         return c;
     }
 }
