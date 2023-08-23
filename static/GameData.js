@@ -38,7 +38,7 @@ class Building{
     constructor(tileId,type,prov){//adds building to province
         this.tileId=tileId;
         this.province=prov;
-        this.name=name;
+        this.name=type;
         prov.buildings.add(this);
         placeOnMap(tileId,this);
     }
