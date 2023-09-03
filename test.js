@@ -1,6 +1,6 @@
 const Connection = require('./MongoConnection')
 var con=new Connection();
-var db=con.con.db("Untitled")
+var db=con.con.db("Untitled").collection("Games").deleteMany({})
 db.collection("Games").deleteMany({})
 db.collection("Gamedata").deleteMany({})
 db.collection("Chats").deleteMany({})
