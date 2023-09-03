@@ -239,7 +239,7 @@ class Game{
         user.games.add(player);
         this.avail--;
         await con.update("untitled","Games",{id:this.id},{players:(await this.getPlayerTags()).toList(),avail:this.avail})
-        var chat=Chat.chats.find(c=>c.name=="Global"&&c.game.id==this.id)
+        var chat=Chat.chats.filter(c=>c.name=="Global"&&c.game.id==this.id).get(0)
         var ch=Chat.chats.get(0)
         console.log(ch.game.id)
         console.log(ch.name)
