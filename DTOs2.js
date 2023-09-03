@@ -97,7 +97,7 @@ class Chat{
             return chat.get(0)
     }
     static async loadFor(game,con){
-        Chat.chats.filter(c=>g.game==game).forEach(c=>Message.loadChat(c,con))
+        Chat.chats.filter(c=>c.game==game).forEach(c=>Message.loadChat(c,con))
     }
     static async newChat(game,participants,con,name=null){
         var chat=new Chat(Chat.counter++,game,participants,name)
