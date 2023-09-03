@@ -1,120 +1,140 @@
 const SetList = require('./SetList.js')
 const {Map} = require('./Map.js')
-class GameData{
-    static async load(){
+class GameData {
+    static async load() {
         await Map.load()
     }
-    async getCountries(){
-        var cous=[]
-        await this.countries.forEach(c=>cous.push(c.toJSON()));
+
+    async getCountries() {
+        var cous = []
+        await this.countries.forEach(c => cous.push(c.toJSON()));
         return cous;
     }
-    async saveGame(con){
-        var a=await con.find("untitled","Gamedata",{id:this.id});
-        if(a.length==0)
-            await con.insert("untitled","Gamedata",await this.makeMeta());
+
+    async saveGame(con) {
+        var a = await con.find("untitled", "Gamedata", {id: this.id});
+        if (a.length == 0)
+            await con.insert("untitled", "Gamedata", await this.makeMeta());
         else
-            await con.update("untitled","Gamedata",{id:this.id},await this.makeMeta());
+            await con.update("untitled", "Gamedata", {id: this.id}, await this.makeMeta());
     }
-    static async retrieveGame(con,ctrl){
-        var a=await con.find("untitled","Gamedata",{id:ctrl.id});
-        a=await GameData.loadGame(ctrl, a[0])
+
+    static async retrieveGame(con, ctrl) {
+        var a = await con.find("untitled", "Gamedata", {id: ctrl.id});
+        a = await GameData.loadGame(ctrl, a[0])
         return a;
     }
-    static async loadGame(ctrl,meta=null){
-        var map=null;
-        var provinces={};
-        var countries=new SetList();
-        var pieces=new SetList();
-        var plrs=new SetList();
-        if(meta==null) {
-            map=Map.maps["1"]//TODO: use random
-            map.countries.forEach(c=>countries.add(new Country(c.id,new SetList(c.provinces))));
+
+    static async loadGame(ctrl, meta = null) {
+        var map = null;
+        var provinces = {};
+        var countries = new SetList();
+        var pieces = new SetList();
+        var plrs = new SetList();
+        var chats=new SetList();
+        var messages=new SetList()
+        if (meta == null) {
+            map = Map.maps["1"]//TODO: use random
+            map.countries.forEach(c => countries.add(new Country(c.id, new SetList(c.provinces))));
+        } else {
+            map = Map.maps[meta.mapId];
+            meta.countries.forEach(c => countries.add(Country.load(c, ctrl)));
+            meta.provinces.forEach(p => provinces[p.id] = Province.load(p, countries, map));
+            var plrs = ctrl.players.filter(p => p.alive)//alive players
+            var occu = countries.filter(c => c.player != null);//assigned countries
+            occu.forEach(c => plrs.delete(c.player));//plrs=unassigned players
+
         }
-        else{
-            map=Map.maps[meta.mapId];
-            meta.countries.forEach(c=>countries.add(Country.load(c,ctrl)));
-            meta.provinces.forEach(p=>provinces[p.id]=Province.load(p,countries,map));
-            var plrs=ctrl.players.filter(p=>p.alive)//alive players
-            var occu=countries.filter(c=>c.player!=null);//assigned countries
-            occu.forEach(c=>plrs.delete(c.player));//plrs=unassigned players
-        }
-        var gm= new GameData(ctrl.id,map,provinces,countries,ctrl,pieces);
-        if(plrs.length()!=0)
+        var gm = new GameData(ctrl.id, map, provinces, countries, ctrl, pieces);
+        if (plrs.length() != 0)
             gm.assignCountries(plrs);
         return gm;
     }
-    async assignCountries(players){
-        var left=this.countries.filter((c=>c.player==null));//unassigned countries
-        while(players.length()!=0){
-            var pl=players.pickRandom(true);
-            var cou=left.pickRandom(true);
+
+    async assignCountries(players) {
+        var left = this.countries.filter((c => c.player == null));//unassigned countries
+        while (players.length() != 0) {
+            var pl = players.pickRandom(true);
+            var cou = left.pickRandom(true);
             await this.activateCountry(cou, pl);
-            console.log("Assigning player "+pl.user.name+" to Country "+cou.id);
+            console.log("Assigning player " + pl.user.name + " to Country " + cou.id);
             //TODO: notify active players
         }
     }
-    async makeMeta(){
-        var prov=new SetList();
-        Object.keys(this.provinces).forEach(p=>prov.add(this.provinces[p].toJSON()));
-        var meta={countries:this.countries.map(c => c.toJSON()),id:this.id,mapId:this.map.id,provinces:prov.toList()};
+
+    async makeMeta() {
+        var prov = new SetList();
+        Object.keys(this.provinces).forEach(p => prov.add(this.provinces[p].toJSON()));
+        var meta = {
+            countries: this.countries.map(c => c.toJSON()),
+            id: this.id,
+            mapId: this.map.id,
+            provinces: prov.toList()
+        };
         return meta;
     }
-    async eliminate(country){
-        if(country.provinces.size()==0 && this.pieces.filter(x=>x.country==country).length==0){
-            await this.ctrl.eliminatePlayer(GameData.con,country.player);
+
+    async eliminate(country) {
+        if (country.provinces.size() == 0 && this.pieces.filter(x => x.country == country).length == 0) {
+            await this.ctrl.eliminatePlayer(GameData.con, country.player);
             this.countries.delete(country)
             //update client map
         }
     }
-    async takeProvince(proId,country){
-        if(this.provinces.hasOwnProperty(proId)){//taken another player's province
-            var loser=this.provinces[proId].country;
-            this.provinces[proId].country=country;
+
+    async takeProvince(proId, country) {
+        if (this.provinces.hasOwnProperty(proId)) {//taken another player's province
+            var loser = this.provinces[proId].country;
+            this.provinces[proId].country = country;
             loser.provinces.delete(proId);
             country.provinces.add(proId);
             await this.eliminate(loser);
-        }
-        else{//taken independent province
-            var pro=await this.activateProvince(proId,country);
+        } else {//taken independent province
+            var pro = await this.activateProvince(proId, country);
             country.provinces.add(proId);
         }
         //update client map
     }
-    async activateCountry(country,player){
-        if(country.player===player)
+
+    async activateCountry(country, player) {
+        if (country.player === player)
             return country;
-        else{
-            country.player=player;
-            country.provinces.forEach(x=>this.activateProvince(x,country));
+        else {
+            country.player = player;
+            country.provinces.forEach(x => this.activateProvince(x, country));
         }
         //update client map
     }
-    async activateProvince(id,country){
-        if(!this.provinces.hasOwnProperty(id)){
-            var map=this.map.provinces[id];
+
+    async activateProvince(id, country) {
+        if (!this.provinces.hasOwnProperty(id)) {
+            var map = this.map.provinces[id];
             //var pop=new Population(10,10,10,10,10)
-            var buildings=new SetList();
+            var buildings = new SetList();
             //TODOS: add building
-            var pro=new Province(map,country,null,buildings);
-            this.provinces[id]=pro;
+            var pro = new Province(map, country, null, buildings);
+            this.provinces[id] = pro;
+            //TODO: add random resources
             return pro;
         }
         //update client map
         return this.provinces[id];
     }
-    getAvailable(){
-        return (this.countries.filter(c=>c.player==null)).length()
+
+    getAvailable() {
+        return (this.countries.filter(c => c.player == null)).length()
     }
-    constructor(id,map,provinces,countries,ctrl,pieces) {
+
+    constructor(id, map, provinces, countries, ctrl, pieces) {
         this.countries = countries;//SetList <Countries>
         this.id = id;
         this.map = map;
-        this.provinces=provinces;//dict {id:Province} ONLY STORES OCCUPIED PROVINCES
+        this.provinces = provinces;//dict {id:Province} ONLY STORES OCCUPIED PROVINCES
         this.ctrl = ctrl;//gameId=ctrl.id
-        this.pieces=pieces;
+        this.pieces = pieces;
     }
 }
+
 class Population{
     constructor(total, birthRate, deathRate, education, moral) {
         this.count=total;

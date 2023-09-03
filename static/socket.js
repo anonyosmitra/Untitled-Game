@@ -52,6 +52,28 @@ function initResp(data){
         var cou=new Country(c.id,Player.players[c.player])
         c.provinces.forEach(p=>cou.addProvince(Province.provinces[p]));
     });
+    var tradePanel= document.createElement("Div");
+    tradePanel.id="trade-pan"
+    rightPanel=document.getElementById("pan-right")
+    rightPanel.appendChild(tradePanel);
+    var playerList=document.createElement("Div")
+    playerList.id="playerList-pan"
+    rightPanel.appendChild(playerList);
+    data.chats.forEach(c=>Chat.makeChat(data)).then(x=>{})
+}
+function makeChatPanel(playerList){
+    function addbutton(type,id,name){
+        var butt=document.createElement("input")
+        butt.id=type+"-"+id;
+        butt.value=name;
+        butt.addEventListener("click",()=>Chat.loadChat(id));
+    }
+    Object.keys(Player.players).forEach(pid=>{
+
+
+        Player.players[pid].name;
+
+    })
 }
 function serverClosed(data){
     alert("Server is offline");

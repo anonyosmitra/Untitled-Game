@@ -14,6 +14,10 @@ class Player{
         return "white"
     }
 }
+function getUser(){
+    user=parseInt(getCookie("untitled_uid"))
+    return user;
+}
 class Country{
     constructor(id,player){
         this.id=id;
@@ -60,5 +64,39 @@ class Piece{
         this.direction=direction;
         Piece.pieces[this.id]=this;
         placeOnMap(tileId,this);
+    }
+}
+class Chat{
+    static chatCounter=1;
+    static chats={}
+    static chatsByPlayer={}
+    static chatsByName={}
+    static displayed=null;
+    static makeChat(data){
+        var partis=new SetList()
+        var user=getUser()
+        data.participants.forEach(pid=>{
+            if(pid!=user)
+                partis.add(Player.players[pid]);
+        });
+        var chatObj=null
+        if(data.hasOwnProperty("name")) {
+            chatObj=new Chat(Chat.chatCounter++, partis, data.data, data.name)
+            Chat.chatsByName[data.name]=chatObj;
+        }
+        else{
+            chatObj=new Chat(Chat.chatCounter++, partis, data.data)
+            Chat.chatsByPlayer[partis[0].id]=chatObj;
+        }
+        return chatObj.id;
+    }
+    static loadChat(id){
+
+    }
+    constructor(id,participants,data,name=null) {//data=[{user:1,message:hello,time:timestamp}]
+        this.id=id;
+        this.partcipants=participants;
+        this.data=data;
+        this.name=name
     }
 }
