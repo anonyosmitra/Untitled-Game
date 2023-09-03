@@ -85,8 +85,10 @@ class Chat{
     }
     async addParticipant(player,con){
         this.participants.add(player)
+        console.log("adding "+player.name)
         await con.update("untitled","Chat",{id:this.id},this.toJson())
-        console.log("updated chat: "+this.toJson())
+        console.log("updated chat: ")
+        console.log(this.toJson())
         //TODO: Notify players
     }
     static findById(id){
