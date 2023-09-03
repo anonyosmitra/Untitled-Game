@@ -83,12 +83,17 @@ class Chat{
             new Chat(data.id,game,part);
         });
     }
-    async addParticipant(player,con){
-        this.participants.add(player)
-        console.log("adding "+player.name)
-        await con.update("untitled","Chat",{id:this.id},this.toJson())
+    async addParticipant(players,con){
+        if(players.constructor.name=="Player")
+            players=[players]
+        players.forEach(p=>{
+            this.participants.add(p)
+            console.log("adding "+p.name+" to chat "+this.id)
+        })
+        var payload=this.toJson();
         console.log("updated chat: ")
-        console.log(this.toJson())
+        console.log(payload)
+        await con.update("untitled","Chat",{id:payload.id},{participants:payload.participants})
         //TODO: Notify players
     }
     static findById(id){
