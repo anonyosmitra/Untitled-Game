@@ -95,8 +95,7 @@ class WebService {
     }
     async DEMO_getchats(sock,game){
         console.log("------------------------------------------------------------------------------------------------------------------------------")
-        var ch=Chat.chats.filter(c=>c.game.id==game.id)
-        ch.forEach(c=>console.log(c.toJson()));
+        Chat.chats.forEach(c=>console.log(c.toJson()));
     }
 }
 module.exports=WebService;
