@@ -1,5 +1,5 @@
 const SetList = require('./SetList.js')
-const {User,Game,UserList} = require('./DTOs2.js')
+const {User,Game,UserList,Chat,Message} = require('./DTOs2.js')
 const Connection = require('./MongoConnection')
 const {Map} = require('./Map.js')
 class WebService {

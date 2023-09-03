@@ -67,12 +67,17 @@ class SockClient{
     }
     onMessage(data){
         console.log(data)
-        if(data.action=="test")
-            this.send({"resp":"Ok","type":"client"})
-        else if(data.action=="init")
-            service.connectPlayer(this,data.game,data.player);
-        else if(data.action=="DEMO_getChats")
-            service.DEMO_getchats(this,this.player.game)
+        try {
+            if(data.action=="test")
+                this.send({"resp":"Ok","type":"client"})
+            else if(data.action=="init")
+                service.connectPlayer(this,data.game,data.player);
+            else if(data.action=="DEMO_getChats")
+                service.DEMO_getchats(this,this.player.game)
+        }
+        catch (e){
+            console.log(e)
+        }
     }
 
     onClose(){

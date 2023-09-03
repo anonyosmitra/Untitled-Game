@@ -289,4 +289,4 @@ class Player{
         //update and notify lobby
     }
 }
-module.exports = {User: User,Game,UserList};
+module.exports = {User: User,Game,UserList,Chat,Message};
