@@ -240,7 +240,7 @@ class Game{
         this.avail--;
         await con.update("untitled","Games",{id:this.id},{players:(await this.getPlayerTags()).toList(),avail:this.avail})
         var chat=Chat.chats.find(c=>c.name=="Global"&&c.game.id==this.id)
-        console.log(Chat.chats.length())
+        console.log(Chat.chats.get(0).toJson())
         await chat.addParticipant(player,con);
         if(this.data!=null)
             this.data.assignCountries([player]);
