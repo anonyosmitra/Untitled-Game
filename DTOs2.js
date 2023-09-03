@@ -238,9 +238,11 @@ class Game{
         this.players.add(player);
         user.games.add(player);
         this.avail--;
-        console.log((await this.getPlayerTags()).constructor.name)
         await con.update("untitled","Games",{id:this.id},{players:(await this.getPlayerTags()).toList(),avail:this.avail})
-        await Chat.chats.find(c=>c.name=="Global"&&c.game==this).addParticipant(player,con);
+        var chat=Chat.chats.find(c=>c.name=="Global"&&c.game==this)
+        console.log(chat)
+        console.log(chat.constructor.name)
+        await chat.addParticipant(player,con);
         if(this.data!=null)
             this.data.assignCountries([player]);
         return player;
