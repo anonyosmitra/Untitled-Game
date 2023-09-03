@@ -117,9 +117,7 @@ class Chat{
         this.data=null;
     }
     toJson(){
-        var a=this.participants.map(p=>p.user.id)
-        console.log(a.constructor.name)
-        return {id:this.id,name:this.name,game:this.game.id,participants:(this.participants.map(p=>p.user.id)).toList()}
+        return {id:this.id,name:this.name,game:this.game.id,participants:this.participants.map(p=>p.user.id)}
     }
 }
 class Message{
