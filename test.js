@@ -1,8 +1,9 @@
 const Connection = require('./MongoConnection')
 var con=new Connection();
-var db=con.con.db("Untitled").collection("Games").deleteMany({})
-db.collection("Games").deleteMany({})
-db.collection("Gamedata").deleteMany({})
-db.collection("Chats").deleteMany({})
-db.collection("Messages").deleteMany({})
+var cols=["Games","Gamedata","Chats","Messages"]
+var db=con.con.db("Untitled")
+cols.forEach(c=>{
+    col=db.collection(c);
+    col.deleteMany({});
+});
 con.close()
