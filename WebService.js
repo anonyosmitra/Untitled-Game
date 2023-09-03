@@ -94,5 +94,10 @@ class WebService {
         //TODO: Send Map and players
         //TODO: notify other players
     }
+    async DEMO_getchats(sock,game){
+        console.log("------------------------------------------------------------------------------------------------------------------------------")
+        var ch=Chat.chats.filter(c=>c.game==game)
+        ch.forEach(c=>console.log(c.toJson()));
+    }
 }
 module.exports=WebService;
