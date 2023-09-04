@@ -93,7 +93,7 @@ class Chat{
         var payload=this.toJson();
         console.log("updated chat: ")
         console.log(payload)
-        await con.update("untitled","Chat",{id:payload.id},{participants:payload.participants})
+        await con.update("untitled","Chats",{id:payload.id},{participants:payload.participants})
         //TODO: Notify players
     }
     static findById(id){
