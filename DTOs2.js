@@ -149,7 +149,7 @@ class Chat{
 }
 class Message{
     static async loadChat(chat,con){
-        console.log("Searching chat "+chat.id)
+        console.log("Downloading chat "+chat.id)
         var data=await con.find("untitled","Messages",{id:chat.id})
         data=data[0].data
         console.log(data)
