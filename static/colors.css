@@ -28,6 +28,7 @@
 }
 
 .gray{
+    background-color: #8a918c; !important;
     fill: rgb(128, 128, 128) !important;
 }
 .water{

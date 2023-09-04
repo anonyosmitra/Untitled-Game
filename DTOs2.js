@@ -74,13 +74,26 @@ class Chat{
         this.data=null;
         Chat.chats.add(this);
     }
+    static async getChatsFor(player){
+        var chs=Chat.chats.filter(c=>{(c.game.id==player.game.id&&c.participants.has(player))})
+        var data=[]
+        chs.forEach(c=>{
+            var d=c.toJson()
+            d.data=c.data.map(cd=>cd.toJson());
+            data.push(d)
+        });
+        console.log(data)
+        return data;
+    }
     static async loadChats(con){
         var data=await con.find("untitled","Chats",{});
         data.forEach(c=>{
            var game=Game.games.find(g=>g.id==data.game);
            var part=new SetList()
            data.participants.forEach(x=>part.add(game.players.find(p=>p.user.id==x)))
-            new Chat(data.id,game,part);
+            new Chat(data.id,game,part,c.name);
+           if(data.id>=Chat.counter)
+               Chat.counter=data.id+1;
         });
     }
     async addParticipant(players,con){
