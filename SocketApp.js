@@ -43,6 +43,10 @@ async function  startUp() {
             con.onClose();
         });
     });
+    wss.on('error', (error) => {
+        console.error(`WebSocket error: ${error.message}`);
+        this.send({"error":"Error processing request"});
+    });
 }
 startUp();
 process.on('SIGINT', async function () {
