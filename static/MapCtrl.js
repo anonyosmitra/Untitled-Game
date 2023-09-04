@@ -27,6 +27,23 @@ function setAbbr(tileIds,text){
         t.title=text;
     });
 }
+function loadLayout(){
+    var tradePanel= document.createElement("Div");
+    tradePanel.id="trade-pan"
+    rightPanel=document.getElementById("pan-right")
+    rightPanel.appendChild(tradePanel);
+    var playerList=document.createElement("Div")
+    playerList.id="playerList-pan"
+    rightPanel.appendChild(playerList);
+    var chatBox=document.createElement("Div")
+    chatBox.id="chatBox-Pan"
+    rightPanel.appendChild(chatBox);
+    var exitButt=document.createElement("button")
+    exitButt.value="Exit Game";
+    exitButt.addEventListener("click",window.location.href="/");
+    var leftPanel=document.getElementById("pan-left")
+    leftPanel.appendChild(exitButt);
+}
 function clc(tile){
     console.log(tile.id);
 }
