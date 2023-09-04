@@ -75,12 +75,12 @@ class Chat{
         Chat.chats.add(this);
     }
     static async getChatsFor(player){
-        var data=[]
+        var data=new SetList()
         console.log("Total Chats: "+Chat.chats.length());
         var ch=Chat.chats.filter(c=>(c.game==player.game)&&(c.participants.has(player)));
         console.log("Chats for Player: "+ch.length());
-        ch.forEach(c=>data.push(c.toJson()))
-        return data;
+        ch.forEach(c=>data.add(c.toJson()))
+        return data.toList()
     }
     static async loadChats(con){
         var data=await con.find("untitled","Chats",{});
