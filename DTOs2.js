@@ -85,6 +85,8 @@ class Chat{
             await data.add(c.toJson());
         });
         console.log("returning: "+data.length())
+        console.log("value: ")
+        console.log(data.toList())
         return data.toList()
     }
     static async loadChats(con){
