@@ -9,8 +9,10 @@ class WebService {
         if (WebService.con == null)
             WebService.con = new Connection();
         await User.loadUsers(WebService.con);
-        await Game.loadGames(WebService.con);
-        await Chat.loadChats(WebService.con);
+        await Game.loadGames(WebService.con).then(async e => {
+            await Chat.loadChats(WebService.con);
+        });
+
     }
     async stop(){
         await (Game.games.filter(g=>g.data!=null)).forEach(g=>g.save());
