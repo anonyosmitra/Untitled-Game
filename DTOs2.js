@@ -168,7 +168,7 @@ class Game{
     async save(){
         await (this.players.filter(p=>p.sock!=null)).forEach(p=>p.sock.send({action:"Closing Server"}))
         this.data.saveGame(Game.con).then(async x => {
-            await Chat.chats.filter(c => (c.game == this && c.data != null)).forEach(c => c.save(Game.con));
+            Chat.chats.filter(c => (c.game.id == this.id && c.data != null)).forEach(async(c) => await c.save(Game.con));
             delete this.data;
             this.data = null;
         })

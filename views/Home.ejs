@@ -19,7 +19,7 @@
 <button onclick="newGame()">New Game</button>
 <ul>
     <% for (const pl of info.games) { %>
-    <li class="tile <%=pl.color%>"><a href="/game/<%=pl.game%>">#<%=pl.game%> <%=pl.name%></a></li>
+    <li class="<%=pl.color%>"><a href="/game/<%=pl.game%>">#<%=pl.game%> <%=pl.name%></a></li>
     <% } %>
 </ul>
 </body>

@@ -5,6 +5,7 @@ class Player{
         this.name=name;
         this.color=color;
         this.country=null;
+        this.chat=null;
         this.isOnline=isOnline;
         Player.players[this.id]=this;
     }
@@ -67,36 +68,15 @@ class Piece{
     }
 }
 class Chat{
-    static chatCounter=1;
-    static chats={}
-    static chatsByPlayer={}
-    static chatsByName={}
-    static displayed=null;
-    static makeChat(data){
-        var partis=new SetList()
-        var user=getUser()
-        data.participants.forEach(pid=>{
-            if(pid!=user)
-                partis.add(Player.players[pid]);
-        });
-        var chatObj=null
-        if(data.hasOwnProperty("name")) {
-            chatObj=new Chat(Chat.chatCounter++, partis, data.data, data.name)
-            Chat.chatsByName[data.name]=chatObj;
-        }
-        else{
-            chatObj=new Chat(Chat.chatCounter++, partis, data.data)
-            Chat.chatsByPlayer[partis[0].id]=chatObj;
-        }
-        return chatObj.id;
+ static chats={};
+    constructor(id,msgs,name,players){
+     this.id=id;
+     this.name=name;
+     this.players=new SetList(players);
+     if(this.players.length()==1)
+         Player.players[this.players.get(0)].chat=this;
+     this.messages=new SetList(msgs);
+     Chat.chats[this.id]=this;
     }
-    static loadChat(id){
 
-    }
-    constructor(id,participants,data,name=null) {//data=[{user:1,message:hello,time:timestamp}]
-        this.id=id;
-        this.partcipants=participants;
-        this.data=data;
-        this.name=name
-    }
 }

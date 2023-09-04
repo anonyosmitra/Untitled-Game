@@ -1,55 +1,39 @@
-.tile.yellow{
+.yellow{
     background-color: #fff187;
-}
-.map-piece.yellow{
     fill: #bbc200;
 }
-.tile.green{
+.green{
     background-color: #76e667;
-}
-.map-piece.green{
     fill: green;
 }
-.tile.purple{
+.purple{
     background-color: #a263ff;
-}
-.map-piece.purple{
     fill: #872bab;
 }
-.tile.aqua{
+.aqua{
     background-color: #80eaff;
-}
-.map-piece.aqua{
     fill: #407f82;
 }
-.tile.red{
+.red{
     background-color: #ff8480;
-}
-.map-piece.red{
     fill: red;
 }
-.tile.pink{
+.pink{
     background-color: #f588f7;
-}
-.map-piece.pink{
     fill: #f707dc;
 }
-.tile.orange{
+.orange{
     background-color: #ebb867;
-}
-.map-piece.orange{
     fill: #ff7700;
 }
 
-.map-piece.gray{
-    fill: gray;
+.gray{
+    fill: rgb(128, 128, 128);
 }
-.tile.water{
+.water{
     background-color: #4c6fed;
 }
-.tile.white{
+.white{
     background-color: #ffffff;
-}
-.map-piece.white{
     fill: #9ea9ba;
 }
