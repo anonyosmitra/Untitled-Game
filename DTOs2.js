@@ -99,6 +99,7 @@ class Chat{
         data.forEach(c=>{
             console.log(c)
            var game=Game.games.find(g=>g.id==c.game);
+            console.log(game.constructor.name+" "+game.id)
            var part=new SetList()
            c.participants.forEach(x=>part.add(game.players.find(p=>p.user.id==x)))
             new Chat(c.id,game,part,c.name);
