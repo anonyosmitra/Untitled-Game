@@ -102,7 +102,7 @@ class Chat{
            var game=Game.games.filter(g=>g.id==c.game).get(0);
            var part=new SetList()
            c.participants.forEach(x=>{
-               var p=game.players.find(p=>p.user.id==x)
+               var p=game.players.filter(p=>p.user.id==x).get(0);
                part.add(p);
                console.log(p.constructor.name+" "+p.user.id);
            });
