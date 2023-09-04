@@ -98,13 +98,11 @@ class Chat{
         console.log("games count: "+Game.games.length())
         console.log("loading Chats")
         data.forEach(c=>{
-            console.log(c)
            var game=Game.games.filter(g=>g.id==c.game).get(0);
            var part=new SetList()
            c.participants.forEach(x=>{
                var p=game.players.filter(p=>p.user.id==x).get(0);
                part.add(p);
-               console.log(p.constructor.name+" "+p.user.id);
            });
             new Chat(c.id,game,part,c.name);
            if(c.id>=Chat.counter)
@@ -157,8 +155,6 @@ class Message{
         console.log("Downloading chat "+chat.id)
         var data=await con.find("untitled","Messages",{id:chat.id})
         data=data[0].data
-        console.log(data)
-        console.log(data.constructor.name)
         chat.data=new SetList();
         data.forEach(m=>{
             var sender=chat.game.players.find(p=>p.user.id==m.sender)

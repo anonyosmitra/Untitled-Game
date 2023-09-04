@@ -79,26 +79,31 @@ class WebService {
     }
     async connectPlayer(sock,game,user){
         game=Game.findById(game);
-        if(game==null){
-            sock.send({error:"Invalid GameId"})
-            return;
-        }
+        try {
+            if (game == null) {
+                sock.send({error: "Invalid GameId"})
+                return;
+            }
 
-        user=game.players.filter(p=>p.user.id==user);
-        if(user.length()==0){
-            sock.send({error:"Invalid UserId"})
-            return;
+            user = game.players.filter(p => p.user.id == user);
+            if (user.length() == 0) {
+                sock.send({error: "Invalid UserId"})
+                return;
+            }
+            user = user.get(0)
+            await user.connected(sock);
+            var resps = [];
+            resps.push({action: "loadMap", map: await game.data.map.getMapData()})
+            resps.push({action: "updatePlayers", players: (await game.getPlayerTags(true)).toList()})
+            resps.push({action: "updateCountries", countries: await game.data.getCountries()})
+            resps.push({action: "loadChats", chats: Chat.getChatsFor(sock.player)})
+            await sock.send(resps);
+            //TODO: Send Pieces, chat;
+            //TODO: notify other players
         }
-        user=user.get(0)
-        await user.connected(sock);
-        var resps=[];
-        resps.push({action:"loadMap", map: await game.data.map.getMapData()})
-        resps.push({action:"updatePlayers",players:(await game.getPlayerTags(true)).toList()})
-        resps.push({action:"updateCountries",countries:await game.data.getCountries()})
-        resps.push({action:"loadChats",chats:Chat.getChatsFor(sock.player)})
-        await sock.send(resps);
-        //TODO: Send Pieces, chat;
-        //TODO: notify other players
+        catch (e){
+            console.log(e)
+        }
     }
     async DEMO_getchats(sock,game){
         console.log("------------------------------------------------------------------------------------------------------------------------------")
