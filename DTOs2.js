@@ -76,11 +76,15 @@ class Chat{
     }
     static async getChatsFor(player){
         var data=[]
+        console.log("Total Chats: "+Chat.chats.length());
+        var ch=Chat.chats.filter(c=>c.game==player.game);
+        console.log("Chats for Game: "+ch.length())
+        ch=ch.filter(c=>c.participants.has(player));
+        console.log("Chats for Player: "+ch.length());
         return data;
     }
     static async loadChats(con){
         var data=await con.find("untitled","Chats",{});
-        console.log("games count: "+Game.games.length())
         console.log("loading Chats")
         data.forEach(c=>{
            var game=Game.games.filter(g=>g.id==c.game).get(0);
