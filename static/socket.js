@@ -19,7 +19,10 @@ function connectSocket(gid, user, s=true) {
         data=e.data;
         data=JSON.parse(data);
         console.log(data);
-        methods[data.action](data);
+        if(data.constructor.name!="Array"){
+            data=[data];
+        }
+        data.forEach(r=>{methods[r.action](r);})
     }
 
     socket.onclose = function(e) {
@@ -43,39 +46,20 @@ function initResp(data){
                 new Province(t[1]);
             Province.provinces[t[1]].addTile(t[0])
             if(t[3]!=null)
-                new Building(t[0],t[3],Province.provinces[t[1]])
+           new Building(t[0],t[3],Province.provinces[t[1]])
         }
-
     });
+}
+function updatePlayers(data){
     data.players.forEach(p=>new Player(p.user,p.name,p.color,p.isOnline));
+}
+function updateCountries(data){
     (data.countries.filter(c=>c.player!=null)).forEach(c=>{
         var cou=new Country(c.id,Player.players[c.player])
         c.provinces.forEach(p=>cou.addProvince(Province.provinces[p]));
     });
-    var tradePanel= document.createElement("Div");
-    tradePanel.id="trade-pan"
-    rightPanel=document.getElementById("pan-right")
-    rightPanel.appendChild(tradePanel);
-    var playerList=document.createElement("Div")
-    playerList.id="playerList-pan"
-    rightPanel.appendChild(playerList);
-    data.chats.forEach(c=>Chat.makeChat(data)).then(x=>{})
-}
-function makeChatPanel(playerList){
-    function addbutton(type,id,name){
-        var butt=document.createElement("input")
-        butt.id=type+"-"+id;
-        butt.value=name;
-        butt.addEventListener("click",()=>Chat.loadChat(id));
-    }
-    Object.keys(Player.players).forEach(pid=>{
-
-
-        Player.players[pid].name;
-
-    })
 }
 function serverClosed(data){
     alert("Server is offline");
 }
-methods=Object.assign(methods, {"initResp":initResp,"Closing Server":serverClosed});
+methods=Object.assign(methods, {"loadMap":initResp,"Closing Server":serverClosed,"updatePlayers":updatePlayers,"updateCountries":updateCountries});

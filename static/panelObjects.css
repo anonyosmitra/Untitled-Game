@@ -1,0 +1,24 @@
+.messages{
+
+}
+.messages.received{
+    border-radius: 20px 10px 15px 5px;
+    float: left;
+}
+.messages.sent{
+    border-radius: 20px 10px 15px 5px;
+    float: right;
+}
+.chatListItem{
+    font-size: 22px;
+    cursor: pointer;
+    width: 210px;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 10px;
+}
+.chatNotification{
+    font-weight: bold;
+    float: right;
+    color:red;
+}

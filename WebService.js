@@ -89,8 +89,12 @@ class WebService {
         }
         user=user.get(0)
         await user.connected(sock);
-        await sock.send({action: "initResp",map:await game.data.map.getMapData(),players:(await game.getPlayerTags(true)).toList(),countries:await game.data.getCountries()});
-        //TODO: Send Map, Pieces ,Province data and players
+        var resps=[];
+        resps.push({action:"loadMap", map: await game.data.map.getMapData()})
+        resps.push({action:"updatePlayers",players:(await game.getPlayerTags(true)).toList()})
+        resps.push({action:"updateCountries",countries:await game.data.getCountries()})
+        await sock.send(resps);
+        //TODO: Send Pieces, chat;
         //TODO: notify other players
     }
     async DEMO_getchats(sock,game){

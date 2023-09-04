@@ -30,6 +30,16 @@
 
         function load (){
             user=parseInt(getCookie("untitled_uid"))
+            var tradePanel= document.createElement("Div");
+            tradePanel.id="trade-pan"
+            rightPanel=document.getElementById("pan-right")
+            rightPanel.appendChild(tradePanel);
+            var playerList=document.createElement("Div")
+            playerList.id="playerList-pan"
+            rightPanel.appendChild(playerList);
+            var chatBox=document.createElement("Div")
+            chatBox.id="chatBox-Pan"
+            rightPanel.appendChild(chatBox);
             sock=connectSocket(<%=gid%>,user,<%=isSecure%>);
         }
     </script>

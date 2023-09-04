@@ -240,6 +240,8 @@ class Game{
             return "Name Already Exists In Game";
         if(name=="Test")
             return "Invalid Name";
+        if(name.length>15)
+            return "Name can't have more than 15 characters."
         var col=this.AvailColors.get(Math.floor(Math.random() * this.AvailColors.length()));
         this.AvailColors.delete(col);
         var player=new Player(user,this,name,col)

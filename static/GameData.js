@@ -69,14 +69,52 @@ class Piece{
 }
 class Chat{
  static chats={};
+ static active=null;
     constructor(id,msgs,name,players){
      this.id=id;
      this.name=name;
-     this.players=new SetList(players);
-     if(this.players.length()==1)
-         Player.players[this.players.get(0)].chat=this;
+     this.participants=new SetList(players);
+     if(this.participants.length()==1)
+         Player.players[this.participants.get(0)].chat=this;
      this.messages=new SetList(msgs);
      Chat.chats[this.id]=this;
+     this.makechatButton();
     }
-
+    incrementNotif(v=1) {
+        var note = document.getElementById("chatNotif-" + this.id)
+        if (v == 0)
+            note.innerText = "";
+        else if (note.innerText != "9+") {
+            v = parseInt(note.innerText) + v;
+            if(v>9)
+                v="9+"
+            note.innerText=v;
+        }
+    }
+    makechatButton(){
+        var pan=document.getElementById("playerList-pan")
+        var a=document.getElementById("chatButt-"+this.id);
+        if(a!=undefined)
+            a.remove();
+        a=document.getElementById("chatNotif-"+this.id);
+        if(a!=undefined)
+            a.remove();
+        var butt=document.createElement("Div")
+        butt.id="chatButt-"+this.id;
+        butt.classList.add("chatListItem");
+        if(this.participants.length()==1 && this.participants.get(0).isOnline)
+            butt.classList.add(this.participants.get(0).color);
+        var count=document.createElement("Snap")
+        count.id="chatNotif-"+this.id;
+        count.innerText="";
+        count.classList.add("chatNotification");
+        butt.addEventListener("click",function () {
+            console.log("open chat "+this.id);
+        });
+        var nm=document.createElement("snap")
+        nm.innerText=this.name;
+        butt.appendChild(nm);
+        butt.appendChild(count);
+        pan.appendChild(butt);
+    }
 }
