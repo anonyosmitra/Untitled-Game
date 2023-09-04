@@ -138,8 +138,9 @@ class Chat{
     async save(con){
         var d=[]
         await this.data.forEach(m=>d.push(m.toJson()));
+        //TODO: Crashes, why?
         //await con.update("untitled","Messages",{id:this.id,data:d})
-        //this.data=null;
+        this.data=null;
     }
     toJson(){
         return {id:this.id,name:this.name,game:this.game.id,participants:this.participants.map(p=>p.user.id)}
