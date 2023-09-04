@@ -95,6 +95,7 @@ class Chat{
     }
     static async loadChats(con){
         var data=await con.find("untitled","Chats",{});
+        console.log("games count: "+Game.games.length())
         console.log("loading Chats")
         data.forEach(c=>{
             console.log(c)
