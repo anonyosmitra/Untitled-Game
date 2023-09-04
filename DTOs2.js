@@ -78,6 +78,7 @@ class Chat{
         var data=[]
         Chat.chats.forEach(c=>{
             var d=c.toJson()
+            console.log(d)
             d.data=c.data.map(cd=>cd.toJson());
             data.push(d)
         });
