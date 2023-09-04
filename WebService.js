@@ -107,7 +107,16 @@ class WebService {
     }
     async DEMO_getchats(sock,game){
         console.log("------------------------------------------------------------------------------------------------------------------------------")
-        Chat.chats.forEach(c=>console.log(c.toJson()));
+        Chat.chats.forEach(c=>{
+            var ch=c.toJson()
+            ch.data=[]
+            console.log("D1: "+c.data)
+            c.data.forEach(d=>{
+                ch.data.push(d.toJson());
+                console.log(d.toJson());
+            })
+            console.log(ch)
+        });
     }
 }
 module.exports=WebService;
