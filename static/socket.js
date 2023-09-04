@@ -58,8 +58,6 @@ function updateCountries(data){
         var cou=new Country(c.id,Player.players[c.player])
         c.provinces.forEach(p=>cou.addProvince(Province.provinces[p]));
     });
-    var exit=document.createElement("button")
-
 }
 function serverClosed(data){
     alert("Server is offline");

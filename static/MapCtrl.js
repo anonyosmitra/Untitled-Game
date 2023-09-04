@@ -40,7 +40,7 @@ function loadLayout(){
     rightPanel.appendChild(chatBox);
     var exitButt=document.createElement("button")
     exitButt.value="Exit Game";
-    exitButt.addEventListener("click",window.location.href="/");
+    exitButt.addEventListener("click",function (){window.location.href="/"});
     var leftPanel=document.getElementById("pan-left")
     leftPanel.appendChild(exitButt);
 }
