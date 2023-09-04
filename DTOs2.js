@@ -76,6 +76,7 @@ class Chat{
     }
     static async getChatsFor(player){
         var data=[]
+        console.log("total chats: "+Chat.chats.length())
         await Chat.chats.forEach(async c=>{
             var d=c.toJson()
             console.log(d)
