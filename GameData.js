@@ -53,6 +53,11 @@ class GameData {
 
     async assignCountries(players) {
         var left = this.countries.filter((c => c.player == null));//unassigned countries
+        if(players.constructor.name=="Array"){
+            players=new SetList(players)
+            if(players.length()>0)
+                console.log("Success!");
+        }
         while (players.length() != 0) {
             var pl = players.pickRandom(true);
             var cou = left.pickRandom(true);
