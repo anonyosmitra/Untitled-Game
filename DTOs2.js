@@ -91,8 +91,6 @@ class Chat{
             console.log("adding "+p.name+" to chat "+this.id)
         })
         var payload=this.toJson();
-        console.log("updated chat: ")
-        console.log(payload)
         await con.update("untitled","Chats",{id:payload.id},{participants:payload.participants})
         //TODO: Notify players
     }
@@ -110,7 +108,6 @@ class Chat{
         var chat=new Chat(Chat.counter++,game,participants,name)
         await con.insert("untitled","Chats",chat.toJson());
         await con.insert("untitled","Messages",{id:chat.id,data:[]});
-        console.log("Created chat:"+chat.toJson())
         return chat;
     }
     async onMessage(player,msg){
@@ -129,7 +126,8 @@ class Chat{
 }
 class Message{
     static async loadChat(chat,con){
-        var data=con.find("untitled","Messages",{id:chat.id}).data
+        var data=(await con.find("untitled","Messages",{id:chat.id})).data
+        console.log(data.constructor.name)
         chat.data=new SetList();
         data.forEach(m=>{
             var sender=chat.game.players.find(p=>p.user.id==m.sender)
@@ -248,9 +246,6 @@ class Game{
         await con.update("untitled","Games",{id:this.id},{players:(await this.getPlayerTags()).toList(),avail:this.avail})
         var chat=Chat.chats.filter(c=>c.name=="Global"&&c.game.id==this.id).get(0)
         var ch=Chat.chats.get(0)
-        console.log(ch.game.id)
-        console.log(ch.name)
-        console.log(this.id)
         await chat.addParticipant(player,con);
         if(this.data!=null)
             this.data.assignCountries([player]);
