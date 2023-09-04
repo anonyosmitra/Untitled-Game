@@ -24,6 +24,7 @@ class Country{
         this.id=id;
         this.player=player;
         this.provinces=new SetList();
+        player.country=this;
     }
     addProvince(prov){
         this.provinces.add(prov)
