@@ -98,12 +98,12 @@ class Chat{
         console.log("loading Chats")
         data.forEach(c=>{
             console.log(c)
-           var game=Game.games.find(g=>g.id==data.game);
+           var game=Game.games.find(g=>g.id==c.game);
            var part=new SetList()
-           data.participants.forEach(x=>part.add(game.players.find(p=>p.user.id==x)))
-            new Chat(data.id,game,part,c.name);
-           if(data.id>=Chat.counter)
-               Chat.counter=data.id+1;
+           c.participants.forEach(x=>part.add(game.players.find(p=>p.user.id==x)))
+            new Chat(c.id,game,part,c.name);
+           if(c.id>=Chat.counter)
+               Chat.counter=c.id+1;
         });
     }
     async addParticipant(players,con){
