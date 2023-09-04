@@ -76,11 +76,11 @@ class Chat{
     }
     static async getChatsFor(player){
         var data=[]
-        Chat.chats.forEach(c=>{
+        Chat.chats.forEach(async c=>{
             var d=c.toJson()
             console.log(d)
             d.data=c.data.map(cd=>cd.toJson());
-            data.push(d)
+            await data.push(d)
         });
         console.log(data)
         var chs=Chat.chats.filter(c=>{(c.game.id==player.game.id&&c.participants.has(player))})
