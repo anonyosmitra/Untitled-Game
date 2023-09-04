@@ -100,9 +100,12 @@ class Chat{
         data.forEach(c=>{
             console.log(c)
            var game=Game.games.filter(g=>g.id==c.game).get(0);
-            console.log(game.constructor.name+" "+game.id)
            var part=new SetList()
-           c.participants.forEach(x=>part.add(game.players.find(p=>p.user.id==x)))
+           c.participants.forEach(x=>{
+               var p=game.players.find(p=>p.user.id==x)
+               part.add(p);
+               console.log(p.constructor.name+" "+p.user.id);
+           });
             new Chat(c.id,game,part,c.name);
            if(c.id>=Chat.counter)
                Chat.counter=c.id+1;
