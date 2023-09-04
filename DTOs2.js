@@ -128,9 +128,9 @@ class Message{
     static async loadChat(chat,con){
         console.log("Searching chat "+chat.id)
         var data=await con.find("untitled","Messages",{id:chat.id})
+        data=data[0].data
         console.log(data)
         console.log(data.constructor.name)
-        data=data.data
         chat.data=new SetList();
         data.forEach(m=>{
             var sender=chat.game.players.find(p=>p.user.id==m.sender)
