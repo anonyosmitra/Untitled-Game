@@ -77,10 +77,9 @@ class Chat{
     static async getChatsFor(player){
         var data=[]
         console.log("Total Chats: "+Chat.chats.length());
-        var ch=Chat.chats.filter(c=>c.game==player.game);
-        console.log("Chats for Game: "+ch.length())
-        ch=ch.filter(c=>c.participants.has(player));
+        var ch=Chat.chats.filter(c=>(c.game==player.game)&&(c.participants.has(player)));
         console.log("Chats for Player: "+ch.length());
+        ch.forEach(c=>data.push(c.toJson()))
         return data;
     }
     static async loadChats(con){
