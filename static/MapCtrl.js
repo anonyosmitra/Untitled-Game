@@ -39,7 +39,7 @@ function loadLayout(){
     chatBox.id="chatBox-Pan"
     rightPanel.appendChild(chatBox);
     var exitButt=document.createElement("button")
-    exitButt.value="Exit Game";
+    exitButt.innerText="Exit Game";
     exitButt.addEventListener("click",function (){window.location.href="/"});
     var leftPanel=document.getElementById("pan-left")
     leftPanel.appendChild(exitButt);
