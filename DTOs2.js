@@ -129,7 +129,7 @@ class Chat{
 }
 class Message{
     static async loadChat(chat,con){
-        var data=con.find("untitled","Messages",{id:chat.id})
+        var data=con.find("untitled","Messages",{id:chat.id}).data
         chat.data=new SetList();
         data.forEach(m=>{
             var sender=chat.game.players.find(p=>p.user.id==m.sender)
