@@ -99,7 +99,7 @@ class Chat{
         console.log("loading Chats")
         data.forEach(c=>{
             console.log(c)
-           var game=Game.games.find(g=>g.id==c.game);
+           var game=Game.games.filter(g=>g.id==c.game).get(0);
             console.log(game.constructor.name+" "+game.id)
            var part=new SetList()
            c.participants.forEach(x=>part.add(game.players.find(p=>p.user.id==x)))
