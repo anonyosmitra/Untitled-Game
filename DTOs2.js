@@ -84,7 +84,7 @@ class Chat{
             var d=c.toJson();
             d.msgs=[]
             if(c.data==null)
-                await sleep(500);
+                await sleep(1000);
             console.log(c.data)
             c.data.forEach(m=>d.msgs.push(m.toJson()));
             await data.add(d);
