@@ -76,17 +76,10 @@ class Chat{
     }
     static async getChatsFor(player){
         var data=new SetList()
-        console.log("Total Chats: "+Chat.chats.length());
         var ch=Chat.chats.filter(c=>(c.game==player.game)&&(c.participants.has(player)));
-        console.log("Chats for Player: "+ch.length());
         await ch.forEach(async c=>{
-            console.log(c);
-            console.log(c.toJson())
             await data.add(c.toJson());
         });
-        console.log("returning: "+data.length())
-        console.log("value: ")
-        console.log(data.toList())
         return data.toList()
     }
     static async loadChats(con){
@@ -252,13 +245,14 @@ class Game{
                 return;
             }
         })
+        var ReservedNames=["test","global"]
         if (usrEx)
             return "You are already added to this game";
         if(this.AvailColors.length()===0||this.avail===0)
             return "Lobby Full";
         if(plrEx)
             return "Name Already Exists In Game";
-        if(name=="Test")
+        if(ReservedNames.includes(name.toLowerCase()))
             return "Invalid Name";
         if(name.length>15)
             return "Name can't have more than 15 characters."

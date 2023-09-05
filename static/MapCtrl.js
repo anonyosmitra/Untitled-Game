@@ -32,9 +32,15 @@ function loadLayout(){
     tradePanel.id="trade-pan"
     rightPanel=document.getElementById("pan-right")
     rightPanel.appendChild(tradePanel);
+    var chatList=document.createElement("Div")
+    chatList.id="ChatList-pan"
+    rightPanel.appendChild(chatList);
     var playerList=document.createElement("Div")
-    playerList.id="playerList-pan"
-    rightPanel.appendChild(playerList);
+    playerList.id="PlayerList=pan";
+    chatList.appendChild(playerList);
+    var GroupList=document.createElement("Div")
+    GroupList.id="GroupList-pan";
+    chatList.appendChild(GroupList);
     var chatBox=document.createElement("Div")
     chatBox.id="chatBox-Pan"
     rightPanel.appendChild(chatBox);

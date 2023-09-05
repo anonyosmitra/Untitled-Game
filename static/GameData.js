@@ -1,5 +1,6 @@
 class Player{
     static players={}
+    static player=null
     constructor(id,name,color,isOnline) {
         this.id=id;
         this.name=name;
@@ -7,10 +8,15 @@ class Player{
         this.country=null;
         this.chat=null;
         this.isOnline=isOnline;
-        Player.players[this.id]=this;
+        if(this.id==getUser())
+            Player.player=this;
+        else {
+            Player.players[this.id] = this;
+            Chat.makechatButton([this.id])
+        }
     }
-    getColor(){
-        if(this.isOnline)
+    getColor(force=false){
+        if(this.isOnline || force)
             return this.color
         return "white"
     }
@@ -79,7 +85,7 @@ class Chat{
          Player.players[this.participants.get(0)].chat=this;
      this.messages=new SetList(msgs);
      Chat.chats[this.id]=this;
-     this.makechatButton();
+     Chat.makechatButton();
     }
     incrementNotif(v=1) {
         var note = document.getElementById("chatNotif-" + this.id)
@@ -92,23 +98,41 @@ class Chat{
             note.innerText=v;
         }
     }
-    makechatButton(){
-        var pan=document.getElementById("playerList-pan")
-        var a=document.getElementById("chatButt-"+this.id);
-        if(a!=undefined)
+    static requestChatroom(playerIds,name=null){
+        //TODO: send request for a chatroom with player(s)
+    }
+    static makechatButton(participants,chatId=null,name=null) {
+        if (participants.constructor.name != "SetList")
+            participants = new SetList([participants]);
+        var pan = document.getElementById("GroupList-pan")
+        var eleId="";//Private: P<pid>, Group: C<chatId>
+        if(name==null){//Private chat
+            pan = document.getElementById("PlayerList-pan")
+            participants.remove(getUser());
+            participants=participants.get(0);
+            eleId="P"+participants;
+            if(chatId!=null)
+                Player.players[participants].chat=Chat.chats[chatId];
+            name=Player.players[participants].name;
+        }
+        else
+            eleId="C"+chatId;
+        var a = document.getElementById("chatButt-" + eleId);
+        if (a != undefined)
             a.remove();
-        a=document.getElementById("chatNotif-"+this.id);
-        if(a!=undefined)
+        a = document.getElementById("chatNotif-" + eleId);
+        if (a != undefined)
             a.remove();
-        var butt=document.createElement("Div")
-        butt.id="chatButt-"+this.id;
+        var butt = document.createElement("Div")
+        butt.id = "chatButt-" + eleId;
         butt.classList.add("chatListItem");
-        if(this.participants.length()==1 && this.participants.get(0).isOnline)
-            butt.classList.add(this.participants.get(0).color);
         var count=document.createElement("Snap")
-        count.id="chatNotif-"+this.id;
+        count.id="chatNotif-"+eleId;
         count.innerText="";
         count.classList.add("chatNotification");
+        if (eleId[0]=="P"){//Private chat
+            butt.classList.add(this.participants.get(0).getColor());
+        }
         butt.addEventListener("click",function () {
             console.log("open chat "+this.id);
         });
