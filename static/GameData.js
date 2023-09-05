@@ -94,7 +94,6 @@ class Chat{
      if(msgs.constructor.name=="Array")
         this.messages=new SetList(msgs);
      Chat.chats[this.id]=this;
-     Chat.makechatButton();
     }
     incrementNotif(v=1) {
         var note = document.getElementById("chatNotif-" + this.id)

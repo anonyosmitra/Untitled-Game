@@ -55,6 +55,8 @@ function loadChats(data){
         c.participants=new SetList(c.participants);
         c.participants.remove(getUser());
         new Chat(c.id,[],c.name,c.participants);
+        if(c.name!=null)
+            Chat.makechatButton(c.participants,c.id,c.name);
     });
 }
 function updatePlayers(data){
