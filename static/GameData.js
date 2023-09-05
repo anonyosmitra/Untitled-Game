@@ -20,6 +20,13 @@ class Player{
             return this.color
         return "white"
     }
+
+    static getPlayer(pid) {
+        if(pid==getUser())
+            return Player.player;
+        else
+            return Player.players[pid];
+    }
 }
 function getUser(){
     user=parseInt(getCookie("untitled_uid"))
