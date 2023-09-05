@@ -63,6 +63,9 @@ class User{
         return usr;
     }
 }
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 class Chat{
     static counter=1
     static chats=new SetList()
@@ -80,6 +83,8 @@ class Chat{
         await ch.forEach(async c=>{
             var d=c.toJson();
             d.msgs=[]
+            if(c.data==null)
+                await sleep(500);
             console.log(c.data)
             c.data.forEach(m=>d.msgs.push(m.toJson()));
             await data.add(d);
