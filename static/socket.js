@@ -69,7 +69,7 @@ function updateCountries(data){
     });
 }
 function updatePlayerState(data){//{player:pid,isOnline:True/False}
-    Player.getPlayer(data.pid).setState(data.isOnline);
+    Player.getPlayer(data.player).setState(data.isOnline);
 }
 function serverClosed(data){
     alert("Server is offline");
