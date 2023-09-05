@@ -27,6 +27,15 @@ class Player{
         else
             return Player.players[pid];
     }
+    setState(isOnline){
+        this.isOnline=isOnline;
+        this.country.setColor(this.getColor());
+        var chatButt=document.getElementById("chatButt-P"+this.id);
+        if(chatButt!=undefined){
+            chatButt.classList.remove("white");
+            chatButt.classList.add(this.getColor());
+        }
+    }
 }
 function getUser(){
     user=parseInt(getCookie("untitled_uid"))
@@ -46,6 +55,9 @@ class Country{
         setTileColor(prov.tiles,this.player.getColor());
         setAbbr(prov.tiles,'Country: '+this.player.name+'\nProvince: '+prov.id);
     }
+    setColor(color){
+        this.provinces.forEach(p=>p.setColor(color));
+    }
 }
 class Province{
     static provinces={}
@@ -59,6 +71,9 @@ class Province{
     addTile(tileId){
         this.tiles.add(tileId);
         setAbbr(tileId,'Province: '+this.id);
+    }
+    setColor(color){
+        setTileColor(this.tiles,color);
     }
 }
 class Building{

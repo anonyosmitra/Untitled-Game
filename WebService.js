@@ -98,8 +98,7 @@ class WebService {
             resps.push({action: "updateCountries", countries: await game.data.getCountries()})
             resps.push({action: "loadChats", chats: await Chat.getChatsFor(sock.player)})
             await sock.send(resps);
-            //TODO: Send Pieces, chat;
-            //TODO: notify other players
+            //TODO: Send Pieces;
         }
         catch (e){
             console.log(e)

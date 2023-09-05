@@ -68,7 +68,10 @@ function updateCountries(data){
         c.provinces.forEach(p=>cou.addProvince(Province.provinces[p]));
     });
 }
+function updatePlayerState(data){//{player:pid,isOnline:True/False}
+    Player.getPlayer(data.pid).setState(data.isOnline);
+}
 function serverClosed(data){
     alert("Server is offline");
 }
-methods=Object.assign(methods, {"loadMap":initResp,"Closing Server":serverClosed,"updatePlayers":updatePlayers,"updateCountries":updateCountries,"loadChats":loadChats});
+methods=Object.assign(methods, {"loadMap":initResp,"Closing Server":serverClosed,"updatePlayers":updatePlayers,"updateCountries":updateCountries,"loadChats":loadChats,"updatePlayerState":updatePlayerState});

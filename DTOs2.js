@@ -227,6 +227,13 @@ class Game{
                Game.counter=gm.id+1;
         });
     }
+    async notifyUserState(player){
+        this.players.forEach(p=>{
+            var resp=[{action:"updatePlayerState",player:player.user.id,isOnline:player.sock!=null}]
+            if(p!=player && p.sock!=null)
+                p.sock.send(resp);
+        })
+    }
     static findById(id){
         var g=Game.games.filter(g=>g.id==id)
         if(g.length()==1)
@@ -313,17 +320,16 @@ class Player{
             console.log("loading game "+this.game.id)
             await this.game.load()
         }
+        await this.game.notifyUserState(this);
         return true;
-        //send gamedata
-        //update and notify lobby
     }
-    disconnected(){
+    async disconnected(){
         this.sock=null;
         if((this.game.players.filter(p=>p.sock!=null)).length()==0) {
             this.game.save()
             console.log("game "+this.game.id+" saved to db");
         }
-        //update and notify lobby
+        await this.game.notifyUserState(this);
     }
 }
 module.exports = {User: User,Game,UserList,Chat,Message};
