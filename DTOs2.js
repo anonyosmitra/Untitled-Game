@@ -80,7 +80,7 @@ class Chat{
     static async getChatsFor(player){
         var data=new SetList()
         var chts=Chat.chats.filter(c=>(c.game==player.game)&&(c.participants.has(player)));
-        console.log("chats to send: "+ch.length())
+        console.log("chats to send: "+chts.length())
         chts.forEach(c=>{
             var ch=c.toJson()
             ch.data=[]
