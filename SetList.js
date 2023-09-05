@@ -6,6 +6,9 @@ class SetList extends Set{
         if(lst!=null)
             lst.forEach(x=>this.add(x));
     }
+    remove(x){
+        this.delete(x)
+    }
     addAll(l){
         l.forEach(x=>this.add(x));
     }
@@ -82,12 +85,5 @@ class Person{
         this.gender=gender;
     }
 }
-//list=new SetList();
-//list.add(new Person("n1",5,"male"));
-//list.add(new Person("n2",10,"male"));
-//list.add(new Person("n3",3,"female"));
-//list.add(new Person("n4",1,"female"));
-//console.log(list.sort((a,b)=>a.age-b.age));
-//console.log(list.filter(x=>x.gender=="male"));
-//console.log(list.forEach(x=>console.log(x.name)));
+
 module.exports=SetList;

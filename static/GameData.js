@@ -108,7 +108,6 @@ class Chat{
         var eleId="";//Private: P<pid>, Group: C<chatId>
         if(name==null){//Private chat
             pan = document.getElementById("PlayerList-pan")
-            participants.remove(getUser());
             participants=participants.get(0);
             eleId="P"+participants;
             if(chatId!=null)

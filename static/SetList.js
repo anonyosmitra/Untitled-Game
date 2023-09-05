@@ -4,6 +4,9 @@ class SetList extends Set{
         if(lst!=null)
             lst.forEach(x=>this.add(x));
     }
+    remove(x){
+        this.delete(x)
+    }
     addAll(l){
         l.forEach(x=>this.add(x));
     }
