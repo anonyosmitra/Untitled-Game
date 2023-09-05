@@ -79,7 +79,9 @@ class Chat{
         var ch=Chat.chats.filter(c=>(c.game==player.game)&&(c.participants.has(player)));
         await ch.forEach(async c=>{
             var d=c.toJson();
-            d["msgs"]=c.data.map(m=>m.toJson())
+            d.msgs=[]
+            console.log(c.data)
+            c.data.forEach(m=>d.msgs.push(m.toJson()));
             await data.add(d);
         });
         return data.toList()
