@@ -30,6 +30,7 @@ class Country{
         this.id=id;
         this.player=player;
         this.provinces=new SetList();
+        console.log(player);
         player.country=this;
     }
     addProvince(prov){
