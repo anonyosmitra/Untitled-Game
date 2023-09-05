@@ -83,7 +83,8 @@ class Chat{
      this.participants=new SetList(players);
      if(this.participants.length()==1)
          Player.players[this.participants.get(0)].chat=this;
-     this.messages=new SetList(msgs);
+     if(msgs.constructor.name=="Array")
+        this.messages=new SetList(msgs);
      Chat.chats[this.id]=this;
      Chat.makechatButton();
     }
@@ -106,6 +107,7 @@ class Chat{
             participants = new SetList([participants]);
         var pan = document.getElementById("GroupList-pan")
         var eleId="";//Private: P<pid>, Group: C<chatId>
+        participants.remove(getUser());
         if(name==null){//Private chat
             pan = document.getElementById("PlayerList-pan")
             participants=participants.get(0);
@@ -113,6 +115,7 @@ class Chat{
             if(chatId!=null)
                 Player.players[participants].chat=Chat.chats[chatId];
             name=Player.players[participants].name;
+            console.log(name)
         }
         else
             eleId="C"+chatId;
@@ -130,13 +133,13 @@ class Chat{
         count.innerText="";
         count.classList.add("chatNotification");
         if (eleId[0]=="P"){//Private chat
-            butt.classList.add(this.participants.get(0).getColor());
+            butt.classList.add(Player.players[participants].getColor());
         }
         butt.addEventListener("click",function () {
-            console.log("open chat "+this.id);
+            console.log("open chat "+eleId);
         });
         var nm=document.createElement("snap")
-        nm.innerText=this.name;
+        nm.innerText=name;
         butt.appendChild(nm);
         butt.appendChild(count);
         pan.appendChild(butt);

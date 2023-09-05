@@ -50,6 +50,13 @@ function initResp(data){
         }
     });
 }
+function loadChats(data){
+    data.chats.forEach(c=>{
+        c.participants=new SetList(c.participants);
+        c.participants.remove(getUser());
+        new Chat(c.id,[],c.name,c.participants);
+    });
+}
 function updatePlayers(data){
     data.players.forEach(p=>new Player(p.user,p.name,p.color,p.isOnline));
 }
@@ -62,4 +69,4 @@ function updateCountries(data){
 function serverClosed(data){
     alert("Server is offline");
 }
-methods=Object.assign(methods, {"loadMap":initResp,"Closing Server":serverClosed,"updatePlayers":updatePlayers,"updateCountries":updateCountries});
+methods=Object.assign(methods, {"loadMap":initResp,"Closing Server":serverClosed,"updatePlayers":updatePlayers,"updateCountries":updateCountries,"loadChats":loadChats});

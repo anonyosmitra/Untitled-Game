@@ -36,7 +36,7 @@ function loadLayout(){
     chatList.id="ChatList-pan"
     rightPanel.appendChild(chatList);
     var playerList=document.createElement("Div")
-    playerList.id="PlayerList=pan";
+    playerList.id="PlayerList-pan";
     chatList.appendChild(playerList);
     var GroupList=document.createElement("Div")
     GroupList.id="GroupList-pan";
