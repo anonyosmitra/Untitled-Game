@@ -79,16 +79,18 @@ class Chat{
     }
     static async getChatsFor(player){
         var data=new SetList()
-        var ch=Chat.chats.filter(c=>(c.game==player.game)&&(c.participants.has(player)));
-        await ch.forEach(async c=>{
-            var d=c.toJson();
-            d.msgs=[]
-            if(c.data==null)
-                await sleep(1000);
-            console.log(c.data)
-            c.data.forEach(m=>d.msgs.push(m.toJson()));
-            await data.add(d);
-        });
+        var chts=Chat.chats.filter(c=>(c.game==player.game)&&(c.participants.has(player)));
+        console.log("chats to send: "+ch.length())
+        chts.forEach(c=>{
+            var ch=c.toJson()
+            ch.data=[]
+            c.data.forEach(d=>{
+                ch.data.push(d.toJson());
+                console.log(d.toJson());
+            });
+            data.add(ch)
+        })
+        console.log(data.toList())
         return data.toList()
     }
     static async loadChats(con){
