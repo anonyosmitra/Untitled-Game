@@ -153,6 +153,7 @@ class Message{
             var sender=chat.game.players.find(p=>p.user.id==m.sender)
             new Message(chat,sender,m.msg,m.time);
         });
+        console.log("Download Complete")
     }
     toJson(){
         return{chat:this.chat.id,sender:this.sender.user.id,msg:this.msg,time:this.time}
