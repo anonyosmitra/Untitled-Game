@@ -304,6 +304,7 @@ class Player{
             console.log("loading game "+this.game.id)
             await this.game.load()
         }
+        return true;
         //send gamedata
         //update and notify lobby
     }
