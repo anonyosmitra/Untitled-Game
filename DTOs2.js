@@ -81,6 +81,8 @@ class Chat{
         var data=new SetList()
         var chts=Chat.chats.filter(c=>(c.game==player.game)&&(c.participants.has(player)));
         console.log("chats to send: "+chts.length())
+        if(chts.length()>0 && chts.get(0).data==null)
+            await sleep(500);
         chts.forEach(c=>{
             var ch=c.toJson()
             ch.data=[]
