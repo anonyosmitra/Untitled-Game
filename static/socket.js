@@ -81,7 +81,7 @@ function receiveMessage(data){
             scrollChatToBottom()
         }
         else
-            chat.incrementNotif();
+            chat.incrementNotif(1);
     }
 }
 function updatePlayerState(data){//{player:pid,isOnline:True/False}
