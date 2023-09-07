@@ -188,9 +188,6 @@ class Chat{
             Chat.active=chat;
         }
     }
-    static appendText(msgs){
-
-    }
     static makechatButton(participants,chatId=null,name=null) {
         if (participants.constructor.name != "SetList")
             participants = new SetList([participants]);

@@ -39,7 +39,7 @@ function appendToChat(msg){
     bubble.classList.add("textbubble");
     var sender=Player.getPlayer(msg.sender)
     bubble.classList.add(sender.getColor());
-    bubble.username=sender.name;
+    bubble.setAttribute("username",sender.name);
     if(sender.id==getUser())
         bubble.classList.add("sent");
     else
