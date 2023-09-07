@@ -208,7 +208,8 @@ class Chat{
         }
         else
             eleId="C"+chatId;
-        Chat.chats[chatId].eleId=eleId;
+        if(chatId!=null)
+            Chat.chats[chatId].eleId=eleId;
         var a = document.getElementById("chatButt-" + eleId);
         if (a != undefined)
             a.remove();
