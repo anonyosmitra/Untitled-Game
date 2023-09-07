@@ -125,11 +125,11 @@ class Chat{
         if(this.name==null)
             eleId="P"+this.participants.get(0).id;
         var note = document.getElementById("chatNotif-" + eleId)
-        console.log(note.innerText=v);
+        console.log(note.innerText);
         if (v == 0)
             note.innerText = "";
         else if(note.innerText == "") {
-            console.log("OK");
+            console.log("OK")
             note.innerText = v;
         }
         else if (note.innerText != "9+") {
