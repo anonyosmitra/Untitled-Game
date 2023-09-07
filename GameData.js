@@ -58,12 +58,23 @@ class GameData {
             if(players.length()>0)
                 console.log("Success!");
         }
+        var payloadPlayers=new SetList();
+        var payloadCountries=new SetList();
         while (players.length() != 0) {
             var pl = players.pickRandom(true);
             var cou = left.pickRandom(true);
             await this.activateCountry(cou, pl);
             console.log("Assigning player " + pl.user.name + " to Country " + cou.id);
-            //TODO: notify active players
+            payloadPlayers.add(pl.getTag(true));
+            payloadCountries.add(cou.toJson());
+        }
+        if(payloadPlayers.length()>0){
+            var pay=[{action:"updatePlayers",players:payloadPlayers.toList()},{action: "updateCountries",countries:payloadCountries.toList()}]
+            console.log(pay);
+            this.ctrl.players.forEach(p=>{
+                if(p.sock!=null)
+                    p.sock.send(pay);
+            })
         }
     }
 

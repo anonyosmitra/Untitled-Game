@@ -153,7 +153,6 @@ class Chat{
         var d=[]
         await this.data.forEach(m=>d.push(m.toJson()));
         console.log(d)
-        //TODO: Crashes, why?
         await con.update("untitled","Messages",{id:this.id},{data:d})
         this.data=null;
     }
@@ -257,7 +256,7 @@ class Game{
         gm.setGameData(data);
         await con.insert("untitled","Games",{id:gm.id,players:(new SetList()).toList(),avail:gm.avail});
         Game.games.add(gm);
-        await Chat.newChat(gm, new SetList(), con, "Global")
+        await Chat.newChat(gm, new SetList(), con, "Public")
         await gm.save(con)
         return gm;
     }
@@ -278,7 +277,7 @@ class Game{
                 return;
             }
         })
-        var ReservedNames=["test","global"]
+        var ReservedNames=["test","public"]
         if (usrEx)
             return "You are already added to this game";
         if(this.AvailColors.length()===0||this.avail===0)
@@ -296,7 +295,7 @@ class Game{
         user.games.add(player);
         this.avail--;
         await con.update("untitled","Games",{id:this.id},{players:(await this.getPlayerTags()).toList(),avail:this.avail})
-        var chat=Chat.chats.filter(c=>c.name=="Global"&&c.game.id==this.id).get(0)
+        var chat=Chat.chats.filter(c=>c.name=="Public"&&c.game.id==this.id).get(0)
         var ch=Chat.chats.get(0)
         await chat.addParticipant(player,con);
         if(this.data!=null)
