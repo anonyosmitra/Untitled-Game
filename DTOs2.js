@@ -92,8 +92,8 @@ class Chat{
         while(chts.length()>0 && chts.get(0).data==null)
             await sleep(500);
         console.log("Chats: "+chts.length())
-        chts.forEach(async c=>{
-            await data.add(c.getChats())
+        chts.forEach(c=>{
+            c.getChats().then(d=>data.add(d));
         })
         console.log(data)
         return data.toList()
