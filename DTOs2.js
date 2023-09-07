@@ -100,7 +100,7 @@ class Chat{
         return data.toList()
     }
     static async getChatsForGame(game){
-        var chts=Chat.chats.filter(c=>(c.game==player.game));
+        var chts=Chat.chats.filter(c=>(c.game==game));
         return chts;
     }
     static async loadChats(con){
