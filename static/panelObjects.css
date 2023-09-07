@@ -1,14 +1,3 @@
-.messages{
-
-}
-.messages.received{
-    border-radius: 20px 10px 15px 5px;
-    float: left;
-}
-.messages.sent{
-    border-radius: 20px 10px 15px 5px;
-    float: right;
-}
 .chatListItem{
     font-size: 22px;
     cursor: pointer;
@@ -22,4 +11,75 @@
     font-weight: bold;
     float: right;
     color:red;
+}
+.textbubble{
+    width: 100px;
+    margin: 5px 5px 0px 5px;
+    padding: 8px;
+    overflow-wrap: break-word;
+    background-color: white;
+    border: solid 1px #b5b3b3;
+}
+.textbubble.received{
+    border-radius: 20px 10px 15px 5px;
+    float:left;
+}
+.textbubble.sent{
+    border-radius: 10px 20px 5px 15px;
+    float:right;
+}
+.textbubble::after {
+    content: attr(username);
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    z-index: 1;
+    top: 100%; /* Position below the abbreviation */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    display: none;
+}
+
+.textbubble:hover::after {
+    display: block;
+}
+.messageBox{
+    width:100%;
+    margin-bottom:1px;
+    height:fit-content;
+    position: relative;
+}
+.messageBox::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.chat_convo{
+    background-color: #f5f5f5;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 250px; /* Set the width of the div */
+    height: 300px; /* Set the height of the div */
+    border: 1px solid #ccc; /* Add a border for visual clarity */
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.chatInput{
+    width:252px;
+    height:30px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+.chat-header{
+    background-color: #8a918c;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ccc;
+    width: 250px;
+    height: 30px;
+    font-size: 25px;
+}
+.chat-header snap{
+    margin-left: 10px;
 }

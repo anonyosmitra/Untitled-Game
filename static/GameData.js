@@ -97,6 +97,11 @@ class Piece{
         placeOnMap(tileId,this);
     }
 }
+class Alliance{
+    constructor(id,name,participants,rules=[]) {
+
+    }
+}
 class Chat{
  static chats={};
  static active=null;
@@ -109,6 +114,9 @@ class Chat{
      if(msgs.constructor.name=="Array")
         this.messages=new SetList(msgs);
      Chat.chats[this.id]=this;
+    }
+    send(text){
+        console.log("sending message \""+text+"\" to chat "+this.id);
     }
     incrementNotif(v=1) {
         var note = document.getElementById("chatNotif-" + this.id)
@@ -124,6 +132,60 @@ class Chat{
     static requestChatroom(playerIds,name=null){
         //TODO: send request for a chatroom with player(s)
     }
+    static loadChatBox(eleId){
+        var title=null;
+        var part=null;
+        var chat=null;
+        var player=null;
+        if(eleId[0]=="P"){
+            var pid=parseInt(eleId.slice(1))
+            if(Player.players[pid].chat==null)
+                Chat.requestChatroom([pid])
+            else{
+                player=Player.players[pid]
+                title=Player.players[pid].name;
+                chat=Player.players[pid].chat;
+            }
+        }
+        else {
+            var cid=parseInt(eleId.slice(1))
+            chat=Chat.chats[cid];
+            title=chat.name;
+            part=chat.participants;
+        }
+        if(chat!=null){
+            var pan=document.getElementById("chatBox-Pan")
+            pan.innerHTML="";
+            var header=document.createElement("div")
+            header.classList.add("chat-header")
+            if(player!=null){
+                header.classList.add(player.getColor(force=true));
+            }
+            var head_title=document.createElement("snap")
+            head_title.innerText=title;
+            header.appendChild(head_title);
+            //TODO: if group, add info icon
+            pan.appendChild(header);
+            var convo=document.createElement("div")
+            convo.id="chat_convo";
+            convo.classList.add("chat_convo")
+            pan.appendChild(convo);
+            var inp=document.createElement("input")
+            inp.classList.add("chatInput");
+            inp.placeholder="Send a message"
+            inp.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    chat.send(this.value);
+                    this.value="";
+                }
+            });
+            pan.appendChild(inp);
+            Chat.active=chat;
+        }
+    }
+    static appendText(msgs){
+
+    }
     static makechatButton(participants,chatId=null,name=null) {
         if (participants.constructor.name != "SetList")
             participants = new SetList([participants]);
@@ -137,7 +199,6 @@ class Chat{
             if(chatId!=null)
                 Player.players[participants].chat=Chat.chats[chatId];
             name=Player.players[participants].name;
-            console.log(name)
         }
         else
             eleId="C"+chatId;
@@ -158,7 +219,7 @@ class Chat{
             butt.classList.add(Player.players[participants].getColor());
         }
         butt.addEventListener("click",function () {
-            console.log("open chat "+eleId);
+            Chat.loadChatBox(eleId);
         });
         var nm=document.createElement("snap")
         nm.innerText=name;

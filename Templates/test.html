@@ -1,12 +1,107 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/static/colors.css">
-    <script src="/static/socket.js" ></script>
-</head>
-<body>
+<style>
+    .yellow{
+        background-color: #fff187 !important;
+        fill: #bbc200 !important;
+    }
+    .purple{
+        background-color: #a263ff !important;
+        fill: #872bab !important;
+    }
+    .textbubble{
+        width: 100px;
+        margin: 5px 5px 0px 5px;
+        padding: 8px;
+        overflow-wrap: break-word;
+        background-color: white;
+        border: solid 1px #b5b3b3;
+    }
+    .textbubble.received{
+        border-radius: 20px 10px 15px 5px;
+        float:left;
+    }
+    .textbubble.sent{
+        border-radius: 10px 20px 5px 15px;
+        float:right;
+    }
+    .textbubble::after {
+        content: attr(username);
+        position: absolute;
+        background-color: #333;
+        color: #fff;
+        padding: 5px;
+        border-radius: 3px;
+        z-index: 1;
+        top: 100%; /* Position below the abbreviation */
+        left: 50%; /* Center horizontally */
+        transform: translateX(-50%); /* Center horizontally */
+        display: none;
+    }
 
-</body>
-</html>
+    .textbubble:hover::after {
+        display: block;
+    }
+    .messageBox{
+        width:100%;
+        margin-bottom:1px;
+        height:fit-content;
+        position: relative;
+    }
+    .messageBox::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    .chat_convo{
+        background-color: #f5f5f5;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        width: 250px; /* Set the width of the div */
+        height: 300px; /* Set the height of the div */
+        border: 1px solid #ccc; /* Add a border for visual clarity */
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+    .chatInput{
+        width:252px;
+        height:30px;
+        background-color: #f5f5f5;
+        border: 1px solid #ccc;
+        font-size: 15px;
+    }
+    .chat-header{
+        background-color: #f5f5f5;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border: 1px solid #ccc;
+        width: 250px;
+        height: 30px;
+        font-size: 25px;
+    }
+    .chat-header snap{
+        margin-left: 10px;
+    }
+</style>
+<script>
+    function toBottom(){
+        a=document.getElementById("chat_convo");
+        a.scrollTop=a.scrollHeight;
+    }
+</script>
+<div>
+    <div class="chat-header yellow"><snap>Player2</snap></div>
+    <div class="chat_convo" id="chat_convo" onload="toBottom()">
+
+        <div class="messageBox">
+            <p class="textbubble received yellow" username="Name1">Hi!</p>
+        </div>
+        <div class="messageBox">
+            <p class="textbubble sent purple" username="Name2">Can you read this??</p>
+        </div>
+        <div class="messageBox">
+            <p class="textbubble received yellow" username="Name1">Yes I can!</p>
+        </div>
+        <div class="messageBox">
+            <p class="textbubble received yellow" username="Name1">THIS IS AWSOME!!</p>
+        </div>
+
+    </div>
+    <input class="chatInput" placeholder="Send a message"></input>
+</div>

@@ -251,7 +251,8 @@ class Game{
         return gm;
     }
     async eliminatePlayer(con,player){
-        //TODO: set alive=false and update db on game and user
+        player.alive=false;
+        //TODO: update db on game and user
     }
     async addPlayer(con,user,name){
         var usrEx=false,plrEx=false;
