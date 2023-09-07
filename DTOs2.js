@@ -174,6 +174,7 @@ class Message{
         console.log("Download Complete")
     }
     toJson(){
+        console.log(this)
         return{chat:this.chat.id,sender:this.sender.user.id,msg:this.msg,time:this.time}
     }
     constructor(chat,sender,msg,time=null) {
