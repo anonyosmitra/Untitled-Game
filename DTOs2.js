@@ -173,12 +173,12 @@ class Message{
         return{chat:this.chat.id,sender:this.sender.user.id,msg:this.msg,time:this.time}
     }
     constructor(chat,sender,msg,time=null) {
+        this.time=time;
         if(time==null)
             time=new Date();
         this.chat=chat;
         this.sender=sender;
         this.msg=msg;
-        this.date=date;
         chat.data.add(this);
     }
 }
