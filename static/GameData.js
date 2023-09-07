@@ -108,7 +108,7 @@ class Chat{
      this.id=id;
      this.name=name;
      this.participants=new SetList(players);
-     if(this.participants.length()==1)
+     if(this.name==null)
          Player.players[this.participants.get(0)].chat=this;
      if(msgs.constructor.name=="Array")
         this.messages=new SetList(msgs);
