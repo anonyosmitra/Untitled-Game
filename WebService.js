@@ -77,6 +77,11 @@ class WebService {
         else
             sock.send({success:true})
     }
+    async newMsg(sock,game,data){
+        var ch=Chat.chats.filter(c=>(c.game.id==game.id && c.id==data.chatId)).get(0)
+        if(ch!=undefined)
+            ch.onMessage(sock.player,data.msg)
+    }
     async connectPlayer(sock,game,user){
         game=Game.findById(game);
         try {

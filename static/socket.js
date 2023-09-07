@@ -30,6 +30,9 @@ function connectSocket(gid, user, s=true) {
     }
     return socket;
 }
+function sendSockCommand(pay){
+    socket.send(JSON.stringify(pay));
+}
 function initResp(data){
     if(init){
         console.log("Received unrequested init Response")

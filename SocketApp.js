@@ -76,6 +76,8 @@ class SockClient{
                 this.send({"resp":"Ok","type":"client"})
             else if(data.action=="init")
                 service.connectPlayer(this,data.game,data.player);
+            else if(data.action=="sendMsg")
+                service.newMsg(this,this.player.game,data)
             else if(data.action=="DEMO_getChats")
                 service.DEMO_getchats(this,this.player.game)
         }

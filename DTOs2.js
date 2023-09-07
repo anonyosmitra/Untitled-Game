@@ -138,12 +138,17 @@ class Chat{
         return chat;
     }
     async onMessage(player,msg){
-        var message=await new Message(this,player,msg);
-        //TODO: send message to other participants
+        if(this.participants.has(player)) {
+            var message = await new Message(this, player, msg);
+            this.participants.forEach(p=>{
+                p.sock.send([{"action":"receiveMsg",data:message.toJson()}]);
+            })
+        }
     }
     async save(con){
         var d=[]
         await this.data.forEach(m=>d.push(m.toJson()));
+        console.log(d)
         //TODO: Crashes, why?
         //await con.update("untitled","Messages",{id:this.id,data:d})
         this.data=null;

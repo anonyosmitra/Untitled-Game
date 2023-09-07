@@ -116,7 +116,9 @@ class Chat{
      Chat.chats[this.id]=this;
     }
     send(text){
+        var pay={action:"sendMsg",chatId:this.id,message:text};
         console.log("sending message \""+text+"\" to chat "+this.id);
+        sendSockCommand(pay);
     }
     incrementNotif(v=1) {
         var note = document.getElementById("chatNotif-" + this.id)
