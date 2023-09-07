@@ -144,7 +144,8 @@ class Chat{
             var pay=[{"action":"receiveMsg",data:message.toJson()}]
             console.log(pay)
             this.participants.forEach(p=>{
-                p.sock.send(pay);
+                if(p.sock!=null)
+                    p.sock.send(pay);
             })
         }
     }
