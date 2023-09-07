@@ -93,8 +93,7 @@ class Chat{
             await sleep(500);
         console.log("Chats: "+chts.length())
         chts.forEach(async c=>{
-            var ch=await c.getChats()
-            data.add(ch)
+            await data.add(c.getChats())
         })
         console.log(data)
         return data.toList()
