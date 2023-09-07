@@ -136,7 +136,10 @@ class WebService {
                 console.log(cht)
             else{
                 var payload=[{action:"loadChats", chats:await cht.getChats()}]
-                plrs.forEach(p=>p.send(payload));
+                plrs.forEach(p=>{
+                    if(p.sock!=null)
+                        p.sock.send(payload)
+                });
             }
         }
     }
