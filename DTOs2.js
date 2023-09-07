@@ -140,8 +140,10 @@ class Chat{
     async onMessage(player,msg){
         if(this.participants.has(player)) {
             var message = await new Message(this, player, msg);
+            var pay=[{"action":"receiveMsg",data:message.toJson()}]
+            console.log(pay)
             this.participants.forEach(p=>{
-                p.sock.send([{"action":"receiveMsg",data:message.toJson()}]);
+                p.sock.send(pay);
             })
         }
     }
