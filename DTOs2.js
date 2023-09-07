@@ -80,6 +80,8 @@ class Chat{
     async getChats(){
         var ch=this.toJson()
         ch.data=[]
+        while (this.data==null)
+            await sleep(500);
         this.data.forEach(d=>{
             ch.data.push(d.toJson());
         });
@@ -146,6 +148,8 @@ class Chat{
         var chat=new Chat(Chat.counter++,game,participants,name)
         await con.insert("untitled","Chats",chat.toJson());
         await con.insert("untitled","Messages",{id:chat.id,data:[]});
+        if(game.data!=null)
+            await Message.loadChat(chat, con);
         return chat;
     }
     async onMessage(player,msg){
