@@ -153,7 +153,7 @@ class Chat{
         await this.data.forEach(m=>d.push(m.toJson()));
         console.log(d)
         //TODO: Crashes, why?
-        //await con.update("untitled","Messages",{id:this.id,data:d})
+        await con.update("untitled","Messages",{id:this.id,data:d})
         this.data=null;
     }
     toJson(){
