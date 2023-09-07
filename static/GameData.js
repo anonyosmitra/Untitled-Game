@@ -133,6 +133,8 @@ class Chat{
                 v="9+"
             note.innerText=v;
         }
+        else if(note.innerText == "")
+            note.innerText=v;
     }
     static requestChatroom(playerIds,name=null){
         //TODO: send request for a chatroom with player(s)
