@@ -90,10 +90,12 @@ class Chat{
         var chts=Chat.chats.filter(c=>(c.game==player.game)&&(c.participants.has(player)));
         while(chts.length()>0 && chts.get(0).data==null)
             await sleep(500);
+        console.log("Chats: "+chts.length())
         chts.forEach(async c=>{
             var ch=await c.getChats()
             data.add(ch)
         })
+        console.log(data)
         return data.toList()
     }
     static async getChatsForGame(game){
