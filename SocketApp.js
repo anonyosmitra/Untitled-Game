@@ -78,8 +78,9 @@ class SockClient{
                 service.connectPlayer(this,data.game,data.player);
             else if(data.action=="sendMsg")
                 service.newMsg(this,this.player.game,data)
-            else if(data.action=="DEMO_getChats")
-                service.DEMO_getchats(this,this.player.game)
+            else if(data.action=="newChat"){
+                service.newChat(this,data);
+            }
         }
         catch (e){
             console.log(e)

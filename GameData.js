@@ -55,8 +55,6 @@ class GameData {
         var left = this.countries.filter((c => c.player == null));//unassigned countries
         if(players.constructor.name=="Array"){
             players=new SetList(players)
-            if(players.length()>0)
-                console.log("Success!");
         }
         var payloadPlayers=new SetList();
         var payloadCountries=new SetList();
@@ -70,7 +68,6 @@ class GameData {
         }
         if(payloadPlayers.length()>0){
             var pay=[{action:"updatePlayers",players:payloadPlayers.toList()},{action: "updateCountries",countries:payloadCountries.toList()}]
-            console.log(pay);
             this.ctrl.players.forEach(p=>{
                 if(p.sock!=null)
                     p.sock.send(pay);

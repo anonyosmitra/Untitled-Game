@@ -109,18 +109,36 @@ class WebService {
             console.log(e)
         }
     }
-    async DEMO_getchats(sock,game){
-        console.log("------------------------------------------------------------------------------------------------------------------------------")
-        Chat.chats.forEach(c=>{
-            var ch=c.toJson()
-            ch.data=[]
-            console.log("D1: "+c.data)
-            c.data.forEach(d=>{
-                ch.data.push(d.toJson());
-                console.log(d.toJson());
+
+    async newChat(sock, data) {
+        var ok=false
+        if(data.name==null)
+            if(data.players.length==1) {
+                var ch=(await Chat.getChatsForGame(sock.player.game)).filter(c => ((c.participants.length() == 2) && (c.participants.has(sock.player)) && (c.participants.has(Player.getPlayer(data.players[0])))&&(c.name==null)))
+                if(ch==null||ch.length()==0){
+                    ok=true;
+                }
+            }
+            else
+                console.log("group chats must have a name");
+            else
+                ok=true;
+        if(ok) {
+            var plrs=new SetList()
+            data.players.push(sock.player.user.id)
+            data.players.forEach(pid=>{
+                var p=sock.game.players.filter(pl=>pl.user.id==pid)
+                if(p.length()>0)
+                    plrs.add(p.get(0));
             })
-            console.log(ch)
-        });
+            var cht=await Chat.newChat(sock.game, plrs,WebService.con, data.name);
+            if(cht.constructor.name=="String")
+                console.log(cht)
+            else{
+                var payload=[{action:"loadChats", chats:await cht.getChats()}]
+                plrs.forEach(p=>p.send(payload));
+            }
+        }
     }
 }
 module.exports=WebService;

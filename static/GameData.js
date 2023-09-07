@@ -46,7 +46,6 @@ class Country{
         this.id=id;
         this.player=player;
         this.provinces=new SetList();
-        console.log(player);
         player.country=this;
     }
     addProvince(prov){
@@ -117,7 +116,6 @@ class Chat{
     }
     send(text){
         var pay={action:"sendMsg",chatId:this.id,message:text};
-        console.log("sending message \""+text+"\" to chat "+this.id);
         sendSockCommand(pay);
     }
     incrementNotif(v=1) {
@@ -125,11 +123,9 @@ class Chat{
         if(this.name==null)
             eleId="P"+this.participants.get(0).id;
         var note = document.getElementById("chatNotif-" + eleId)
-        console.log(note.innerText);
         if (v == 0)
             note.innerText = "";
         else if(note.innerText == "") {
-            console.log("OK")
             note.innerText = v;
         }
         else if (note.innerText != "9+") {
@@ -140,7 +136,7 @@ class Chat{
         }
     }
     static requestChatroom(playerIds,name=null){
-        //TODO: send request for a chatroom with player(s)
+        var pay={action:"newChat",players:playerIds,name:null};
     }
     static loadChatBox(eleId){
         var title=null;

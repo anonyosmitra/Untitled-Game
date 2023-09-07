@@ -54,7 +54,7 @@ class User{
         return this.games.map(x=>x.game.id);
     }
     static async newUser(name,password,con){
-        if(this.users.findByName(name)!=null)
+        if(this.users.filter(u=>u.name.toLowerCase()==name.toLowerCase()).length()>0)
             return "Username already exists"
         password=await bcrypt.hash(password,10)
         var usr=new User(User.counter++,name,password,new SetList());
@@ -77,27 +77,31 @@ class Chat{
         this.data=null;
         Chat.chats.add(this);
     }
+    async getChats(){
+        var ch=this.toJson()
+        ch.data=[]
+        this.data.forEach(d=>{
+            ch.data.push(d.toJson());
+        });
+        return ch
+    }
     static async getChatsFor(player){
         var data=new SetList()
         var chts=Chat.chats.filter(c=>(c.game==player.game)&&(c.participants.has(player)));
-        console.log("chats to send: "+chts.length())
         while(chts.length()>0 && chts.get(0).data==null)
             await sleep(500);
         chts.forEach(c=>{
-            var ch=c.toJson()
-            ch.data=[]
-            c.data.forEach(d=>{
-                ch.data.push(d.toJson());
-                console.log(d.toJson());
-            });
+            var ch=c.getChats()
             data.add(ch)
         })
-        console.log(data.toList())
         return data.toList()
+    }
+    static async getChatsForGame(game){
+        var chts=Chat.chats.filter(c=>(c.game==player.game));
+        return chts;
     }
     static async loadChats(con){
         var data=await con.find("untitled","Chats",{});
-        console.log("loading Chats")
         data.forEach(c=>{
            var game=Game.games.filter(g=>g.id==c.game).get(0);
            var part=new SetList()
@@ -132,6 +136,10 @@ class Chat{
         Chat.chats.filter(c=>c.game==game).forEach(c=>Message.loadChat(c,con))
     }
     static async newChat(game,participants,con,name=null){
+        if(name!=null) {
+            if ((game.players.filter(p => (p.name.toLowerCase() == name.toLowerCase())).length>0) ||((await Chat.getChatsForGame(game)).filter(c=>(c.name!=null && c.name.toLowerCase()==name.toLowerCase())).length()>0))
+                return "Name Already Exists"
+        }
         var chat=new Chat(Chat.counter++,game,participants,name)
         await con.insert("untitled","Chats",chat.toJson());
         await con.insert("untitled","Messages",{id:chat.id,data:[]});
@@ -139,10 +147,8 @@ class Chat{
     }
     async onMessage(player,msg){
         if(this.participants.has(player)) {
-            console.log("msg: "+msg)
             var message = await new Message(this, player, msg);
             var pay=[{"action":"receiveMsg",data:message.toJson()}]
-            console.log(pay)
             this.participants.forEach(p=>{
                 if(p.sock!=null)
                     p.sock.send(pay);
@@ -152,7 +158,6 @@ class Chat{
     async save(con){
         var d=[]
         await this.data.forEach(m=>d.push(m.toJson()));
-        console.log(d)
         await con.update("untitled","Messages",{id:this.id},{data:d})
         this.data=null;
     }
@@ -162,7 +167,6 @@ class Chat{
 }
 class Message{
     static async loadChat(chat,con){
-        console.log("Downloading chat "+chat.id)
         var data=await con.find("untitled","Messages",{id:chat.id})
         data=data[0].data
         chat.data=new SetList();
@@ -170,10 +174,8 @@ class Message{
             var sender=(chat.game.players.filter(p=>p.user.id==m.sender)).get(0)
             new Message(chat,sender,m.msg,m.time);
         });
-        console.log("Download Complete")
     }
     toJson(){
-        console.log(this)
         return{chat:this.chat.id,sender:this.sender.user.id,msg:this.msg,time:this.time}
     }
     constructor(chat,sender,msg,time=null) {
@@ -181,7 +183,6 @@ class Message{
             time=new Date();
         this.chat=chat;
         this.time=time;
-        console.log(sender)
         this.sender=sender;
         this.msg=msg;
         chat.data.add(this);
@@ -272,7 +273,7 @@ class Game{
                 usrEx=true;
                 return;
             }
-            if(p.name==name){
+            if(p.name.toLowerCase()==name.toLowerCase()){
                 plrEx=true;
                 return;
             }
@@ -283,6 +284,8 @@ class Game{
         if(this.AvailColors.length()===0||this.avail===0)
             return "Lobby Full";
         if(plrEx)
+            return "Name Already Exists In Game";
+        if((await Chat.getChatsForGame(this)).filter(c=>c.name.toLowerCase()==name.toLowerCase()).length()!=0)
             return "Name Already Exists In Game";
         if(ReservedNames.includes(name.toLowerCase()))
             return "Invalid Name";
