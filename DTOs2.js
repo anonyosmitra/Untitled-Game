@@ -139,6 +139,7 @@ class Chat{
     }
     async onMessage(player,msg){
         if(this.participants.has(player)) {
+            console.log("msg: "+msg)
             var message = await new Message(this, player, msg);
             var pay=[{"action":"receiveMsg",data:message.toJson()}]
             console.log(pay)
@@ -175,10 +176,10 @@ class Message{
         return{chat:this.chat.id,sender:this.sender.user.id,msg:this.msg,time:this.time}
     }
     constructor(chat,sender,msg,time=null) {
-        this.time=time;
         if(time==null)
             time=new Date();
         this.chat=chat;
+        this.time=time;
         this.sender=sender;
         this.msg=msg;
         chat.data.add(this);
