@@ -128,15 +128,15 @@ class Chat{
         console.log(note.innerText=v);
         if (v == 0)
             note.innerText = "";
+        else if(note.innerText == "") {
+            console.log("OK");
+            note.innerText = v;
+        }
         else if (note.innerText != "9+") {
             v = parseInt(note.innerText) + v;
             if(v>9)
                 v="9+"
             note.innerText=v;
-        }
-        else if(note.innerText == "") {
-            console.log("OK");
-            note.innerText = v;
         }
     }
     static requestChatroom(playerIds,name=null){
