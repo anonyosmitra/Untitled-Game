@@ -66,7 +66,7 @@ class GameData {
             await this.activateCountry(cou, pl);
             console.log("Assigning player " + pl.user.name + " to Country " + cou.id);
             payloadPlayers.add(pl.getTag(true));
-            payloadCountries.add(cou.toJson());
+            payloadCountries.add(cou.toJSON());
         }
         if(payloadPlayers.length()>0){
             var pay=[{action:"updatePlayers",players:payloadPlayers.toList()},{action: "updateCountries",countries:payloadCountries.toList()}]
