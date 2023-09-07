@@ -84,10 +84,13 @@ function receiveMessage(data){
             chat.incrementNotif(1);
     }
 }
+function openChat(data){
+    Chat.loadChatBox(Chat.chats[data.chatId].eleId);
+}
 function updatePlayerState(data){//{player:pid,isOnline:True/False}
     Player.getPlayer(data.player).setState(data.isOnline);
 }
 function serverClosed(data){
     alert("Server is offline");
 }
-methods=Object.assign(methods, {"loadMap":initResp,"Closing Server":serverClosed,"updatePlayers":updatePlayers,"updateCountries":updateCountries,"loadChats":loadChats,"updatePlayerState":updatePlayerState,"receiveMsg":receiveMessage});
+methods=Object.assign(methods, {"loadMap":initResp,"Closing Server":serverClosed,"updatePlayers":updatePlayers,"updateCountries":updateCountries,"loadChats":loadChats,"updatePlayerState":updatePlayerState,"receiveMsg":receiveMessage,"openChat":openChat});

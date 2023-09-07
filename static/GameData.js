@@ -108,6 +108,7 @@ class Chat{
      this.id=id;
      this.name=name;
      this.participants=new SetList(players);
+     this.eleId=null;
      if(this.name==null)
          Player.players[this.participants.get(0)].chat=this;
      if(msgs.constructor.name=="Array")
@@ -119,10 +120,7 @@ class Chat{
         sendSockCommand(pay);
     }
     incrementNotif(v=1) {
-        var eleId="C"+this.id;
-        if(this.name==null)
-            eleId="P"+this.participants.get(0).id;
-        var note = document.getElementById("chatNotif-" + eleId)
+        var note = document.getElementById("chatNotif-" + this.eleId)
         if (v == 0)
             note.innerText = "";
         else if(note.innerText == "") {
@@ -166,7 +164,7 @@ class Chat{
             var header=document.createElement("div")
             header.classList.add("chat-header")
             if(player!=null){
-                header.classList.add(player.getColor(force=true));
+                header.classList.add(player.getColor(true));
             }
             var head_title=document.createElement("snap")
             head_title.innerText=title;
@@ -210,6 +208,7 @@ class Chat{
         }
         else
             eleId="C"+chatId;
+        Chat.chats[chatId].eleId=eleId;
         var a = document.getElementById("chatButt-" + eleId);
         if (a != undefined)
             a.remove();
