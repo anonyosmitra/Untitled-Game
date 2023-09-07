@@ -168,7 +168,7 @@ class Message{
         data=data[0].data
         chat.data=new SetList();
         data.forEach(m=>{
-            var sender=chat.game.players.find(p=>p.user.id==m.sender)
+            var sender=(chat.game.players.filter(p=>p.user.id==m.sender)).get(0)
             new Message(chat,sender,m.msg,m.time);
         });
         console.log("Download Complete")
@@ -182,6 +182,7 @@ class Message{
             time=new Date();
         this.chat=chat;
         this.time=time;
+        console.log(sender)
         this.sender=sender;
         this.msg=msg;
         chat.data.add(this);
