@@ -137,6 +137,7 @@ class Chat{
     }
     static requestChatroom(playerIds,name=null){
         var pay={action:"newChat",players:playerIds,name:null};
+        sendSockCommand(pay);
     }
     static loadChatBox(eleId){
         var title=null;
