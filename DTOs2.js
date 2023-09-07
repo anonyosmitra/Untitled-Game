@@ -83,6 +83,7 @@ class Chat{
         this.data.forEach(d=>{
             ch.data.push(d.toJson());
         });
+        console.log(ch)
         return ch
     }
     static async getChatsFor(player){
