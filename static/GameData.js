@@ -121,7 +121,10 @@ class Chat{
         sendSockCommand(pay);
     }
     incrementNotif(v=1) {
-        var note = document.getElementById("chatNotif-" + this.id)
+        var eleId="C"+this.id;
+        if(this.name==null)
+            eleId="P"+this.participants.get(0).id;
+        var note = document.getElementById("chatNotif-" + eleId)
         if (v == 0)
             note.innerText = "";
         else if (note.innerText != "9+") {
