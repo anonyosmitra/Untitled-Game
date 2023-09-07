@@ -84,7 +84,15 @@ function receiveMessage(data){
             chat.incrementNotif(1);
     }
 }
-function openChat(data){
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+async function openChat(data){
+    var n=0;
+    while(n<4 && Chat.chats[data.chatId]==undefined){
+        n++;
+        await sleep(500);
+    }
     Chat.loadChatBox(Chat.chats[data.chatId].eleId);
 }
 function updatePlayerState(data){//{player:pid,isOnline:True/False}

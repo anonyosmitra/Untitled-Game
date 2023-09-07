@@ -108,9 +108,11 @@ class Chat{
      this.id=id;
      this.name=name;
      this.participants=new SetList(players);
-     this.eleId=null;
-     if(this.name==null)
-         Player.players[this.participants.get(0)].chat=this;
+     this.eleId="C"+this.id;
+     if(this.name==null) {
+         Player.players[this.participants.get(0)].chat = this;
+         this.eleId="P"+this.participants.get(0);
+     }
      if(msgs.constructor.name=="Array")
         this.messages=new SetList(msgs);
      Chat.chats[this.id]=this;
@@ -197,19 +199,16 @@ class Chat{
             participants = new SetList([participants]);
         var pan = document.getElementById("GroupList-pan")
         var eleId="";//Private: P<pid>, Group: C<chatId>
+        if(chatId!=null)
+            eleId=Chat.chats[chatId].eleId;
+        else
+            eleId="P"+participants.get(0);
         participants.remove(getUser());
         if(name==null){//Private chat
             pan = document.getElementById("PlayerList-pan")
             participants=participants.get(0);
-            eleId="P"+participants;
-            if(chatId!=null)
-                Player.players[participants].chat=Chat.chats[chatId];
             name=Player.players[participants].name;
         }
-        else
-            eleId="C"+chatId;
-        if(chatId!=null)
-            Chat.chats[chatId].eleId=eleId;
         var a = document.getElementById("chatButt-" + eleId);
         if (a != undefined)
             a.remove();
