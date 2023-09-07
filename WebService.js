@@ -114,7 +114,7 @@ class WebService {
         var ok=false
         if(data.name==null)
             if(data.players.length==1) {
-                var ch=(await Chat.getChatsForGame(sock.player.game)).filter(c => ((c.participants.length() == 2) && (c.participants.has(sock.player)) && (c.participants.has(Player.getPlayer(data.players[0])))&&(c.name==null)))
+                var ch=(await Chat.getChatsForGame(sock.player.game)).filter(c => ((c.participants.length() == 2) && (c.participants.has(sock.player)) && (c.participants.has((sock.game.players.filter(p=>p.id==data.player[0])).get(0)))&&(c.name==null)))
                 if(ch==null||ch.length()==0){
                     ok=true;
                 }
