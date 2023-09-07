@@ -125,6 +125,7 @@ class Chat{
         if(this.name==null)
             eleId="P"+this.participants.get(0).id;
         var note = document.getElementById("chatNotif-" + eleId)
+        console.log(note.innerText=v);
         if (v == 0)
             note.innerText = "";
         else if (note.innerText != "9+") {
@@ -191,6 +192,7 @@ class Chat{
             msgs.forEach(m=>appendToChat(m));
             scrollChatToBottom();
             Chat.active=chat;
+            chat.incrementNotif(0);
         }
     }
     static makechatButton(participants,chatId=null,name=null) {
