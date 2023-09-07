@@ -71,10 +71,23 @@ function updateCountries(data){
         c.provinces.forEach(p=>cou.addProvince(Province.provinces[p]));
     });
 }
+function receiveMessage(data){
+    data=data.data
+    var chat=Chat.chats[data.chat]
+    if(chat!=undefined){
+        chat.messages.add(data);
+        if(Chat.active==chat) {
+            appendToChat(data);
+            scrollChatToBottom()
+        }
+        else
+            chat.incrementNotif();
+    }
+}
 function updatePlayerState(data){//{player:pid,isOnline:True/False}
     Player.getPlayer(data.player).setState(data.isOnline);
 }
 function serverClosed(data){
     alert("Server is offline");
 }
-methods=Object.assign(methods, {"loadMap":initResp,"Closing Server":serverClosed,"updatePlayers":updatePlayers,"updateCountries":updateCountries,"loadChats":loadChats,"updatePlayerState":updatePlayerState});
+methods=Object.assign(methods, {"loadMap":initResp,"Closing Server":serverClosed,"updatePlayers":updatePlayers,"updateCountries":updateCountries,"loadChats":loadChats,"updatePlayerState":updatePlayerState,"receiveMsg":receiveMessage});

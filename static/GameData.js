@@ -182,6 +182,9 @@ class Chat{
                 }
             });
             pan.appendChild(inp);
+            var msgs=chat.messages.sort((a,b)=>a.time<b.time);
+            msgs.forEach(m=>appendToChat(m));
+            scrollChatToBottom();
             Chat.active=chat;
         }
     }

@@ -27,6 +27,27 @@ function setAbbr(tileIds,text){
         t.title=text;
     });
 }
+function scrollChatToBottom(){
+    var convo=document.getElementById("chat_convo");
+    convo.scrollTop=convo.scrollHeight;
+}
+function appendToChat(msg){
+    var convo=document.getElementById("chat_convo");
+    var msgBox=document.createElement("div");
+    msgBox.classList.add("messageBox");
+    var bubble=document.createElement("p");
+    bubble.classList.add("textbubble");
+    var sender=Player.getPlayer(msg.sender)
+    bubble.classList.add(sender.getColor());
+    bubble.username=sender.name;
+    if(sender.id==getUser())
+        bubble.classList.add("sent");
+    else
+        bubble.classList.add("received");
+    bubble.innerText=msg.msg;
+    msgBox.appendChild(bubble);
+    convo.appendChild(msgBox);
+}
 function loadLayout(){
     var tradePanel= document.createElement("Div");
     tradePanel.id="trade-pan"
