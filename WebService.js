@@ -135,7 +135,7 @@ class WebService {
             if(cht.constructor.name=="String")
                 console.log(cht)
             else{
-                var payload=[{action:"loadChats", chats:await cht.getChats()}]
+                var payload=[{action:"loadChats", chats:[await cht.getChats()]}]
                 plrs.forEach(p=>{
                     if(p.sock!=null)
                         p.sock.send(payload)
