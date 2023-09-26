@@ -113,7 +113,6 @@ class WebService {
             resps.push({action: "updateProvinces", provinces:await game.data.getAllProvinces(sock.player)})
             resps.push({action: "loadChats", chats: await Chat.getChatsFor(sock.player)})
             await sock.send(resps);
-            console.log("sent Payload")
             //TODO: Send Pieces;
         }
         catch (e){
