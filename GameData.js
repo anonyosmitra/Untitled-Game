@@ -178,11 +178,11 @@ class GameData {
         var gm = new GameData(ctrl.id, map, provinces, countries, ctrl, pieces);
         if (plrs.length() != 0)
             await gm.assignCountries(plrs);
+        GameData.dataList[gm.id]=gm;
         if(meta==null || meta.turnTracker==undefined)
             gm.turnTracker=await TurnTracker.load(gm)
         else
             gm.turnTracker=await TurnTracker.load(gm,meta.turnTracker);
-        GameData.dataList[gm.id]=gm;
         return gm;
     }
 
