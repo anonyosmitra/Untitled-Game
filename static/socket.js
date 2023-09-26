@@ -49,7 +49,7 @@ function initResp(data){
             if (Province.provinces[t[1]] == undefined)
                 new Province(t[1]);
             Province.provinces[t[1]].addTile(t[0])
-            new Tile(id,Province.provinces[t[1]])
+            new Tile(t[0],Province.provinces[t[1]])
             if(t[3]!=null)
            new Building(t[0],t[3],Province.provinces[t[1]])
         }
