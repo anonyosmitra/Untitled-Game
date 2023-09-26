@@ -75,7 +75,7 @@ class TurnTracker{
             while(nextPlayer==null && j<pls.length()){
                 var p=pls.get(i);
                 if(p.alive && p.sock!=null)
-                    this.currentPlayer=p;
+                    nextPlayer=p;
                 else
                 {
                     i++;
