@@ -28,13 +28,13 @@ class GameData {
     async getCountries() {
         var cous = []
         await this.countries.forEach(c => cous.push(c.toJSON()));
-        console.log(cous);
         return cous;
     }
 
     async getProvinces(country){
         var provs=[]
         await Object.values(this.provinces).forEach(p=>provs.push(country))
+        return provs;
     }
 
     async saveGame(con) {

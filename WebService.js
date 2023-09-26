@@ -5,7 +5,7 @@ const {Map} = require('./Map.js')
 const {GameData} = require("./GameData");
 class WebService {
     static con=null;
-    static deleteGames=true;
+    static deleteGames=false;
     async load() {
         await Map.load();
         if (WebService.con == null)
@@ -113,6 +113,7 @@ class WebService {
             resps.push({action: "updateProvinces", provinces:await game.data.getProvinces(game.data.findCountryByPlayer(sock.player))})
             resps.push({action: "loadChats", chats: await Chat.getChatsFor(sock.player)})
             await sock.send(resps);
+            console.log("sent Payload")
             //TODO: Send Pieces;
         }
         catch (e){
