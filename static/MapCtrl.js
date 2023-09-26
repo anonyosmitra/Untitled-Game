@@ -91,6 +91,7 @@ function appendToChat(msg){
     convo.appendChild(msgBox);
 }
 function updateTurnPan(data){
+    console.log(data)
     document.getElementById("turnTracker-playerName").innerText=data.currentPlayer.name;
     var butt=document.getElementById("turnTracker-skipButton");
     if(turnData.selfTurn){
