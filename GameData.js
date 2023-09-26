@@ -328,6 +328,7 @@ class Province{
         var buildings=new SetList();
         var institution=new SetList();
         var industry=new SetList();
+        console.log(meta.population)
         var pop=new Population(meta.population.count,meta.population.birthRate,meta.population.deathRate,meta.population.education,meta.population.moral);
         if(meta.buildings!=undefined)
         meta.buildings.forEach(x=>{
