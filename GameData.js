@@ -160,7 +160,7 @@ class GameData {
 
         }
         var gm = new GameData(ctrl.id, map, provinces, countries, ctrl, pieces);
-        if(meta!=null || meta.turnTracker==undefined)
+        if(meta==null || meta.turnTracker==undefined)
             gm.turnTracker=TurnTracker.load(gm)
         else
             gm.turnTracker=TurnTracker.load(gm,meta.turnTracker);
