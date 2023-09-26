@@ -290,6 +290,7 @@ class Province{
             if(this.institution!=null)
                 this.institution.forEach(x=>buildings.push(x.toJson()));
             console.log("packing Province "+this.map.id);
+            console.log(this.population)
             return {id:this.map.id,name:this.name,country:this.country.id,buildings:this.buildings,population:this.population.toJSON()}}
         return {id:this.map.id,name:this.name,country:this.country.id}
     }
