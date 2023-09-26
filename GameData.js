@@ -101,6 +101,7 @@ class TurnTracker{
         var payload=this.getCurrentTurn();
         payload.action="UpdateTurn";
         await this.game.ctrl.players.filter(p=>p.sock!=null).forEach(p=>p.sock.send(payload))
+        return this.getCurrentTurn();
     }
     static turnTimeout(gameId,turnId){
         var gm=GameData[gameId]
@@ -109,7 +110,7 @@ class TurnTracker{
             return null;
         if(gm.turnTracker.turnId!=turnId)
             return null;
-        gm.turnTracker.nextPlayer();
+        console.log(gm.turnTracker.nextPlayer())
     }
 }
 class GameData {

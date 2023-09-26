@@ -1,7 +1,7 @@
 var socket;
 var init=false;
 var methods={};
-
+var PreInitQueue=[]
 function connectSocket(gid, user, s=true) {
     if(s)
         socket = new WebSocket("wss://fluidos.anonyo.net:8001");
@@ -22,7 +22,12 @@ function connectSocket(gid, user, s=true) {
         if(data.constructor.name!="Array"){
             data=[data];
         }
-        data.forEach(r=>{methods[r.action](r);})
+        data.forEach(r=>{
+            if(!init && r.action!="init")
+                PreInitQueue.push(r)
+            else
+                methods[r.action](r);
+        })
     }
 
     socket.onclose = function(e) {
@@ -53,6 +58,8 @@ function initResp(data){
             if(t[3]!=null)
            new Building(t[0],t[3],Province.provinces[t[1]])
         }
+        PreInitQueue.forEach(r=>methods[r.action](r));
+        PreInitQueue=[]
     });
 }
 function loadChats(data){
