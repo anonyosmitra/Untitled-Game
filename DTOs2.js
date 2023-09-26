@@ -85,7 +85,6 @@ class Chat{
         this.data.forEach(d=>{
             ch.data.push(d.toJson());
         });
-        console.log(ch)
         return ch
     }
     static async getChatsFor(player){
@@ -93,12 +92,10 @@ class Chat{
         var chts=Chat.chats.filter(c=>(c.game==player.game)&&(c.participants.has(player)));
         while(chts.length()>0 && chts.get(0).data==null)
             await sleep(500);
-        console.log("Chats: "+chts.length())
         await chts.forEach(c=>{
             c.getChats().then(d=>data.add(d));
             return true
         })
-        console.log(data)
         return data.toList()
     }
     static async getChatsForGame(game){

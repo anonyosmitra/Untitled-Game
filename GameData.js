@@ -28,6 +28,7 @@ class GameData {
     async getCountries() {
         var cous = []
         await this.countries.forEach(c => cous.push(c.toJSON()));
+        console.log(cous);
         return cous;
     }
 
