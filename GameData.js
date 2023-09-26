@@ -117,7 +117,7 @@ class TurnTracker{
         if(gm.turnTracker.turnId!=turnId){
             console.log("e2")
             return null;}
-
+        console.log(gm.turnTracker);
         console.log(gm.turnTracker.nextPlayer())
     }
 }
