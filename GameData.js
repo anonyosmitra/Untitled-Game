@@ -82,6 +82,7 @@ class TurnTracker{
                         i=0;
                 }
             }
+            console.log(nextPlayer);
             if(nextPlayer==null){
                 return null
                 console.log("e3")
@@ -119,7 +120,6 @@ class TurnTracker{
             return null;
         }
         console.log("ending Turn");
-        console.log(gm.turnTracker);
         console.log(await gm.turnTracker.nextPlayer())
     }
 }
