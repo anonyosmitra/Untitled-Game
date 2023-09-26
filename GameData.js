@@ -159,6 +159,9 @@ class GameData {
             //TODO: add random resources
             return pro;
         }
+        else{
+            console.log("Province already active");
+        }
         //update client map
         return this.provinces[id];
     }
@@ -294,6 +297,7 @@ class Province{
         var buildings=new SetList();
         var institution=new SetList();
         var industry=new SetList();
+        var pop=new Population(meta.population.total,meta.population.birthRate,meta.population.deathRate,meta.population.education,meta.population.moral);
         meta.buildings.forEach(x=>{
             if(x.type=="Depot")
                 buildings.add(Depot.load(x));
@@ -302,7 +306,7 @@ class Province{
             else if(x.type=="Industry")
                 industry.add(Industry.load(x));
         });
-        return new Province(map.provinces[meta.id],country,meta.name,null,buildings,industry,institution);
+        return new Province(map.provinces[meta.id],country,meta.name,meta.population,buildings,industry,institution);
 
     }
     async setName(gamedata,name){
