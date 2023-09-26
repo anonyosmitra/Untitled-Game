@@ -203,8 +203,9 @@ class GameData {
             id: this.id,
             mapId: this.map.id,
             provinces: prov.toList(),
-            turnTracker:this.turnTracker.stop()
         };
+        if(this.turnTracker!=null)
+            meta.turnTracker=this.turnTracker.stop();
         return meta;
     }
 
