@@ -204,6 +204,7 @@ class GameData {
             mapId: this.map.id,
             provinces: prov.toList(),
         };
+        console.log(this.turnTracker);
         if(this.turnTracker!=null)
             meta.turnTracker=this.turnTracker.stop();
         return meta;
