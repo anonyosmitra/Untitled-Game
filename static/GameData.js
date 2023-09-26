@@ -42,6 +42,15 @@ function getUser(){
     return user;
 }
 class Country{
+    static find(id){
+        if(Player.player.country.id==id)
+            return Player.player.country;
+        var pl=Player.players.filter(p=>p.country.id==id)
+        if(pl.length()==0)
+            return null
+        else
+            return pl.get(0).country;
+    }
     constructor(id,player){
         this.id=id;
         this.player=player;
@@ -75,6 +84,7 @@ class Province{
         this.tiles=new SetList();
         this.buildings=new SetList();
         this.country=null;
+        this.population=null;
         Province.provinces[id]=this;
     }
     addTile(tileId){

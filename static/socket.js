@@ -73,6 +73,14 @@ function updateCountries(data){
         c.provinces.forEach(p=>cou.addProvince(Province.provinces[p]));
     });
 }
+function updateProvince(data){
+    data.provinces.forEach(p=>{
+        var prov=Province.provinces[p.id]
+        prov.name=p.name;
+        prov.population=p.population;
+        prov.country=Country.find(p.country);
+    })
+}
 function receiveMessage(data){
     data=data.data
     var chat=Chat.chats[data.chat]
