@@ -28,11 +28,17 @@ class TurnTracker{
         this.active=false;
     }
     getCurrentTurn(){
-        return {turnId:this.turnId,currentPlayer:this.currentPlayer.user.id,moves:this.moves,movesLeft:this.movesLeft,endTime:this.endTime}
+        var payload= {turnId:this.turnId,currentPlayer:null,moves:this.moves,movesLeft:this.movesLeft,endTime:this.endTime}
+        if(this.currentPlayer!=null)
+            payload.currentPlayer=this.currentPlayer.user.id;
+        return payload
     }
     stop(){
         this.active=false;
-        return {currentPlayer:this.currentPlayer.user.id,turnId:this.turnId}
+        var payload= {currentPlayer:null,turnId:this.turnId}
+        if(this.currentPlayer!=null)
+            payload.currentPlayer=this.currentPlayer.user.id;
+        return payload
     }
     async start() {
         this.active = true;
