@@ -107,9 +107,13 @@ class TurnTracker{
         var gm=GameData[gameId]
         console.log("Time out Triggered!")
         if(gm==undefined)
-            return null;
-        if(gm.turnTracker.turnId!=turnId)
-            return null;
+        {
+            console.log("e1")
+            return null;}
+        if(gm.turnTracker.turnId!=turnId){
+            console.log("e2")
+            return null;}
+
         console.log(gm.turnTracker.nextPlayer())
     }
 }
