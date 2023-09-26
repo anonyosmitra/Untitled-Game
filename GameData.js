@@ -150,6 +150,7 @@ class GameData {
 
     async activateProvince(id, country) {
         if (!this.provinces.hasOwnProperty(id)) {
+            console.log("Activating Province")
             var map = this.map.provinces[id];
             var pop=Population.newPopulation();
             var buildings = new SetList();
