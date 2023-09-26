@@ -57,11 +57,9 @@ class TurnTracker{
         return tt;
     }
     async nextPlayer(){
-        console.log("Selecting new Player "+this.active)
         if(!this.active)
             return null;
         var pls=this.game.ctrl.players.filter(p => p.alive && p.sock != null)
-        console.log("e4: "+pls.length())
         if(pls.length()==0)
             return null;
         if(this.currentPlayer==null)
@@ -84,45 +82,35 @@ class TurnTracker{
                         i=0;
                 }
             }
-            console.log(nextPlayer);
             if(nextPlayer==null){
                 return null
-                console.log("e3")
             }
 
             this.currentPlayer=nextPlayer;
         }
-        console.log("Turn: "+this.currentPlayer.name);
         var cou=this.game.countries.filter(c=>c.player==this.currentPlayer).get(0)
         var moves=cou.getMovesPermitted();
         this.moves=moves;
         this.movesLeft=moves;
-        console.log("Moves: "+this.moves);
         this.turnId++;
         var time=moves*5;
-        console.log("Time: "+time);
         this.endTime=Math.floor((new Date()).getTime() / 1000)+time;
         setTimeout(TurnTracker.turnTimeout,time*1000,this.game.id,this.turnId)
-        //Todo: Update players;
+        // Update players
         var payload=this.getCurrentTurn();
         payload.action="UpdateTurn";
         await this.game.ctrl.players.filter(p=>p.sock!=null).forEach(p=>p.sock.send(payload))
         return this.getCurrentTurn();
     }
     static async turnTimeout(gameId, turnId) {
-        console.log("GID: " + gameId);
         var gm = GameData.dataList[gameId]
-        console.log("Time out Triggered!")
         if (gm == undefined) {
-            console.log("e1")
             return null;
         }
         if (gm.turnTracker.turnId != turnId) {
-            console.log("e2")
             return null;
         }
-        console.log("ending Turn");
-        console.log(await gm.turnTracker.nextPlayer())
+        await gm.turnTracker.nextPlayer();
     }
 }
 class GameData {
