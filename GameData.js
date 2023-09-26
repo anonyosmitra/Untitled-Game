@@ -93,7 +93,7 @@ class TurnTracker{
         this.moves=moves;
         this.movesLeft=moves;
         this.turnId++;
-        var time=moves*5;
+        var time=moves*15;
         this.endTime=Math.floor((new Date()).getTime() / 1000)+time;
         setTimeout(TurnTracker.turnTimeout,time*1000,this.game.id,this.turnId)
         // Update players

@@ -2,6 +2,7 @@ var socket;
 var init=false;
 var methods={};
 var PreInitQueue=[]
+//turnId: 6, currentPlayer: 1, moves: 12, movesLeft: 12, endTime: 1695769477}
 function connectSocket(gid, user, s=true) {
     if(s)
         socket = new WebSocket("wss://fluidos.anonyo.net:8001");
@@ -114,4 +115,9 @@ function updatePlayerState(data){//{player:pid,isOnline:True/False}
 function serverClosed(data){
     alert("Server is offline");
 }
-methods=Object.assign(methods, {"loadMap":initResp,"Closing Server":serverClosed,"updatePlayers":updatePlayers,"updateCountries":updateCountries,"loadChats":loadChats,"updatePlayerState":updatePlayerState,"receiveMsg":receiveMessage,"openChat":openChat,"updateProvinces":updateProvinces});
+function updateTurn(data){
+    data.currentplayer=Player.getPlayer(data.currentPlayer);
+    turnData={time:data.endTime,id:data.turnId,selfTurn: data.currentplayer==Player.player};
+    updateTurnPan(data);
+}
+methods=Object.assign(methods, {"UpdateTurn":updateTurn,"loadMap":initResp,"Closing Server":serverClosed,"updatePlayers":updatePlayers,"updateCountries":updateCountries,"loadChats":loadChats,"updatePlayerState":updatePlayerState,"receiveMsg":receiveMessage,"openChat":openChat,"updateProvinces":updateProvinces});

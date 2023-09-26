@@ -1,4 +1,5 @@
 var tiles={}
+var turnData={id:null,time:null,selfTurn:false};
 class Tile{
     constructor(id,prov=null,water=false,contains=new SetList()) {
         this.id=id;
@@ -89,6 +90,32 @@ function appendToChat(msg){
     msgBox.appendChild(bubble);
     convo.appendChild(msgBox);
 }
+function updateTurnPan(data){
+    document.getElementById("turnTracker-playerName").innerText=data.currentPlayer.name;
+    var butt=document.getElementById("turnTracker-skipButton");
+    if(turnData.selfTurn){
+        butt.disabled=false
+    }
+    else
+        butt.disabled=true;
+    document.getElementById("turnTracker-moves").innerText=data.movesLeft+"/"+data.moves;
+}
+function timerLoop(){
+    if(turnData.time!=null) {
+        sec=turnData.time-timeInSec()
+        if(sec<=0)
+            left="00:00"
+        else{
+            min=Math.floor(sec/60);
+            sec=sec%60;
+            left=min+":"+sec;
+            if(left.length==4)
+                left=0+left;
+        }
+        document.getElementById("turnTracker-time").innerText=left;
+    }
+    setTimeout(timerLoop,1000);
+}
 function loadLayout(){
     var tradePanel= document.createElement("Div");
     tradePanel.id="trade-pan"
@@ -115,6 +142,7 @@ function loadLayout(){
     turnTracker.id="TurnTracker-Pan";
     turnTracker.innerHTML='<snap id="turnTracker-playerName"></snap> <snap id="turnTracker-time">3:00 <button id="turnTracker-skipButton">Skip</button><br>Moves Left: <snap id="turnTracker-moves">0/0</snap>';
     leftPanel.appendChild(turnTracker);
+    setTimeout(timerLoop,1000)
 }
 function clc(tile){
     console.log(tile.id);
