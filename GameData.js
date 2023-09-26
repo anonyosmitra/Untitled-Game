@@ -93,7 +93,7 @@ class TurnTracker{
         this.movesLeft=moves;
         console.log("Moves: "+this.moves);
         this.turnId++;
-        var time=moves*15;
+        var time=moves*5;
         console.log("Time: "+time);
         this.endTime=Math.floor((new Date()).getTime() / 1000)+time;
         setTimeout(TurnTracker.turnTimeout,time*1000,this.game.id,this.turnId)
@@ -104,6 +104,7 @@ class TurnTracker{
         return this.getCurrentTurn();
     }
     static turnTimeout(gameId,turnId){
+        console.log("GID: "+gameId);
         var gm=GameData[gameId]
         console.log("Time out Triggered!")
         if(gm==undefined)
