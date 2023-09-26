@@ -82,8 +82,11 @@ class TurnTracker{
                         i=0;
                 }
             }
-            if(nextPlayer==null)
+            if(nextPlayer==null){
                 return null
+                console.log("e3")
+            }
+
             this.currentPlayer=nextPlayer;
         }
         console.log("Turn: "+this.currentPlayer.name);
