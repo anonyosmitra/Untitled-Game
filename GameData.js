@@ -1,17 +1,21 @@
 const SetList = require('./SetList.js')
 const {Map} = require('./Map.js')
-const resources= {
-    Wood:{name:"Wood",prob:7},
-    Coal:{name:"Wood",prob:6},
-    Agriculture:{name:"Agriculture",prob:8},
-    Solar:{name:"Solar",prob:9},
-    Iron:{name:"Iron",prob:5},
-    Lithium:{name:"Lithium",prob:4},
-    Uranium:{name:"Uranium",prob:2},
-    Oil:{name:"Oil",prob:4}
-    }
+const resources= [
+    {name:"Wood",prob:7,minProd:5000,maxProd:10000},
+    {name:"Coal",prob:6,minProd:2000,maxProd:5000},
+    {name:"Food",prob:8,minProd:2000000,maxProd:4000000},
+    {name:"Solar",prob:9,minProd:20000,maxProd:50000},
+    {name:"Iron",prob:5,minProd:1000,maxProd:3000},
+    {name:"Sand",prob:7,minProd:1000,maxProd:3000},
+    {name:"Lithium",prob:4,minProd:500,maxProd:2000},
+    {name:"Uranium",prob:2,minProd:100,maxProd:300},
+    {name:"Oil",prob:4,minProd:5000,maxProd:10000}
+    ]
 function dice(max=10,min=0) {
     return Math.floor(Math.random() * (max - min)) + min;
+}
+function diceBool(max=10,min=0){
+    return dice(max,min)<=min;
 }
 
 class GameData {
@@ -34,7 +38,6 @@ class GameData {
     async getAllProvinces(player){
         var provs=[]
         var country=this.findCountryByPlayer(player);
-        console.log("Country: "+country.id)
         await Object.values(this.provinces).forEach(p=>provs.push(p.toJSON(country)));
         return provs;
     }
@@ -155,9 +158,9 @@ class GameData {
             var pop=Population.newPopulation();
             var buildings = new SetList();
             //TODO: add building
-            var pro = Province.load({id:id,name:"Province "+id,country:country.id,population:(Population.newPopulation()).toJSON()},this.countries,this.map)
+            var resourcePool=Resources.createResourcePool();
+            var pro = Province.load({id:id,name:"Province "+id,country:country.id,population:(Population.newPopulation()).toJSON(),resources:resourcePool},this.countries,this.map)
             this.provinces[id] = pro;
-            //TODO: add random resources
             return pro;
         }
         else{
@@ -195,7 +198,7 @@ class Population{
         //TODO: moral=military,economy,education, healthcare
     }
     static newPopulation(){
-        return new Population(dice(1000000,2000000),dice(40,50),dice(40,50),dice(30,50),dice(50,60));
+        return new Population(dice(100000,200000),dice(40,50),dice(40,50),dice(30,50),dice(50,60));
     }
     toJSON(){
         return {count:this.count,birthRate:this.birthRate,deathRate:this.deathRate,education:this.education,moral:this.moral};
@@ -207,6 +210,28 @@ class Resources{
         this.available=available;
         this.renewalRate=renewalRate;
         this.discovered=discovered;
+    }
+    static createResourcePool(){
+        var pool=[]
+        resources.forEach(r=>{
+            if(diceBool(10,r.prob)){
+                var rr=dice(r.maxProd,r.minProd)
+                pool.push({name:r.name,available:rr*10,renewalRate:rr,discovered:false})
+            }
+        });
+        return pool;
+    }
+    static loadPool(lst){
+        var pool=new SetList();
+        lst.forEach(r=>pool.add(new Resources(r.name,r.available,r.renewalRate,r.disabled)));
+        return pool;
+    }
+    static toJSON(lst,showAll=false){
+        var pool=[]
+        if(!showAll)
+            lst=lst.filter(r=>r.discovered);
+        lst.forEach(r=>pool.push(r.toJSON()));
+        return pool;
     }
     toJSON(){
         return {name:this.name,available:this.available,renewalRate:this.renewalRate,discovered:this.discovered};
@@ -289,9 +314,12 @@ class Province{
             this.depot.forEach(x=>buildings.push(x.toJSON()));
             if(this.institution!=null)
                 this.institution.forEach(x=>buildings.push(x.toJson()));
-            console.log("packing Province "+this.map.id);
-            console.log(this.population)
-            return {id:this.map.id,name:this.name,country:this.country.id,buildings:this.buildings,population:this.population.toJSON()}}
+            var payload={id:this.map.id,name:this.name,country:this.country.id,buildings:this.buildings,population:this.population.toJSON()}
+            if(country==null)
+                payload.resources=Resources.toJSON(this.resources,true)
+            else
+                payload.resources=Resources.toJSON(this.resources)
+        }
         return {id:this.map.id,name:this.name,country:this.country.id}
     }
 
@@ -310,7 +338,8 @@ class Province{
             else if(x.type=="Industry")
                 industry.add(Industry.load(x));
         });
-        return new Province(map.provinces[meta.id],country,meta.name,pop,buildings,industry,institution);
+        console.log(meta.resources)
+        return new Province(map.provinces[meta.id],country,meta.name,pop,buildings,industry,institution,new SetList(),Resources.loadPool(meta.resources));
 
     }
     async setName(gamedata,name){
