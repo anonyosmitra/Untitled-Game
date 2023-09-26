@@ -169,12 +169,12 @@ class GameData {
 
         }
         var gm = new GameData(ctrl.id, map, provinces, countries, ctrl, pieces);
+        if (plrs.length() != 0)
+            gm.assignCountries(plrs);
         if(meta==null || meta.turnTracker==undefined)
             gm.turnTracker=await TurnTracker.load(gm)
         else
             gm.turnTracker=await TurnTracker.load(gm,meta.turnTracker);
-        if (plrs.length() != 0)
-            gm.assignCountries(plrs);
         GameData.dataList[gm.id]=gm;
         return gm;
     }
