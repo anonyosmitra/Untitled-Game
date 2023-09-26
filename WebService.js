@@ -110,7 +110,7 @@ class WebService {
             resps.push({action: "loadMap", map: await game.data.map.getMapData()})
             resps.push({action: "updatePlayers", players: (await game.getPlayerTags(true)).toList()})
             resps.push({action: "updateCountries", countries: await game.data.getCountries()})
-            resps.push({action: "updateProvinces", provinces:await game.data.getProvinces(game.data.findCountryByPlayer(sock.player))})
+            resps.push({action: "updateProvinces", provinces:await game.data.getAllProvinces(sock.player)})
             resps.push({action: "loadChats", chats: await Chat.getChatsFor(sock.player)})
             await sock.send(resps);
             console.log("sent Payload")

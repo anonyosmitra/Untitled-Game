@@ -31,9 +31,11 @@ class GameData {
         return cous;
     }
 
-    async getProvinces(country){
+    async getAllProvinces(player){
         var provs=[]
-        await Object.values(this.provinces).forEach(p=>provs.push(country))
+        var country=this.findCountryByPlayer(player);
+        console.log("Country: "+country.id)
+        await Object.values(this.provinces).forEach(p=>provs.push(p.toJSON(country)));
         return provs;
     }
 
