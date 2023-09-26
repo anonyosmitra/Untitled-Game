@@ -314,6 +314,7 @@ class Province{
             this.depot.forEach(x=>buildings.push(x.toJSON()));
             if(this.institution!=null)
                 this.institution.forEach(x=>buildings.push(x.toJson()));
+            console.log(this.population.toJSON())
             var payload={id:this.map.id,name:this.name,country:this.country.id,buildings:this.buildings,population:this.population.toJSON()}
             if(country==null)
                 payload.resources=Resources.toJSON(this.resources,true)
@@ -328,7 +329,7 @@ class Province{
         var buildings=new SetList();
         var institution=new SetList();
         var industry=new SetList();
-        console.log(meta.population)
+        //console.log(meta.population)
         var pop=new Population(meta.population.count,meta.population.birthRate,meta.population.deathRate,meta.population.education,meta.population.moral);
         if(meta.buildings!=undefined)
         meta.buildings.forEach(x=>{
