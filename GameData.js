@@ -151,9 +151,9 @@ class GameData {
     async activateProvince(id, country) {
         if (!this.provinces.hasOwnProperty(id)) {
             var map = this.map.provinces[id];
-            //var pop=new Population(10,10,10,10,10)
+            var pop=Population.newPopulation();
             var buildings = new SetList();
-            //TODOS: add building
+            //TODO: add building
             var pro = new Province(map, country,"Province "+id, null, buildings);
             this.provinces[id] = pro;
             //TODO: add random resources
@@ -184,11 +184,14 @@ class BluePrint{
 class Population{
     constructor(total, birthRate, deathRate, education, moral) {
         this.count=total;
-        this.birthRate=birthRate;
-        this.deathRate=deathRate;
-        this.education=education;
-        this.moral=moral;
+        this.birthRate=birthRate;//population increases by this %
+        this.deathRate=deathRate;//population decreases by this %
+        this.education=education;//% of population that is educated
+        this.moral=moral;//%
         //TODO: moral=military,economy,education, healthcare
+    }
+    static newPopulation(){
+        var pop=new Population(dice(1000000,2000000),dice(40,60),dice(40,60),dice(30,50),dice(50,60));
     }
     toJSON(){
         return {count:this.count,birthRate:this.birthRate,deathRate:this.deathRate,education:this.education,moral:this.moral};
