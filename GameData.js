@@ -106,19 +106,21 @@ class TurnTracker{
         await this.game.ctrl.players.filter(p=>p.sock!=null).forEach(p=>p.sock.send(payload))
         return this.getCurrentTurn();
     }
-    static turnTimeout(gameId,turnId){
-        console.log("GID: "+gameId);
-        var gm=GameData.dataList[gameId]
+    static async turnTimeout(gameId, turnId) {
+        console.log("GID: " + gameId);
+        var gm = GameData.dataList[gameId]
         console.log("Time out Triggered!")
-        if(gm==undefined)
-        {
+        if (gm == undefined) {
             console.log("e1")
-            return null;}
-        if(gm.turnTracker.turnId!=turnId){
+            return null;
+        }
+        if (gm.turnTracker.turnId != turnId) {
             console.log("e2")
-            return null;}
+            return null;
+        }
+        console.log("ending Turn");
         console.log(gm.turnTracker);
-        console.log(gm.turnTracker.nextPlayer())
+        console.log(await gm.turnTracker.nextPlayer())
     }
 }
 class GameData {
