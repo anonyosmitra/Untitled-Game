@@ -48,6 +48,7 @@ class TurnTracker{
         }
         tt=new TurnTracker(data,plr,turnId);
         await tt.start();
+        return tt;
     }
     async nextPlayer(){
         if(!this.active)
@@ -161,9 +162,9 @@ class GameData {
         }
         var gm = new GameData(ctrl.id, map, provinces, countries, ctrl, pieces);
         if(meta==null || meta.turnTracker==undefined)
-            gm.turnTracker=TurnTracker.load(gm)
+            gm.turnTracker=await TurnTracker.load(gm)
         else
-            gm.turnTracker=TurnTracker.load(gm,meta.turnTracker);
+            gm.turnTracker=await TurnTracker.load(gm,meta.turnTracker);
         if (plrs.length() != 0)
             gm.assignCountries(plrs);
         GameData.dataList[gm.id]=gm;
@@ -204,7 +205,6 @@ class GameData {
             mapId: this.map.id,
             provinces: prov.toList(),
         };
-        console.log(this.turnTracker);
         if(this.turnTracker!=null)
             meta.turnTracker=this.turnTracker.stop();
         return meta;
