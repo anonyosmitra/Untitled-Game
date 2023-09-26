@@ -87,7 +87,7 @@ class TurnTracker{
             this.currentPlayer=nextPlayer;
         }
         console.log("Turn: "+this.currentPlayer.name);
-        var cou=this.game.countries.filterthis.currentPlayer
+        var cou=this.game.countries.filter(c=>c.player==this.currentPlayer)
         var moves=cou.getMovesPermitted();
         this.moves=moves;
         this.movesLeft=moves;
