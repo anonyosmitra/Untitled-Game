@@ -195,7 +195,7 @@ class Population{
         //TODO: moral=military,economy,education, healthcare
     }
     static newPopulation(){
-        var pop=new Population(dice(1000000,2000000),dice(40,60),dice(40,60),dice(30,50),dice(50,60));
+        return new Population(dice(1000000,2000000),dice(40,60),dice(40,60),dice(30,50),dice(50,60));
     }
     toJSON(){
         return {count:this.count,birthRate:this.birthRate,deathRate:this.deathRate,education:this.education,moral:this.moral};
