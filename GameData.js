@@ -93,11 +93,14 @@ class TurnTracker{
         this.movesLeft=moves;
         console.log("Moves: "+this.moves);
         this.turnId++;
-        var time=moves*30;
+        var time=moves*15;
         console.log("Time: "+time);
         this.endTime=Math.floor((new Date()).getTime() / 1000)+time;
         setTimeout(TurnTracker.turnTimeout,time,this.game.id,this.turnId)
         //Todo: Update players;
+        var payload=this.getCurrentTurn();
+        payload.action="UpdateTurn";
+        this.game.countries.filter(c=>c.player.sock != null).forEach(c=>c.player.sock.send(payload));
     }
     static turnTimeout(gameId,turnId){
         var gm=GameData[gameId]
