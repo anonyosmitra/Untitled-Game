@@ -96,7 +96,7 @@ class TurnTracker{
         var time=moves*15;
         console.log("Time: "+time);
         this.endTime=Math.floor((new Date()).getTime() / 1000)+time;
-        setTimeout(TurnTracker.turnTimeout,time,this.game.id,this.turnId)
+        setTimeout(TurnTracker.turnTimeout,time*1000,this.game.id,this.turnId)
         //Todo: Update players;
         var payload=this.getCurrentTurn();
         payload.action="UpdateTurn";

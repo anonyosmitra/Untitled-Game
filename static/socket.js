@@ -23,7 +23,7 @@ function connectSocket(gid, user, s=true) {
             data=[data];
         }
         data.forEach(r=>{
-            if(!init && r.action!="init")
+            if(!init && r.action!="loadMap")
                 PreInitQueue.push(r)
             else
                 methods[r.action](r);
