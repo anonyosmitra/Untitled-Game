@@ -150,7 +150,7 @@ class GameData {
 
     async activateProvince(id, country) {
         if (!this.provinces.hasOwnProperty(id)) {
-            console.log("Activating Province")
+            console.log("Activating Province "+id)
             var map = this.map.provinces[id];
             var pop=Population.newPopulation();
             var buildings = new SetList();
@@ -289,6 +289,7 @@ class Province{
             this.depot.forEach(x=>buildings.push(x.toJSON()));
             if(this.institution!=null)
                 this.institution.forEach(x=>buildings.push(x.toJson()));
+            console.log("packing Province "+this.map.id);
             return {id:this.map.id,name:this.name,country:this.country.id,buildings:this.buildings,population:this.population.toJSON()}}
         return {id:this.map.id,name:this.name,country:this.country.id}
     }
