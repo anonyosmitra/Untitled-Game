@@ -154,7 +154,7 @@ class GameData {
             var pop=Population.newPopulation();
             var buildings = new SetList();
             //TODO: add building
-            var pro = new Province(map, country,"Province "+id, null, buildings);
+            var pro = new Province(map, country,"Province "+id, pop, buildings);
             this.provinces[id] = pro;
             //TODO: add random resources
             return pro;
