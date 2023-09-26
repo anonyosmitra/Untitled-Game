@@ -17,8 +17,92 @@ function dice(max=10,min=0) {
 function diceBool(max=10,min=0){
     return dice(max,min)<=min;
 }
-
+class TurnTracker{
+    constructor(data,player=null,turnId=0) {//gamedata,currentPlayer
+        this.game=data;
+        this.currentPlayer=player;
+        this.turnId=turnId;
+        this.moves=0;
+        this.movesLeft=0;
+        this.endTime=null;
+        this.active=false;
+    }
+    getCurrentTurn(){
+        return {turnId:this.turnId,currentPlayer:this.currentPlayer.user.id,moves:this.moves,movesLeft:this.movesLeft,endTime:this.endTime}
+    }
+    stop(){
+        this.active=false;
+        return {currentPlayer:this.currentPlayer.user.id,turnId:this.turnId}
+    }
+    async start() {
+        this.active = true;
+        await this.nextPlayer();
+    }
+    static async load(data,meta=null){
+        var plr=null
+        var turnId=0
+        var tt=null;
+        if(meta!=null){
+            plr=meta.currentPlayer;
+            turnId=meta.turnId;
+        }
+        tt=new TurnTracker(data,plr,turnId);
+        await tt.start();
+    }
+    async nextPlayer(){
+        if(!this.active)
+            return null;
+        var pls=this.game.ctrl.players.filter(p => p.alive && p.sock != null)
+        if(pls.length()==0)
+            return null;
+        if(this.currentPlayer==null)
+            this.currentPlayer=pls.get(0);
+        else{
+            var pls=this.currentPlayer = this.game.ctrl.players;
+            var nextPlayer=null
+            var i=pls.findIndex(this.currentPlayer)+1,j=0;
+            if(i==pls.length())
+                i=0;
+            while(nextPlayer==null && j<pls.length()){
+                var p=pls.get(i);
+                if(p.alive && p.sock!=null)
+                    this.currentPlayer=p;
+                else
+                {
+                    i++;
+                    j++;
+                    if(i==pls.length())
+                        i=0;
+                }
+            }
+            if(nextPlayer==null)
+                return null
+            this.currentPlayer=nextPlayer;
+        }
+        console.log("Turn: "+this.currentPlayer.name);
+        var cou=this.game.countries.filterthis.currentPlayer
+        var moves=cou.getMovesPermitted();
+        this.moves=moves;
+        this.movesLeft=moves;
+        console.log("Moves: "+this.moves);
+        this.turnId++;
+        var time=moves*30;
+        console.log("Time: "+time);
+        this.endTime=Math.floor((new Date()).getTime() / 1000)+time;
+        setTimeout(TurnTracker.turnTimeout,time,this.game.id,this.turnId)
+        //Todo: Update players;
+    }
+    static turnTimeout(gameId,turnId){
+        var gm=GameData[gameId]
+        if(gm==undefined)
+            return null;
+        if(gm.turnTracker.turnId!=turnId)
+            return null;
+        gm.turnTracker.nextPlayer();
+    }
+}
 class GameData {
+    static dataList={}
     static async load() {
         await Map.load()
     }
@@ -48,6 +132,7 @@ class GameData {
             await con.insert("untitled", "Gamedata", await this.makeMeta());
         else
             await con.update("untitled", "Gamedata", {id: this.id}, await this.makeMeta());
+        delete GameData.dataList[this.id];
     }
 
     static async retrieveGame(con, ctrl) {
@@ -62,8 +147,6 @@ class GameData {
         var countries = new SetList();
         var pieces = new SetList();
         var plrs = new SetList();
-        var chats=new SetList();
-        var messages=new SetList()
         if (meta == null) {
             map = Map.maps["1"]//TODO: use random
             map.countries.forEach(c => countries.add(new Country(c.id, new SetList(c.provinces))));
@@ -77,8 +160,13 @@ class GameData {
 
         }
         var gm = new GameData(ctrl.id, map, provinces, countries, ctrl, pieces);
+        if(meta!=null || meta.turnTracker==undefined)
+            gm.turnTracker=TurnTracker.load(gm)
+        else
+            gm.turnTracker=TurnTracker.load(gm,meta.turnTracker);
         if (plrs.length() != 0)
             gm.assignCountries(plrs);
+        GameData.dataList[gm.id]=gm;
         return gm;
     }
 
@@ -114,7 +202,8 @@ class GameData {
             countries: this.countries.map(c => c.toJSON()),
             id: this.id,
             mapId: this.map.id,
-            provinces: prov.toList()
+            provinces: prov.toList(),
+            turnTracker:this.turnTracker.stop()
         };
         return meta;
     }
@@ -174,13 +263,14 @@ class GameData {
         return (this.countries.filter(c => c.player == null)).length()
     }
 
-    constructor(id, map, provinces, countries, ctrl, pieces) {
+    constructor(id, map, provinces, countries, ctrl, pieces,turnTracker=null) {
         this.countries = countries;//SetList <Countries>
         this.id = id;
         this.map = map;
         this.provinces = provinces;//dict {id:Province} ONLY STORES OCCUPIED PROVINCES
         this.ctrl = ctrl;//gameId=ctrl.id
         this.pieces = pieces;
+        this.turnTracker=turnTracker;
     }
 }
 
@@ -362,6 +452,12 @@ class Pieces{
     }
 }
 class Country{
+    getMovesPermitted(){
+        var moves=0;
+        moves+=this.provinces.length*2;
+        //TODO: add more factors for number of moves
+        return moves;
+    }
     constructor(id,provinces,money=null) {
         this.id=id;
         this.provinces=provinces;//[int]

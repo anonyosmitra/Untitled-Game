@@ -58,6 +58,15 @@ class SetList extends Set{
             return null;
         return l[0];
     }
+    findIndex(x){
+        var i=0;
+        while(i<this.length()){
+            if(this.get(i)==x)
+                return(i)
+            i++;
+        }
+        return -1;
+    }
     get(i,f=null){
         var lst=null;
         if(f!=null)

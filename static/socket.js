@@ -97,6 +97,9 @@ function receiveMessage(data){
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+function timeInSec(){
+    return Math.floor((new Date()).getTime() / 1000)
+}
 async function openChat(data){
     var n=0;
     while(n<4 && Chat.chats[data.chatId]==undefined){

@@ -111,6 +111,10 @@ function loadLayout(){
     exitButt.addEventListener("click",function (){window.location.href="/"});
     var leftPanel=document.getElementById("pan-left")
     leftPanel.appendChild(exitButt);
+    var turnTracker=document.createElement("Div");
+    turnTracker.id="TurnTracker-Pan";
+    turnTracker.innerHTML='<snap id="turnTracker-playerName"></snap> <snap id="turnTracker-time">3:00 <button id="turnTracker-skipButton">Skip</button><br>Moves Left: <snap id="turnTracker-moves">0/0</snap>';
+    leftPanel.appendChild(turnTracker);
 }
 function clc(tile){
     console.log(tile.id);
