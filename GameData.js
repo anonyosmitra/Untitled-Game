@@ -105,7 +105,7 @@ class TurnTracker{
     }
     static turnTimeout(gameId,turnId){
         console.log("GID: "+gameId);
-        var gm=GameData[gameId]
+        var gm=GameData.dataList[gameId]
         console.log("Time out Triggered!")
         if(gm==undefined)
         {
