@@ -310,7 +310,7 @@ class Province{
             else if(x.type=="Industry")
                 industry.add(Industry.load(x));
         });
-        return new Province(map.provinces[meta.id],country,meta.name,meta.population,buildings,industry,institution);
+        return new Province(map.provinces[meta.id],country,meta.name,pop,buildings,industry,institution);
 
     }
     async setName(gamedata,name){
