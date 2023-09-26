@@ -25,6 +25,11 @@ class GameData {
         return cous;
     }
 
+    async getProvinces(country){
+        var provs=[]
+        await Object.values(this.provinces).forEach(p=>provs.push())
+    }
+
     async saveGame(con) {
         var a = await con.find("untitled", "Gamedata", {id: this.id});
         if (a.length == 0)
@@ -260,12 +265,16 @@ class Province{
         this.resources=resources;
         this.inventory=inventory;
     }
-    toJSON(){
-        var buildings=[]
-        this.industry.forEach(x=>buildings.push(x.toJSON()));
-        this.depot.forEach(x=>buildings.push(x.toJSON()));
-        this.institution.forEach(x=>buildings.push(x.toJson()));
-        return {id:this.map.id,name:this.name,country:this.country.id,buildings:this.buildings,population:this.population.toJSON()}}
+    toJSON(country=null){
+        if(country==null||country==this.country){
+            var buildings=[]
+            this.industry.forEach(x=>buildings.push(x.toJSON()));
+            this.depot.forEach(x=>buildings.push(x.toJSON()));
+            this.institution.forEach(x=>buildings.push(x.toJson()));
+            return {id:this.map.id,name:this.name,country:this.country.id,buildings:this.buildings,population:this.population.toJSON()}}
+        return {id:this.map.id,name:this.name,country:this.country.id}
+    }
+
     static load(meta,countries,map){
         var country=countries.filter(c=>c.id==meta.country).get(0);
         var buildings=new SetList();
