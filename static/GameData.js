@@ -52,7 +52,13 @@ class Country{
         this.provinces.add(prov)
         prov.country=this;
         setTileColor(prov.tiles,this.player.getColor());
-        setAbbr(prov.tiles,'Country: '+this.player.name+'\nProvince: '+prov.id);
+        setAbbr(prov.tiles,'Country: '+this.player.name+'\nProvince: '+prov.name);
+    }
+    removeProvince(prov){
+        this.provinces.remove(prov);
+        prov.country=null;
+        setTileColor((prov.tiles,"gray"));
+        setAbbr(prov.tiles,'Province: '+prov.name);
     }
     setColor(color){
         this.provinces.forEach(p=>p.setColor(color));
@@ -60,8 +66,12 @@ class Country{
 }
 class Province{
     static provinces={}
-    constructor(id) {
+    constructor(id,name=null) {
         this.id=id;
+        this.name=name;
+        if(name==null){
+            this.name="Province "+id;
+        }
         this.tiles=new SetList();
         this.buildings=new SetList();
         this.country=null;
@@ -69,10 +79,14 @@ class Province{
     }
     addTile(tileId){
         this.tiles.add(tileId);
-        setAbbr(tileId,'Province: '+this.id);
+        setAbbr(tileId,'Province: '+this.name);
     }
     setColor(color){
         setTileColor(this.tiles,color);
+    }
+    update(meta){
+        if(Object.keys(meta).includes("name"))
+            this.name=meta.name;
     }
 }
 class Building{

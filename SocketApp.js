@@ -81,6 +81,8 @@ class SockClient{
             else if(data.action=="newChat"){
                 service.newChat(this,data);
             }
+            else if(data.action=="renameProvinces")
+
         }
         catch (e){
             console.log(e)

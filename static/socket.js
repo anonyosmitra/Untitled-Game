@@ -43,11 +43,13 @@ function initResp(data){
         if(t[2]){
             setTileColor(t[0],"water")
             setAbbr(t[0],"Water")
+            new Tile(t[0],null,true);
         }
         else if(t[1]!=null) {
             if (Province.provinces[t[1]] == undefined)
                 new Province(t[1]);
             Province.provinces[t[1]].addTile(t[0])
+            new Tile(id,Province.provinces[t[1]])
             if(t[3]!=null)
            new Building(t[0],t[3],Province.provinces[t[1]])
         }

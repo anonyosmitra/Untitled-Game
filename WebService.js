@@ -109,7 +109,17 @@ class WebService {
             console.log(e)
         }
     }
-
+    async renameProvince(sock,data){//data={pid:1,name="new province name"}
+        var prov=sock.player.game.data.provinces[data.pid]
+        if(prov==undefined || prov.country.player!=sock.player)
+            sock.send({"error":"invalid request"});
+        if(prov.setName(sock.player.game.data,data.name)){
+            //TODO:send updated name to all players
+        }
+        else
+            sock.send({"error":"invalid name"});
+        //TODO:send error to player
+    }
     async newChat(sock, data) {
         var ok=false
         if(data.name==null)

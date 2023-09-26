@@ -1,8 +1,49 @@
 var tiles={}
+class Tile{
+    constructor(id,prov=null,water=false,contains=new SetList()) {
+        this.id=id;
+        this.prov=prov;
+        if(prov!=null&&prov.constructor.name=="Number")
+            this.prov=Province.provinces[prov];
+        this.water=water;
+        this.contains=contains;
+        tiles[id]=this;
+    }
+    getBuilding(){
+        var a=this.contains.filter(c=>c.constructor.name==="Building");
+        if(a.length()>0)
+            return a.get(0);
+        else
+            return null;
+    }
+    getPiece(){
+        var a=this.contains.filter(c=>c.constructor.name==="Piece");
+        if(a.length()>0)
+            return a.get(0);
+        else
+            return null;
+    }
+    isWater(){
+        return this.water;
+    }
+    isUnmarked(){
+        return this.prov==null;
+    }
+    removePiece(obj){
+        this.contains.remove(obj);
+    }
+    insertPiece(obj){
+        this.contains.add(obj);
+    }
+    static placeUnmarked(){
+        for(var i=1;i<=6440;i++){
+            if(tiles[i]==undefined)
+                new Tile(i);
+        }
+    }
+}
 function placeOnMap(tileId,obj){
-    if(!Object.keys(tiles).includes(tileId))
-        tiles[tileId]=new SetList();
-    tiles[tileId].add(obj);
+    tiles[tileId].insertPiece(obj);
     if(obj.constructor.name=="Building"){
         img = document.createElement("img");
         img.classList.add("map-icons");
