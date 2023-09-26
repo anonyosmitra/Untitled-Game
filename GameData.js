@@ -462,13 +462,13 @@ class Pieces{
 class Country{
     getMovesPermitted(){
         var moves=0;
-        moves+=this.provinces.length*2;
+        moves+=this.provinces.length()*2;
         //TODO: add more factors for number of moves
         return moves;
     }
     constructor(id,provinces,money=null) {
         this.id=id;
-        this.provinces=provinces;//[int]
+        this.provinces=provinces;//setList<Id>
         this.player=null;
         this.money=null;
     }
