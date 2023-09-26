@@ -57,10 +57,11 @@ class TurnTracker{
         return tt;
     }
     async nextPlayer(){
-        console.log("Selecting new Player")
+        console.log("Selecting new Player "+this.active)
         if(!this.active)
             return null;
         var pls=this.game.ctrl.players.filter(p => p.alive && p.sock != null)
+        console.log("e4: "+pls.length())
         if(pls.length()==0)
             return null;
         if(this.currentPlayer==null)
