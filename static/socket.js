@@ -117,6 +117,7 @@ function serverClosed(data){
 }
 function updateTurn(data){
     data.currentplayer=Player.getPlayer(data.currentPlayer);
+    console.log(data.currentplayer)
     turnData={time:data.endTime,id:data.turnId,selfTurn: data.currentplayer==Player.player};
     updateTurnPan(data);
 }

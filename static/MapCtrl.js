@@ -108,6 +108,8 @@ function timerLoop(){
         else{
             min=Math.floor(sec/60);
             sec=sec%60;
+            if(sec<10)
+                sec="0"+sec;
             left=min+":"+sec;
             if(left.length==4)
                 left=0+left;
@@ -140,7 +142,7 @@ function loadLayout(){
     leftPanel.appendChild(exitButt);
     var turnTracker=document.createElement("Div");
     turnTracker.id="TurnTracker-Pan";
-    turnTracker.innerHTML='<snap id="turnTracker-playerName"></snap> <snap id="turnTracker-time">3:00 <button id="turnTracker-skipButton">Skip</button><br>Moves Left: <snap id="turnTracker-moves">0/0</snap>';
+    turnTracker.innerHTML='<snap id="turnTracker-playerName"></snap> <snap id="turnTracker-time">3:00</snap> <button id="turnTracker-skipButton">Skip</button><br>Moves Left: <snap id="turnTracker-moves">0/0</snap>';
     leftPanel.appendChild(turnTracker);
     setTimeout(timerLoop,1000)
 }
