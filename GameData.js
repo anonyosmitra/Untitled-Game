@@ -277,11 +277,11 @@ class Province{
     toJSON(country=null){
         if(country==null||country==this.country){
             var buildings=[]
-            console.log(this.industry.constructor.name)
             if(this.industry!=null)
                 this.industry.forEach(x=>buildings.push(x.toJSON()));
             this.depot.forEach(x=>buildings.push(x.toJSON()));
-            this.institution.forEach(x=>buildings.push(x.toJson()));
+            if(this.institution!=null)
+                this.institution.forEach(x=>buildings.push(x.toJson()));
             return {id:this.map.id,name:this.name,country:this.country.id,buildings:this.buildings,population:this.population.toJSON()}}
         return {id:this.map.id,name:this.name,country:this.country.id}
     }
