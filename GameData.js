@@ -100,10 +100,11 @@ class TurnTracker{
         //Todo: Update players;
         var payload=this.getCurrentTurn();
         payload.action="UpdateTurn";
-        this.game.countries.filter(c=>c.player.sock != null).forEach(c=>c.player.sock.send(payload));
+        await this.game.ctrl.players.filter(p=>p.sock!=null).forEach(p=>p.sock.send(payload))
     }
     static turnTimeout(gameId,turnId){
         var gm=GameData[gameId]
+        console.log("Time out Triggered!")
         if(gm==undefined)
             return null;
         if(gm.turnTracker.turnId!=turnId)
