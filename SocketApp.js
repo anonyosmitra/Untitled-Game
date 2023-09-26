@@ -64,6 +64,7 @@ class SockClient{
         this.sock=sock;
         this.game=null;
         this.player=null
+        this.country=null;
     }
     send(data){
         data=JSON.stringify(data)
@@ -81,7 +82,6 @@ class SockClient{
             else if(data.action=="newChat"){
                 service.newChat(this,data);
             }
-            else if(data.action=="renameProvinces")
 
         }
         catch (e){

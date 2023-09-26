@@ -2,6 +2,7 @@ const SetList = require('./SetList.js')
 const {User,Game,UserList,Chat,Message} = require('./DTOs2.js')
 const Connection = require('./MongoConnection')
 const {Map} = require('./Map.js')
+const {GameData} = require("./GameData");
 class WebService {
     static con=null;
     async load() {
@@ -101,7 +102,7 @@ class WebService {
             resps.push({action: "loadMap", map: await game.data.map.getMapData()})
             resps.push({action: "updatePlayers", players: (await game.getPlayerTags(true)).toList()})
             resps.push({action: "updateCountries", countries: await game.data.getCountries()})
-            resps.push({action: "updateProvinces", provinces:await game.data.get})
+            resps.push({action: "updateProvinces", provinces:await game.data.getProvinces(game.data.findCountryByPlayer(sock.player))})
             resps.push({action: "loadChats", chats: await Chat.getChatsFor(sock.player)})
             await sock.send(resps);
             //TODO: Send Pieces;

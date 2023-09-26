@@ -18,6 +18,12 @@ class GameData {
     static async load() {
         await Map.load()
     }
+    findCountryByPlayer(player){
+        var cou=this.countries.filter(c=>c.player==player)
+        if(cou.length()==0)
+            return null;
+        return cou.get(0);
+    }
 
     async getCountries() {
         var cous = []
@@ -27,7 +33,7 @@ class GameData {
 
     async getProvinces(country){
         var provs=[]
-        await Object.values(this.provinces).forEach(p=>provs.push())
+        await Object.values(this.provinces).forEach(p=>provs.push(country))
     }
 
     async saveGame(con) {
