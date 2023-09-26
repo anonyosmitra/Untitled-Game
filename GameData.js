@@ -300,7 +300,7 @@ class Province{
         var buildings=new SetList();
         var institution=new SetList();
         var industry=new SetList();
-        var pop=new Population(meta.population.total,meta.population.birthRate,meta.population.deathRate,meta.population.education,meta.population.moral);
+        var pop=new Population(meta.population.count,meta.population.birthRate,meta.population.deathRate,meta.population.education,meta.population.moral);
         if(meta.buildings!=undefined)
         meta.buildings.forEach(x=>{
             if(x.type=="Depot")
