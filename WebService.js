@@ -5,10 +5,18 @@ const {Map} = require('./Map.js')
 const {GameData} = require("./GameData");
 class WebService {
     static con=null;
+    static deleteGames=true;
     async load() {
         await Map.load();
         if (WebService.con == null)
             WebService.con = new Connection();
+        if(WebService.deleteGames){
+            console.log("Clearing Game History")
+            await WebService.con.delete("untitled","Games",{});
+            await WebService.con.delete("untitled","Gamedata",{});
+            await WebService.con.delete("untitled","Chats",{});
+            await WebService.con.delete("untitled","Messages",{});
+        }
         await User.loadUsers(WebService.con);
         await Game.loadGames(WebService.con).then(async e => {
             await Chat.loadChats(WebService.con);
