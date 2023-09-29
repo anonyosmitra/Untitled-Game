@@ -23,7 +23,12 @@ function connectSocket(gid, user, s=true) {
         if(data.constructor.name!="Array"){
             data=[data];
         }
-        data.forEach(r=>{methods[r.action](r);})
+        data.forEach(r=>{
+            if(!init && r.action!="loadMap")
+                PreInitQueue.push(r)
+            else
+                methods[r.action](r);
+        })
     }
 
     socket.onclose = function(e) {
@@ -34,12 +39,11 @@ function connectSocket(gid, user, s=true) {
 function sendSockCommand(pay){
     socket.send(JSON.stringify(pay));
 }
-function initResp(data){
+async function initResp(data){
     if(init){
         console.log("Received unrequested init Response")
         return;
     }
-    init=true;
     data.map.forEach(t=>{
         if(t[2]){
             setTileColor(t[0],"water")
@@ -55,6 +59,11 @@ function initResp(data){
            new Building(t[0],t[3],Province.provinces[t[1]])
         }
     });
+    PreInitQueue.forEach(r=>
+        methods[r.action](r)
+    );
+    PreInitQueue=[];
+    init=true;
 }
 function loadChats(data){
     data.chats.forEach(c=>{
