@@ -359,7 +359,7 @@ class Resources{
             lst.forEach(r=>{
                 var j={name:r.name}
                 //TODO: allow availability
-                j.available=r.available;
+                j.renewalRate=r.renewalRate;
                 pool.push(j);
             });}
         else
