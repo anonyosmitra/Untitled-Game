@@ -348,6 +348,8 @@ class Player{
             console.log("game "+this.game.id+" saved to db");
         }
         await this.game.notifyUserState(this);
+        if(this.game.data.turnTracker.currentPlayer==this)
+            await this.game.data.turnTracker.nextPlayer();
     }
 }
 module.exports = {User: User,Game,UserList,Chat,Message};
