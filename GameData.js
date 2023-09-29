@@ -185,6 +185,7 @@ class GameData {
 
         }
         var gm = new GameData(ctrl.id, map, provinces, countries, ctrl, pieces);
+        ctrl.data=gm;
         if (plrs.length() != 0)
             await gm.assignCountries(plrs);
         GameData.dataList[gm.id]=gm;

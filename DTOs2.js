@@ -204,7 +204,6 @@ class Game{
         this.players=players;
     }
     setGameData(data){
-        this.data=data;
         this.avail=this.data.getAvailable();
     }
     async save(){
