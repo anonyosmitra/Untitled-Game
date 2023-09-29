@@ -151,6 +151,7 @@ function updateTurn(data){
     if(!playerInit){
         PlayerInitQueue.push(data)
         return null;}
+    console.log("Running update Turn")
     data.currentplayer=Player.getPlayer(data.currentPlayer);
     console.log(data.currentplayer)
     turnData={time:data.endTime,id:data.turnId,selfTurn: data.currentplayer==Player.player};
