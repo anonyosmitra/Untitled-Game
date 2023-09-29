@@ -475,7 +475,6 @@ class Province{
             else if(x.type=="Industry")
                 industry.add(Industry.load(x));
         });
-        console.log(meta.resources)
         return new Province(map.provinces[meta.id],country,meta.name,pop,buildings,industry,institution,new SetList(),Resources.loadPool(meta.resources));
 
     }
