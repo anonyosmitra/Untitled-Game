@@ -312,7 +312,7 @@ class Population{
         //TODO: moral=military,economy,education, healthcare
     }
     static newPopulation(){
-        return new Population(dice(200000,300000),dice(20,30),dice(10,20),dice(30,50),dice(50,60));
+        return new Population(dice(200000,300000),dice(20,25),dice(10,20),dice(30,50),dice(50,60));
     }
     toJSON(details=null){
         if(details==false)
