@@ -1,7 +1,9 @@
 var socket;
 var init=false;
+var playerInit=false;
 var methods={};
 var PreInitQueue=[]
+var PlayerInitQueue=[];
 //turnId: 6, currentPlayer: 1, moves: 12, movesLeft: 12, endTime: 1695769477}
 function connectSocket(gid, user, s=true) {
     if(s)
@@ -63,11 +65,11 @@ function initResp(data){
            new Building(t[0],t[3],Province.provinces[t[1]])
         }
     });
+    init=true;
     PreInitQueue.forEach(r=> {
         methods[r.action](r);
     });
     PreInitQueue=[];
-    init=true;
 }
 function loadChats(data){
     data.chats.forEach(c=>{
@@ -80,6 +82,13 @@ function loadChats(data){
 }
 function updatePlayers(data){
     data.players.forEach(p=>new Player(p.user,p.name,p.color,p.isOnline));
+    if(!playerInit) {
+        playerInit = true;
+        PlayerInitQueue.forEach(r=> {
+            methods[r.action](r);
+        });
+        PlayerInitQueue=[];
+    }
 }
 function updateCountries(data){
     (data.countries.filter(c=>c.player!=null)).forEach(c=>{
@@ -139,6 +148,9 @@ function serverClosed(data){
     alert("Server is offline");
 }
 function updateTurn(data){
+    if(!playerInit){
+        PlayerInitQueue.push(data)
+        return null;}
     data.currentplayer=Player.getPlayer(data.currentPlayer);
     console.log(data.currentplayer)
     turnData={time:data.endTime,id:data.turnId,selfTurn: data.currentplayer==Player.player};
