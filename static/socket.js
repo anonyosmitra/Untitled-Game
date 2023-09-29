@@ -1,9 +1,11 @@
 var socket;
 var init=false;
 var playerInit=false;
+var countryInit=false;
 var methods={};
 var PreInitQueue=[]
 var PlayerInitQueue=[];
+var CountryInitQueue=[];
 //turnId: 6, currentPlayer: 1, moves: 12, movesLeft: 12, endTime: 1695769477}
 function connectSocket(gid, user, s=true) {
     if(s)
@@ -96,12 +98,23 @@ function updateCountries(data){
         var cou=new Country(c.id,Player.getPlayer(c.player))
         c.provinces.forEach(p=>cou.addProvince(Province.provinces[p]));
     });
+    if(!countryInit){
+        countryInit=true;
+        CountryInitQueue.forEach(r=> {
+            methods[r.action](r);
+        });
+        CountryInitQueue=[];
+    }
 }
 function updateProvinces(data){
     console.log(Player.player)
     if(!playerInit){
         PlayerInitQueue.push(data)
         return null;}
+    if(!countryInit){
+        CountryInitQueue.push(data)
+        return null;
+    }
     data.provinces.forEach(p=>{
         var prov=Province.provinces[p.id]
         var keys=Object.keys(p)
