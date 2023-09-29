@@ -74,7 +74,7 @@ function scrollChatToBottom(){
     convo.scrollTop=convo.scrollHeight;
 }
 function skipTurn(){
-    sock.send({action:"skipTurn",turnId:turnData.id});
+    sendSockCommand({action:"skipTurn",turnId:turnData.id});
 }
 function appendToChat(msg){
     var convo=document.getElementById("chat_convo");
