@@ -325,8 +325,8 @@ class Population{
     processTurn(prov){
         //Todo: Update Education and Moral
         console.log("R1")
-        this.count=this.count*(100+this.birthRate)/100;
         this.count=this.count*(100-this.deathRate)/100;
+        this.count=this.count*(100+this.birthRate)/100;
         this.count=Math.floor(this.count);
     }
 }
