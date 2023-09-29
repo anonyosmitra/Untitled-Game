@@ -323,6 +323,7 @@ class Population{
     }
     processTurn(prov){
         //Todo: Update Education and Moral
+        console.log("R1")
         this.count=this.count*(100-this.deathRate)/100;
         this.count=this.count*(100+this.birthRate)/100;
     }
@@ -510,12 +511,12 @@ class Country{
     }
     async processTurn(){
         console.log(this.provinces)
-        this.provinces.forEach(async pid=>{
+        this.provinces.forEach(pid=>{
             console.log("pid: "+pid);
             var prov=this.player.game.data.provinces[pid]
             console.log(prov)
-            await prov.population.processTurn(prov);
-            await prov.resources.forEach(async r=>{
+            prov.population.processTurn(prov);
+            prov.resources.forEach(async r=>{
                 await r.processTurn();
             });
             this.player.sock.send({action:"updateProvinces",provinces:[prov.toJSON(this)]})
