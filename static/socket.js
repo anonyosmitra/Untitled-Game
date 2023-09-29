@@ -97,6 +97,7 @@ function updateCountries(data){
     });
 }
 function updateProvinces(data){
+    console.log(Player.player)
     if(!playerInit){
         PlayerInitQueue.push(data)
         return null;}
