@@ -97,6 +97,9 @@ function updateCountries(data){
     });
 }
 function updateProvinces(data){
+    if(!playerInit){
+        PlayerInitQueue.push(data)
+        return null;}
     data.provinces.forEach(p=>{
         var prov=Province.provinces[p.id]
         var keys=Object.keys(p)
