@@ -513,6 +513,8 @@ class Country{
         console.log(this.provinces)
         this.provinces.forEach(pid=>{
             console.log("pid: "+pid);
+            console.log(this.player.game.data);
+            console.log((this.player.game.data).constructor.name)
             var prov=this.player.game.data.provinces[pid]
             console.log(prov)
             prov.population.processTurn(prov);
