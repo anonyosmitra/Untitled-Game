@@ -59,6 +59,7 @@ function initResp(data){
            new Building(t[0],t[3],Province.provinces[t[1]])
         }
     });
+    console.log(PreInitQueue)
     PreInitQueue.forEach(r=>
         methods[r.action](r)
     );
