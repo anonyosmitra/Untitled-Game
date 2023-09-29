@@ -75,6 +75,7 @@ function loadChats(data){
     });
 }
 function updatePlayers(data){
+    console.log("UpdatingPlayers")
     data.players.forEach(p=>new Player(p.user,p.name,p.color,p.isOnline));
 }
 function updateCountries(data){
@@ -135,6 +136,7 @@ function serverClosed(data){
     alert("Server is offline");
 }
 function updateTurn(data){
+    console.log("UpdatingTurn")
     data.currentplayer=Player.getPlayer(data.currentPlayer);
     console.log(data.currentplayer)
     turnData={time:data.endTime,id:data.turnId,selfTurn: data.currentplayer==Player.player};
