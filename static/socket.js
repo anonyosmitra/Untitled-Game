@@ -24,10 +24,14 @@ function connectSocket(gid, user, s=true) {
             data=[data];
         }
         data.forEach(r=>{
-            if(!init && r.action!="loadMap")
+            console.log(r);
+            if(!init && r.action!="loadMap") {
+                console.log("queuing")
                 PreInitQueue.push(r)
-            else
-                methods[r.action](r);
+            }
+            else{
+                console.log("running")
+                methods[r.action](r);}
         })
     }
 
@@ -59,9 +63,7 @@ function initResp(data){
            new Building(t[0],t[3],Province.provinces[t[1]])
         }
     });
-    console.log(PreInitQueue)
     PreInitQueue.forEach(r=> {
-        console.log(r);
         methods[r.action](r);
     });
     PreInitQueue=[];
@@ -77,7 +79,6 @@ function loadChats(data){
     });
 }
 function updatePlayers(data){
-    console.log("UpdatingPlayers")
     data.players.forEach(p=>new Player(p.user,p.name,p.color,p.isOnline));
 }
 function updateCountries(data){
@@ -138,7 +139,6 @@ function serverClosed(data){
     alert("Server is offline");
 }
 function updateTurn(data){
-    console.log("UpdatingTurn")
     data.currentplayer=Player.getPlayer(data.currentPlayer);
     console.log(data.currentplayer)
     turnData={time:data.endTime,id:data.turnId,selfTurn: data.currentplayer==Player.player};
