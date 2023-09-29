@@ -124,11 +124,12 @@ function updateProvinces(data){
             prov.name=p.name;
         if(keys.includes("population"))
             prov.population=p.population;
-        if(keys.includes("country") && countryInit) {
+        if((keys.includes("country") && countryInit)&& prov.country.id!=p.country ) {
             if(p.country==null && prov.country!=null)
                 prov.country.removeProvince(prov);
-            else
+            else{
                 Country.find(p.country).add(prov);
+                }
         }
         if(keys.includes("resources")){
             p.resources.forEach(async r=>{
