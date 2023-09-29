@@ -128,7 +128,7 @@ function updateProvinces(data){
             if(p.country==null && prov.country!=null)
                 prov.country.removeProvince(prov);
             else{
-                Country.find(p.country).add(prov);
+                Country.find(p.country).addProvince(prov);
                 }
         }
         if(keys.includes("resources")){
