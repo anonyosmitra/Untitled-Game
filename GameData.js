@@ -101,6 +101,7 @@ class TurnTracker{
         var payload=this.getCurrentTurn();
         payload.action="UpdateTurn";
         await this.game.sendToPlayers(payload)
+        await cou.processTurn();
         return this.getCurrentTurn();
     }
     static async turnTimeout(gameId, turnId) {
