@@ -82,6 +82,8 @@ class SockClient{
             else if(data.action=="newChat"){
                 service.newChat(this,data);
             }
+            else if(data.action=="skipTurn")
+                service.skipTurn(this,data);
 
         }
         catch (e){

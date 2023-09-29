@@ -65,7 +65,7 @@ class TurnTracker{
         if(this.currentPlayer==null)
             this.currentPlayer=pls.get(0);
         else{
-            var pls=this.currentPlayer = this.game.ctrl.players;
+            var pls=this.game.ctrl.players;
             var nextPlayer=null
             var i=pls.findIndex(this.currentPlayer)+1,j=0;
             if(i==pls.length())

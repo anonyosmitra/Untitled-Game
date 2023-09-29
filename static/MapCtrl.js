@@ -73,6 +73,9 @@ function scrollChatToBottom(){
     var convo=document.getElementById("chat_convo");
     convo.scrollTop=convo.scrollHeight;
 }
+function skipTurn(){
+    sock.send({action:"skipTurn",turnId:turnData.id});
+}
 function appendToChat(msg){
     var convo=document.getElementById("chat_convo");
     var msgBox=document.createElement("div");
@@ -143,7 +146,7 @@ function loadLayout(){
     leftPanel.appendChild(exitButt);
     var turnTracker=document.createElement("Div");
     turnTracker.id="TurnTracker-Pan";
-    turnTracker.innerHTML='<snap id="turnTracker-playerName"></snap> <snap id="turnTracker-time">3:00</snap> <button id="turnTracker-skipButton">Skip</button><br>Moves Left: <snap id="turnTracker-moves">0/0</snap>';
+    turnTracker.innerHTML='<snap id="turnTracker-playerName"></snap> <snap id="turnTracker-time">3:00</snap> <button onclick="skipTurn()" id="turnTracker-skipButton">Skip</button><br>Moves Left: <snap id="turnTracker-moves">0/0</snap>';
     leftPanel.appendChild(turnTracker);
     setTimeout(timerLoop,1000)
 }
