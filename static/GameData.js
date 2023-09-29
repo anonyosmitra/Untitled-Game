@@ -45,7 +45,7 @@ class Country{
     static find(id){
         if(Player.player.country.id==id)
             return Player.player.country;
-        var pl=Player.players.filter(p=>p.country.id==id)
+        var pl=new SetList(Object.values(Player.players)).filter(p=>p.country.id==id)
         if(pl.length()==0)
             return null
         else
