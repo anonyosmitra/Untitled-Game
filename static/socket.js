@@ -60,9 +60,10 @@ function initResp(data){
         }
     });
     console.log(PreInitQueue)
-    PreInitQueue.forEach(r=>
-        methods[r.action](r)
-    );
+    PreInitQueue.forEach(r=> {
+        console.log(r);
+        methods[r.action](r);
+    });
     PreInitQueue=[];
     init=true;
 }
