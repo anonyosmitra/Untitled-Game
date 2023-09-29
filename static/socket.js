@@ -2,10 +2,12 @@ var socket;
 var init=false;
 var playerInit=false;
 var countryInit=false;
+var provInit=false;
 var methods={};
 var PreInitQueue=[]
 var PlayerInitQueue=[];
 var CountryInitQueue=[];
+var ProvInitQueue=[];
 //turnId: 6, currentPlayer: 1, moves: 12, movesLeft: 12, endTime: 1695769477}
 function connectSocket(gid, user, s=true) {
     if(s)
@@ -93,7 +95,15 @@ function updatePlayers(data){
     }
 }
 function updateCountries(data){//Req:Players,Provinces
-    console.log("Updating Countries")
+    if(!playerInit)
+    {
+        PlayerInitQueue.push(data);
+        return null;
+    }
+    if(!provInit){
+        ProvInitQueue.push(data);
+        return null;
+    }
     (data.countries.filter(c=>c.player!=null)).forEach(c=>{
         var cou=new Country(c.id,Player.getPlayer(c.player))
         c.provinces.forEach(p=>cou.addProvince(Province.provinces[p]));
@@ -106,11 +116,7 @@ function updateCountries(data){//Req:Players,Provinces
         CountryInitQueue=[];
     }
 }
-function updateProvinces(data){//req: players
-    console.log(Player.player)
-    if(!playerInit){
-        PlayerInitQueue.push(data)
-        return null;}
+function updateProvinces(data){
     data.provinces.forEach(p=>{
         var prov=Province.provinces[p.id]
         var keys=Object.keys(p)
@@ -130,7 +136,12 @@ function updateProvinces(data){//req: players
                 prov.resources.add(new Resources(r));
             })
         }
-    })
+    });
+    if(!provInit){
+        provInit=true;
+        ProvInitQueue.forEach(r=> methods[r.action](r));
+        ProvInitQueue=[];
+    }
 }
 function receiveMessage(data){
     data=data.data
@@ -165,7 +176,7 @@ function updatePlayerState(data){//{player:pid,isOnline:True/False}
 function serverClosed(data){
     alert("Server is offline");
 }
-function updateTurn(data){
+function updateTurn(data){ //eq:players
     if(!playerInit){
         PlayerInitQueue.push(data)
         return null;}
