@@ -496,6 +496,9 @@ class Pieces{
         this.country=country;
     }
 }
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 class Country{
     getMovesPermitted(){
         var moves=0;
