@@ -133,7 +133,6 @@ class WebService {
     }
     async skipTurn(sock,data){
         if(sock.game.data.turnTracker.turnId==data.turnId && sock.game.data.turnTracker.currentPlayer==sock.player) {
-            console.log("Skipping Turn")
             await sock.game.data.turnTracker.nextPlayer();
         }
     }

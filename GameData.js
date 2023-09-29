@@ -513,6 +513,7 @@ class Country{
         this.provinces.forEach(async pid=>{
             console.log("pid: "+pid);
             var prov=this.player.game.data.provinces[pid]
+            console.log(prov)
             await prov.population.processTurn(prov);
             await prov.resources.forEach(async r=>{
                 await r.processTurn();
