@@ -511,6 +511,9 @@ class Country{
     }
     async processTurn(){
         console.log(this.provinces)
+        while(this.player.game.data==null){
+            await sleep(500);
+        }
         this.provinces.forEach(pid=>{
             console.log("pid: "+pid);
             console.log(this.player.game);
