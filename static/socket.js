@@ -91,6 +91,7 @@ function updatePlayers(data){
     }
 }
 function updateCountries(data){
+    console.log("Updating Countries")
     (data.countries.filter(c=>c.player!=null)).forEach(c=>{
         var cou=new Country(c.id,Player.getPlayer(c.player))
         c.provinces.forEach(p=>cou.addProvince(Province.provinces[p]));
