@@ -92,7 +92,7 @@ function updatePlayers(data){
         PlayerInitQueue=[];
     }
 }
-function updateCountries(data){
+function updateCountries(data){//Req:Players,Provinces
     console.log("Updating Countries")
     (data.countries.filter(c=>c.player!=null)).forEach(c=>{
         var cou=new Country(c.id,Player.getPlayer(c.player))
@@ -106,15 +106,11 @@ function updateCountries(data){
         CountryInitQueue=[];
     }
 }
-function updateProvinces(data){
+function updateProvinces(data){//req: players
     console.log(Player.player)
     if(!playerInit){
         PlayerInitQueue.push(data)
         return null;}
-    if(!countryInit){
-        CountryInitQueue.push(data)
-        return null;
-    }
     data.provinces.forEach(p=>{
         var prov=Province.provinces[p.id]
         var keys=Object.keys(p)
@@ -122,8 +118,12 @@ function updateProvinces(data){
             prov.name=p.name;
         if(keys.includes("population"))
             prov.population=p.population;
-        if(keys.includes("country"))
-            prov.country=Country.find(p.country);
+        if(keys.includes("country") && countryInit) {
+            if(p.country==null && prov.country!=null)
+                prov.country.removeProvince(prov);
+            else
+                Country.find(p.country).add(prov);
+        }
         if(keys.includes("resources")){
             p.resources.forEach(async r=>{
                 await prov.resources.deleteWhere(rs=>rs.name==r.name);

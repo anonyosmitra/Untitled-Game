@@ -58,6 +58,11 @@ class Country{
         player.country=this;
     }
     addProvince(prov){
+        if(prov.country!=null){
+            if(prov.country==this)
+                return null
+            prov.country.removeProvince(prov);
+        }
         this.provinces.add(prov)
         prov.country=this;
         setTileColor(prov.tiles,this.player.getColor());
