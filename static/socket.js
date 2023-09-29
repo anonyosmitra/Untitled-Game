@@ -84,7 +84,7 @@ function updateProvinces(data){
             prov.population=p.population;
         if(keys.includes("country"))
             prov.country=Country.find(p.country);
-        if(key.includes("resources")){
+        if(keys.includes("resources")){
             p.resources.forEach(async r=>{
                 await prov.resources.deleteWhere(rs=>rs.name==r.name);
                 prov.resources.add(new Resources(r));

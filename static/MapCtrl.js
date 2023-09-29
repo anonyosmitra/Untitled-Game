@@ -92,6 +92,7 @@ function appendToChat(msg){
 }
 function updateTurnPan(data){
     console.log(data)
+    console.log(Player.getPlayer(data.currentplayer))
     document.getElementById("turnTracker-playerName").innerText=Player.getPlayer(data.currentplayer).name;
     var butt=document.getElementById("turnTracker-skipButton");
     if(turnData.selfTurn){
