@@ -94,12 +94,13 @@ class TurnTracker{
         this.movesLeft=moves;
         this.turnId++;
         var time=moves*15;
+
         this.endTime=Math.floor((new Date()).getTime() / 1000)+time;
         setTimeout(TurnTracker.turnTimeout,time*1000,this.game.id,this.turnId)
         // Update players
         var payload=this.getCurrentTurn();
         payload.action="UpdateTurn";
-        await this.game.ctrl.players.filter(p=>p.sock!=null).forEach(p=>p.sock.send(payload))
+        await this.game.sendToPlayers(payload)
         return this.getCurrentTurn();
     }
     static async turnTimeout(gameId, turnId) {
@@ -117,6 +118,17 @@ class GameData {
     static dataList={}
     static async load() {
         await Map.load()
+    }
+    async sendToPlayers(payload,exclude=null,only=null){
+        var plrs=null
+        if(only!=null)
+            plrs=only
+        else{
+            plrs=this.ctrl.players.filter(p=>p.sock != null);
+            if(exclude!=null)
+                plrs=plrs.filter(p=>!exclude.has(p));
+        }
+        plrs.forEach(p=>{p.sock.send(payload);})
     }
     findCountryByPlayer(player){
         var cou=this.countries.filter(c=>c.player==player)
@@ -200,10 +212,7 @@ class GameData {
         }
         if(payloadPlayers.length()>0){
             var pay=[{action:"updatePlayers",players:payloadPlayers.toList()},{action: "updateCountries",countries:payloadCountries.toList()}]
-            this.ctrl.players.forEach(p=>{
-                if(p.sock!=null)
-                    p.sock.send(pay);
-            })
+            await this.sendToPlayers(pay)
         }
     }
 
@@ -303,8 +312,18 @@ class Population{
     static newPopulation(){
         return new Population(dice(100000,200000),dice(40,50),dice(40,50),dice(30,50),dice(50,60));
     }
-    toJSON(){
-        return {count:this.count,birthRate:this.birthRate,deathRate:this.deathRate,education:this.education,moral:this.moral};
+    toJSON(details=null){
+        if(details==false)
+            return {count:this.count};
+        else if(details==true)
+            return {count:this.count,moral:this.moral};
+        else
+            return {count:this.count,birthRate:this.birthRate,deathRate:this.deathRate,education:this.education,moral:this.moral};
+    }
+    processTurn(prov){
+        //Todo: Update Education and Moral
+        this.count=this.count*(100-this.deathRate)/100;
+        this.count=this.count*(100+this.birthRate)/100;
     }
 }
 class Resources{
@@ -331,13 +350,23 @@ class Resources{
     }
     static toJSON(lst,showAll=false){
         var pool=[]
-        if(!showAll)
+        if(!showAll){
             lst=lst.filter(r=>r.discovered);
-        lst.forEach(r=>pool.push(r.toJSON()));
+            lst.forEach(r=>{
+                var j={name:r.name}
+                //TODO: allow availability
+                j.available=r.available;
+                pool.push(j);
+            });}
+        else
+            lst.forEach(r=>pool.push(r.toJSON()));
         return pool;
     }
     toJSON(){
         return {name:this.name,available:this.available,renewalRate:this.renewalRate,discovered:this.discovered};
+    }
+    processTurn(prov){
+        this.available+=this.renewalRate;
     }
 }
 class Buildings{
@@ -417,11 +446,13 @@ class Province{
             this.depot.forEach(x=>buildings.push(x.toJSON()));
             if(this.institution!=null)
                 this.institution.forEach(x=>buildings.push(x.toJson()));
-            var payload={id:this.map.id,name:this.name,country:this.country.id,buildings:this.buildings,population:this.population.toJSON()}
-            if(country==null)
+            var payload={id:this.map.id,name:this.name,country:this.country.id,buildings:this.buildings}
+            if(country==null){
                 payload.resources=Resources.toJSON(this.resources,true)
-            else
+                payload.population=this.population.toJSON()}
+            else{
                 payload.resources=Resources.toJSON(this.resources)
+            payload.population=this.population.toJSON(false);}
             return payload;
         }
         return {id:this.map.id,name:this.name,country:this.country.id}
@@ -476,6 +507,17 @@ class Country{
         this.provinces=provinces;//setList<Id>
         this.player=null;
         this.money=null;
+    }
+    async processTurn(){
+        this.provinces.forEach(async pid=>{
+            var prov=this.player.game.data.provinces[pid]
+            await prov.population.processTurn(prov);
+            await prov.resources.forEach(async r=>{
+                await r.processTurn();
+            });
+            this.player.sock.send({action:"updateProvinces",provinces:[prov.toJSON(this)]})
+            //todo: Send to spies
+        });
     }
     toJSON(){
         var res= {id:this.id,provinces:this.provinces.toList(),player:null,money:this.money};

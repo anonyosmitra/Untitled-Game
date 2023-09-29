@@ -157,10 +157,7 @@ class WebService {
                 console.log(cht)
             else{
                 var payload=[{action:"loadChats", chats:[await cht.getChats()]}]
-                await plrs.forEach(p=>{
-                    if(p.sock!=null)
-                        p.sock.send(payload)
-                });
+                await sock.game.data.sendToPlayers(payload,only=plrs)
                 sock.send([{action:"openChat",chatId:cht.id}])
             }
         }

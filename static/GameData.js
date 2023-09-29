@@ -73,6 +73,14 @@ class Country{
         this.provinces.forEach(p=>p.setColor(color));
     }
 }
+class Resources{
+    constructor(meta) {//{name:"Coal",?available:10000}
+        this.name=meta.name;
+        this.available=null;
+        if(meta.available!=undefined)
+            this.available=meta.available
+    }
+}
 class Province{
     static provinces={}
     constructor(id,name=null) {
@@ -85,6 +93,7 @@ class Province{
         this.buildings=new SetList();
         this.country=null;
         this.population=null;
+        this.resources=new SetList()
         Province.provinces[id]=this;
     }
     addTile(tileId){

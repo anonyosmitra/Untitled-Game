@@ -77,9 +77,19 @@ function updateCountries(data){
 function updateProvinces(data){
     data.provinces.forEach(p=>{
         var prov=Province.provinces[p.id]
-        prov.name=p.name;
-        prov.population=p.population;
-        prov.country=Country.find(p.country);
+        var keys=Object.keys(p)
+        if(keys.includes("name"))
+            prov.name=p.name;
+        if(keys.includes("population"))
+            prov.population=p.population;
+        if(keys.includes("country"))
+            prov.country=Country.find(p.country);
+        if(key.includes("resources")){
+            p.resources.forEach(async r=>{
+                await prov.resources.deleteWhere(rs=>rs.name==r.name);
+                prov.resources.add(new Resources(r));
+            })
+        }
     })
 }
 function receiveMessage(data){
