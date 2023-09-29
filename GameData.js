@@ -312,7 +312,7 @@ class Population{
         //TODO: moral=military,economy,education, healthcare
     }
     static newPopulation(){
-        return new Population(dice(100000,200000),dice(40,50),dice(40,50),dice(30,50),dice(50,60));
+        return new Population(dice(100000,200000),dice(20,30),dice(10,20),dice(30,50),dice(50,60));
     }
     toJSON(details=null){
         if(details==false)
@@ -325,8 +325,9 @@ class Population{
     processTurn(prov){
         //Todo: Update Education and Moral
         console.log("R1")
-        this.count=this.count*(100-this.deathRate)/100;
         this.count=this.count*(100+this.birthRate)/100;
+        this.count=this.count*(100-this.deathRate)/100;
+        this.count=Math.floor(this.count);
     }
 }
 class Resources{

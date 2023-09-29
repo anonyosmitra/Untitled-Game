@@ -5,7 +5,7 @@ const {Map} = require('./Map.js')
 const {GameData} = require("./GameData");
 class WebService {
     static con=null;
-    static deleteGames=false;
+    static deleteGames=true;
     async load() {
         await Map.load();
         if (WebService.con == null)
