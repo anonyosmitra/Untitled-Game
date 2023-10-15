@@ -173,5 +173,5 @@ function showProvincePanel(prov){
 }
 function clc(tile){
     console.log(tile.id);
-    tiles[tile.id].prov
+    showProvincePanel(tiles[tile.id].prov)
 }
