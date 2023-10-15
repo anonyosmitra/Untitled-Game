@@ -126,8 +126,10 @@ class WebService {
             sock.send({"error": "invalid request"});
             return;
         }
+        console.log({id: prov.id, name: prov.name})
         if(prov.setName(sock.player.game.data,data.name)){
             await sock.player.game.data.sendToPlayers([{action: "updateProvinces",provinces:[{id: prov.id, name: prov.name}]}]);
+            console.log({id: prov.id, name: prov.name})
         }
         else {
             sock.send({"error": "invalid name"});
