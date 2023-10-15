@@ -480,14 +480,12 @@ class Province{
         return new Province(map.provinces[meta.id],country,meta.name,pop,buildings,industry,institution,new SetList(),Resources.loadPool(meta.resources));
 
     }
-    async setName(gamedata,name){
-        var nameExists=false;
-        Object.keys(gamedata.provinces).forEach(pid=>{if(gamedata.provinces[pid].name==name) nameExists=true;});
-        if(nameExists)
-            return false;
+    async setName(gamedata,name){//Note: does not account for names of inactive provinces
+        var provs=new SetList(Object.values(gamedata.provinces))
+        if((provs.filter(p=>p.name.toLowerCase()===name.toLowerCase())).length!==0)
+            return false
         this.name=name;
         return true;
-
     }
 
 }

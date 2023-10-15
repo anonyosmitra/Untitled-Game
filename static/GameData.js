@@ -112,6 +112,9 @@ class Province{
         if(Object.keys(meta).includes("name"))
             this.name=meta.name;
     }
+    rename(name){
+        sendSockCommand({action:"renameProv", pid:this.id, name:name})
+    }
 }
 class Building{
     constructor(tileId,type,prov){//adds building to province

@@ -136,6 +136,8 @@ function updateProvinces(data){
                 prov.resources.add(new Resources(r));
             })
         }
+        if(cache.assetPresented==p)
+            showProvincePanel(p);
     });
     if(!provInit){
         provInit=true;

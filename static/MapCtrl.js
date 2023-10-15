@@ -1,5 +1,6 @@
 var tiles={}
 var turnData={id:null,time:null,selfTurn:false};
+var cache={}
 class Tile{
     constructor(id,prov=null,water=false,contains=new SetList()) {
         this.id=id;
@@ -147,8 +148,28 @@ function loadLayout(){
     turnTracker.id="TurnTracker-Pan";
     turnTracker.innerHTML='<snap id="turnTracker-playerName"></snap> <snap id="turnTracker-time">3:00</snap> <button onclick="skipTurn()" id="turnTracker-skipButton">Skip</button><br>Moves Left: <snap id="turnTracker-moves">0/0</snap>';
     leftPanel.appendChild(turnTracker);
+    var assetPan=document.createElement("Div");
+    assetPan.id="assetInfo-Pan";
+    leftPanel.appendChild(assetPan);
     setTimeout(timerLoop,1000)
+}
+function showProvincePanel(prov){
+    var pan=document.getElementById("assetInfo-Pan")
+    pan.innerHTML="";
+    var tit=null;
+    if(prov.country.player.id==getUser()){
+        tit=document.createElement("Input")
+        tit.id="provName"
+        tit.value=prov.name;
+        tit.addEventListener("focusout", () => {cache.assetPresented.rename(document.getElementById("provName"))});
+
+    }
+    else{
+
+    }
+    cache.assetPresented=prov
 }
 function clc(tile){
     console.log(tile.id);
+    tiles[tile.id].prov
 }

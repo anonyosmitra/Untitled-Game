@@ -122,14 +122,17 @@ class WebService {
     }
     async renameProvince(sock,data){//data={pid:1,name="new province name"}
         var prov=sock.player.game.data.provinces[data.pid]
-        if(prov==undefined || prov.country.player!=sock.player)
-            sock.send({"error":"invalid request"});
-        if(prov.setName(sock.player.game.data,data.name)){
-            //TODO:send updated name to all players
+        if(prov==undefined || prov.country.player!=sock.player) {
+            sock.send({"error": "invalid request"});
+            return;
         }
-        else
-            sock.send({"error":"invalid name"});
-        //TODO:send error to player
+        if(prov.setName(sock.player.game.data,data.name)){
+            await sock.player.game.sendToPlayers([{action: "updateProvinces",provinces:[{id: prov.id, name: prov.name}]}]);
+        }
+        else {
+            sock.send({"error": "invalid name"});
+            sock.send({action: "updateProvinces",provinces:[{id: prov.id, name: prov.name}]})
+        }
     }
     async skipTurn(sock,data){
         if(sock.game.data.turnTracker.turnId==data.turnId && sock.game.data.turnTracker.currentPlayer==sock.player) {
