@@ -127,7 +127,7 @@ class WebService {
             return;
         }
         if(prov.setName(sock.player.game.data,data.name)){
-            await sock.player.game.sendToPlayers([{action: "updateProvinces",provinces:[{id: prov.id, name: prov.name}]}]);
+            await sock.player.game.data.sendToPlayers([{action: "updateProvinces",provinces:[{id: prov.id, name: prov.name}]}]);
         }
         else {
             sock.send({"error": "invalid name"});
