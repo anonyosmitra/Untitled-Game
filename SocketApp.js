@@ -71,7 +71,7 @@ class SockClient{
         this.sock.send(data);
     }
     onMessage(data){
-        //console.log(data)
+        console.log(data)
         try {
             if(data.action=="test")
                 this.send({"resp":"Ok","type":"client"})
