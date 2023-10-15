@@ -483,7 +483,7 @@ class Province{
     async setName(gamedata,name){//Note: does not account for names of inactive provinces
         var provs=new SetList(Object.values(gamedata.provinces))
         console.log(name)
-        console.log(typeof name)
+        console.log(name.constructor.name)
         if((provs.filter(p=>p.name.toLowerCase()===name.toLowerCase())).length!==0)
             return false
         this.name=name;
