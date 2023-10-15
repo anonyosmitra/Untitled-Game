@@ -161,7 +161,7 @@ function showProvincePanel(prov){
         tit=document.createElement("Input")
         tit.id="provName"
         tit.value=prov.name;
-        tit.addEventListener("focusout", () => {cache.assetPresented.rename(document.getElementById("provName"))});
+        tit.addEventListener("focusout", () => {cache.assetPresented.rename(document.getElementById("provName").value)});
 
     }
     else{
