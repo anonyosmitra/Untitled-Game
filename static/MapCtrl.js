@@ -173,5 +173,5 @@ function showProvincePanel(prov){
 }
 function clc(tile){
     console.log(tile.id);
-    showProvincePanel(tiles[tile.id].prov)
+    showProvincePanel(tiles[parseInt(tile.id.split("-")[1])].prov)
 }
