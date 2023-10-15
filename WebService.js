@@ -127,7 +127,9 @@ class WebService {
             return;
         }
         console.log({id: prov.id, name: prov.name})
-        if(await prov.setName(sock.player.game.data,data.name)){
+        var a=await prov.setName(sock.player.game.data,data.name)
+        console.log("Changes: "+a)
+        if(a){
             await sock.player.game.data.sendToPlayers([{action: "updateProvinces",provinces:[{id: prov.id, name: prov.name}]}]);
             console.log({id: prov.id, name: prov.name})
         }
