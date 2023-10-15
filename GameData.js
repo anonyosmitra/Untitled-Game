@@ -430,6 +430,7 @@ class Industry extends Buildings{
 }
 class Province{
     constructor(prov,country,name,population,depot,industry,institution,queue,resources,inventory) {
+        this.id=prov.id;
         this.country=country;
         this.map=prov;//Map.province
         this.name=name;
@@ -485,6 +486,7 @@ class Province{
         if((provs.filter(p=>p.name.toLowerCase()===name.toLowerCase())).length!==0)
             return false
         this.name=name;
+        console.log("Name Changed!")
         return true;
     }
 
