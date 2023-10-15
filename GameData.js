@@ -324,7 +324,6 @@ class Population{
     }
     processTurn(prov){
         //Todo: Update Education and Moral
-        console.log("R1")
         this.count=this.count*(100-this.deathRate)/100;
         this.count=this.count*(100+this.birthRate)/100;
         this.count=Math.floor(this.count);
@@ -515,17 +514,11 @@ class Country{
         this.money=null;
     }
     async processTurn(){
-        console.log(this.provinces)
         while(this.player.game.data==null){
-            console.log("No")
             await sleep(500);
         }
         this.provinces.forEach(pid=>{
-            console.log("pid: "+pid);
-            console.log(this.player.game);
-            console.log((this.player.game.data).constructor.name)
             var prov=this.player.game.data.provinces[pid]
-            console.log(prov)
             prov.population.processTurn(prov);
             prov.resources.forEach(async r=>{
                 await r.processTurn();

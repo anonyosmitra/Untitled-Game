@@ -30,7 +30,6 @@ function connectSocket(gid, user, s=true) {
             data=[data];
         }
         data.forEach(r=>{
-            console.log(r);
             if(!init && r.action!="loadMap") {
                 console.log("queuing")
                 PreInitQueue.push(r)
@@ -181,9 +180,7 @@ function updateTurn(data){ //eq:players
     if(!playerInit){
         PlayerInitQueue.push(data)
         return null;}
-    console.log("Running update Turn")
     data.currentplayer=Player.getPlayer(data.currentPlayer);
-    console.log(data.currentplayer)
     turnData={time:data.endTime,id:data.turnId,selfTurn: data.currentplayer==Player.player};
     updateTurnPan(data);
 }
