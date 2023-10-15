@@ -165,8 +165,10 @@ function showProvincePanel(prov){
 
     }
     else{
-
+        tit=document.createElement("p")
+        tit.innerText=prov.name;
     }
+    pan.appendChild(tit);
     cache.assetPresented=prov
 }
 function clc(tile){
